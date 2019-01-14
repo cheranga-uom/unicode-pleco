@@ -1,66 +1,409 @@
-<!doctype html>
+<!--Navbar -->
+<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>Unicode Pleco</title>
-<meta name="description" content="" />
-<meta name="viewport" content="width=device-width" />
-<base href="/" />
-<link rel="stylesheet" type="text/css"
-    href="/webjars/bootstrap/css/bootstrap.min.css" />
-<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
-<script type="text/javascript"
-    src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Unicode Pleco</title>
+    <link rel="ICON" href="style/img/ico/favicon.ico" type="image/ico"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="style/css/bootstrap.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="style/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="style/css/style.css" rel="stylesheet">
+    <link href="style/css/fileupload.css" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: headerFont;
+            src: url(style/img/font/ostrich-sans-dashed.ttf);
+        }
+
+        @font-face {
+            font-family: uom;
+            src: url(style/img/font/Lato-Regular.ttf);
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Login</h1>
-    <div class="container unauthenticated">
-        <div>
-            With Facebook: <a href="/login/facebook">click here</a>
-        </div>
-        <div>
-            With Github: <a href="/login/github">click here</a>
+<div class="container-fluid">
+    <!-- chatbot -->
+    <div id="fb-root"></div>
+
+    <div class="row">
+        <div class="col-xl-12" style="padding :0%">
+            <!-- nav bar -->
+            <nav class="mb-1 navbar navbar-expand-lg navbar-dark #b71c1c red darken-4 ">
+                <a class="navbar-brand" href="#">Unicode Pleco</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent-333"
+                        aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">UoM Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Advanced Conversions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About Us</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto nav-flex-icons">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="https://www.facebook.com/Unicode-Pleco-1949172665132215/"
+                               target="_blank">
+                                <i class="fab fa-facebook-f"></i> Facebook
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown authenticated">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+                               aria-haspopup="true"
+                               aria-expanded="false">
+                                <i class="fas fa-user"></i> Logged in as: <span id="user"></span> </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-info"
+                                 aria-labelledby="navbarDropdownMenuLink-4">
+                                <a class="dropdown-item" href="#">My account</a>
+                                <a class="dropdown-item" onClick="logout()">Log out</a>
+                            </div>
+
+                        </li>
+                        <li class="nav-item dropdown unauthenticated">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-5" data-toggle="dropdown"
+                               aria-haspopup="true"
+                               aria-expanded="false">
+                                <i class="fas fa-user"></i> Log in with Facebook Or Github</a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-info"
+                                 aria-labelledby="navbarDropdownMenuLink-4">
+                                <a class="dropdown-item" href="/login/facebook">Login With Facebook</a>
+                                <a class="dropdown-item" href="/login/github">Login With Github</a>
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- end of nav bar -->
+
         </div>
     </div>
-    <div class="container authenticated" style="display: none">
-        Logged in as: <span id="user"></span>
-        <div>
-            <button onClick="logout()" class="btn btn-primary">Logout</button>
+    <div class="row">
+        <!-- inner nav bar -->
+        <div class="container">
+            <!-- <br/> -->
+            <br/>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <a href="#">
+                                <img src="style/img/logo/logoUoM.png" style="width :120px; height : 120px" alt="Home">
+                            </a>
+                        </div>
+                        <div class="col-md-9" style="padding-left: 5%">
+                            <div class="row">
+                                <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;">
+                                    University of Moratuwa</p>
+                                <p style="font-size:13px;font-family: uom; font-weight:600;">Wisdom is all wealth</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" style="padding-left :0%">
+                    <p style="font-size:85px;font-family:headerFont;font-weight:700;line-height:1.1;color:#252525;">
+                        Unicode Pleco</p>
+                </div>
+                <div class="col-md-3">
+                    <a href="#">
+                        <img src="style/img/logo/Pleco.jpg" alt="Home">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- end of inner nav bar -->
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <p style="font-size:20px;font-family: uom;">Supported Fonts</p>
+            <ul class="list-group">
+                <li class="list-group-item active #b71c1c red darken-4">Sinhala</li>
+                <li class="list-group-item">FMAbaya</li>
+                <li class="list-group-item">Thibus16STru</li>
+                <li class="list-group-item">FMAbabld</li>
+                <li class="list-group-item">Thibus15STru</li>
+                <li class="list-group-item">Thibus02S</li>
+                <li class="list-group-item">Thibus02STru</li>
+                <li class="list-group-item">Thibus05STru</li>
+                <li class="list-group-item">Sinhala INetFont</li>
+                <li class="list-group-item">DL-Manel</li>
+                <li class="list-group-item">Mutu Kata</li>
+                <li class="list-group-item">LTRL</li>
+            </ul>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <p style="font-size:20px;font-family: uom; align-content: center ">Unicode pleco is a universal
+                    sinhala/Tamil non unicode to unicode docx converter. The projected was initiated by Natural Language
+                    Processing unit in University of Moratuwa and developed by Ciperlabs.The name "Pleco" was derived
+                    from "plecostomus". "Plecostomus" is a fish who cleans dirts/algae in the water. We also hope to
+                    clen non-unicode text from your docx file.</p>
+            </div>
+            <div class="row">
+                <div class="col-md-12" id="middleContainer">
+                    <!--<form action="/upload" enctype="multipart/form-data" class="dropzone needsclick dz-clickable" id="docx_upload">-->
+                    <!--<input type="hidden"-->
+                    <!--th:name="${_csrf.parameterName}"-->
+                    <!--th:value="${_csrf.token}" />-->
+                    <!--<div class="dz-message needsclick">-->
+                    <!--Drop files here or click to upload.<br>-->
+                    <!--<img src="style/img/word.png" style="width :120px; height : 120px" alt="Home">-->
+                    <!--<img src="style/img/excel.png" style="width :110px; height : 110px" alt="Home">-->
+                    <!--</div>-->
+                    <!--</form>-->
+                    <input type="file" id="fileInput">
+                    <button type="button" onclick="fileUpload()">Submit</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <p style="font-size:20px;font-family: uom;">Supported Fonts</p>
+            <ul class="list-group">
+                <li class="list-group-item active #b71c1c red darken-4">Tamil</li>
+                <li class="list-group-item">Kalaham</li>
+                <li class="list-group-item">T06ThibusTru</li>
+                <li class="list-group-item">Baamini</li>
+                <li class="list-group-item">Bamini</li>
+                <li class="list-group-item">T02Thibus</li>
+                <li class="list-group-item">T04ThibusTru</li>
+            </ul>
         </div>
     </div>
-    <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
-    <script type="text/javascript">
-          $.ajaxSetup({
-            beforeSend : function(xhr, settings) {
-              if (settings.type == 'POST' || settings.type == 'PUT'
-                  || settings.type == 'DELETE') {
+    <div class="row">&nbsp</div>
+    <div class="row">
+
+        <!-- Footer -->
+
+        <div class="col-xl-12" style="padding :0%">
+            <!-- Footer -->
+            <footer class="page-footer font-small #b71c1c red darken-4 pt-4">
+
+                <!-- Footer Links -->
+                <div class="container-fluid text-center text-md-left">
+
+                    <!-- Grid row -->
+                    <div class="row">
+
+                        <!-- Grid column -->
+                        <div class="col-md-6 mt-md-0 mt-3">
+
+                            <!-- Content -->
+                            <h5 class="text-uppercase">Welcome</h5>
+                            <p>Unicode pleco is a universal sinhala/Tamil non unicode to unicode docx converter. The
+                                projected was initiated by Natural Language Processing unit in University of Moratuwa
+                                and developed by Ciperlabs.The name "Pleco" was derived from "plecostomus".
+                                "Plecostomus" is a fish who cleans dirts/algae in the water. We also hope to clen
+                                non-unicode text from your docx file.</p>
+
+                        </div>
+                        <!-- Grid column -->
+
+                        <hr class="clearfix w-100 d-md-none pb-3">
+                        <!-- Grid column -->
+                        <div class="col-md-3 mb-md-0 mb-3">
+
+                            <!-- Links -->
+                            <h5 class="text-uppercase">Quick Links</h5>
+
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="https://ciperlabs.com" target="_blank">Ciperlabs</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.mrt.ac.lk/web/nlp" target="_blank">NLP Center</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.mrt.ac.lk/" target="_blank">University of Moratuwa</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <!-- Grid column -->
+                        <!-- Grid column -->
+                        <div class="col-md-3 mb-md-0 mb-3">
+
+                            <!-- Links -->
+                            <h5 class="text-uppercase">Contact Us</h5>
+
+                            <ul class="list-unstyled">
+                                <li>
+                                    <p>Feel free to send us your comments, suggessions and report issues through our
+                                        facebook page or mail box.</p>
+                                </li>
+                                <li>
+                                    <a href="https://www.facebook.com/Unicode-Pleco-1949172665132215/">Facebook</a>
+                                </li>
+                                <li>
+                                    <a href="mailto:nlu@uom.lk">nlu@uom.lk</a>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                        <!-- Grid column -->
+
+
+                    </div>
+                    <!-- Grid row -->
+
+                </div>
+                <!-- Footer Links -->
+
+                <!-- Copyright -->
+                <div class="footer-copyright text-center py-3">© 2018 Developed by <a href="https://www.ciperlabs.com"
+                                                                                      target="_blank">Ciperlabs</a> for
+                    <a href="https://www.mrt.ac.lk/"> University of Moratuwa. </a>All rights Reserved.
+                </div>
+                <!-- Copyright -->
+
+            </footer>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="style/js/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="style/js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="style/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="style/js/mdb.min.js"></script>
+<link rel="stylesheet" href="style/css/dropzone.css">
+<script type="text/javascript" src="style/js/dropzone.js"></script>
+<!-- <link rel="stylesheet" href="style.css"> -->
+<style type="text/css">
+
+    #dropzone {
+        margin-bottom: 3rem;
+    }
+
+    .dropzone {
+        border: 2px dashed #b71c1c;
+        outline: 2px solid #b71c1c;
+        outline-offset: -8px;
+        border-radius: 5px;
+        background: white;
+    }
+
+    .dropzone .dz-message {
+        font-weight: 400;
+    }
+
+    .dropzone .dz-message .note {
+        font-size: 0.8em;
+        font-weight: 200;
+        display: block;
+        margin-top: 1.4rem;
+    }
+
+    .dropzone.dz-clickable {
+        cursor: pointer;
+    }
+</style>
+<script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
+<script type="text/javascript">
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (settings.type == 'POST' || settings.type == 'PUT'
+                || settings.type == 'DELETE') {
                 if (!(/^http:.*/.test(settings.url) || /^https:.*/
                     .test(settings.url))) {
-                  // Only send the token to relative URLs i.e. locally.
-                  xhr.setRequestHeader("X-XSRF-TOKEN", Cookies
-                      .get('XSRF-TOKEN'));
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-XSRF-TOKEN", Cookies
+                        .get('XSRF-TOKEN'));
                 }
-              }
             }
-          });
-          $.get("/user", function(data) {
-            $("#user").html(data.name);
-            if (data.name == undefined) {
-              logout();
-            }else{
-              $(".unauthenticated").hide();
-              $(".authenticated").show();
-            }
-          });
-          var logout = function() {
-            $.post("/logout", function() {
-              $("#user").html('');
-              $(".unauthenticated").show();
-              $(".authenticated").hide();
-            })
-            return true;
-          }
-        </script>
+        }
+    });
+    $.get("/user", function (data) {
+        $("#user").html(data.name);
+        if (data.name == undefined) {
+            logout();
+        } else {
+            $(".unauthenticated").hide();
+            $(".authenticated").show();
+        }
+    });
+    var logout = function () {
+        $.post("/logout", function () {
+            $("#user").html('');
+            $(".unauthenticated").show();
+            $(".authenticated").hide();
+        })
+        return true;
+    }
+
+    function fileUpload() {
+        var file = document.getElementById("fileInput").files[0];
+        console.log(file);
+        // $.post("/upload", function (file) {
+        //
+        // });
+
+        var that = this;
+        var formData = new FormData();
+
+        // add assoc key values, this will be posts values
+        formData.append("file", file);
+
+        // formData.append("upload_file", true);
+        //     $.post("/upload",file,function (data) {
+        //         console.log(data);
+        //     });
+
+        $.ajax({
+            type: "POST",
+            url: "/upload",
+            // xhr: function () {
+            //     var myXhr = $.ajaxSettings.xhr();
+            //     // if (myXhr.upload) {
+            //     //     myXhr.upload.addEventListener('progress', that.progressHandling, false);
+            //     // }
+            //     return myXhr;
+            // },
+            success: function (data) {
+                // your callback here
+                console.log(data);
+            },
+            error: function (error) {
+                // handle error
+                console.log("error");
+            },
+            async: true,
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            timeout: 60000
+        });
+
+    }
+</script>
 </body>
+
 </html>
+
+<!--/.Navbar -->

@@ -1,14 +1,15 @@
 <!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Demo</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width" />
-    <base href="/" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Unicode Pleco</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width"/>
+    <base href="/"/>
     <link rel="stylesheet" type="text/css"
-          href="/webjars/bootstrap/css/bootstrap.min.css" />
+          href="/webjars/bootstrap/css/bootstrap.min.css"/>
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript"
             src="/webjars/bootstrap/js/bootstrap.min.js"></script>
@@ -32,7 +33,7 @@
 <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
 <script type="text/javascript">
     $.ajaxSetup({
-        beforeSend : function(xhr, settings) {
+        beforeSend: function (xhr, settings) {
             if (settings.type == 'POST' || settings.type == 'PUT'
                 || settings.type == 'DELETE') {
                 if (!(/^http:.*/.test(settings.url) || /^https:.*/
@@ -44,17 +45,17 @@
             }
         }
     });
-    $.get("/user", function(data) {
+    $.get("/user", function (data) {
         $("#user").html(data.name);
         if (data.name == undefined) {
             logout();
-        }else{
+        } else {
             $(".unauthenticated").hide();
             $(".authenticated").show();
         }
     });
-    var logout = function() {
-        $.post("/logout", function() {
+    var logout = function () {
+        $.post("/logout", function () {
             $("#user").html('');
             $(".unauthenticated").show();
             $(".authenticated").hide();
