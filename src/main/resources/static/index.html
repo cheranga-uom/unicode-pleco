@@ -161,22 +161,159 @@
                     clen non-unicode text from your docx file.</p>
             </div>
             <div class="row">
-                <div class="col-md-12" id="middleContainer">
-                    <!--<form action="/upload" enctype="multipart/form-data" class="dropzone needsclick dz-clickable" id="docx_upload">-->
-                    <!--<input type="hidden"-->
-                    <!--th:name="${_csrf.parameterName}"-->
-                    <!--th:value="${_csrf.token}" />-->
-                    <!--<div class="dz-message needsclick">-->
-                    <!--Drop files here or click to upload.<br>-->
-                    <!--<img src="style/img/word.png" style="width :120px; height : 120px" alt="Home">-->
-                    <!--<img src="style/img/excel.png" style="width :110px; height : 110px" alt="Home">-->
-                    <!--</div>-->
-                    <!--</form>-->
-                    <input type="file" id="fileInput">
-                    <button type="button" onclick="fileUpload()">Submit</button>
+                <div class="col-md-12 middleContainer" id="middleContainer">
+                    <form action="/upload" class="dropzone needsclick dz-clickable" id="docx_upload">
+
+                        <div class="dz-message needsclick">
+                            Drop files here or click to upload.<br>
+                            <img src="style/img/word.png" style="width :120px; height : 120px" alt="Home">
+                            <img src="style/img/excel.png" style="width :110px; height : 110px" alt="Home">
+                        </div>
+
+                    </form>
+                    <div class="col-md-2 offset-5">
+                        <button type="submit" id="button" onclick="fileUpload()" class="btn">Upload</button>
+                    </div>
+                    <style>
+                        .btn {
+                            background-color: #b71c1c;
+                            width:300;
+                            height: 100
+                            /* border-color: #000; */
+                        }
+                    </style>
+
+                </div>
+                <div class="col-md-12 middleContainerProgress" id="middleContainerProgress">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%" id="progressinner">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px"></div>
+                    <div class="alert alert-success">
+                        <strong>Uploading!</strong> Successfully uploaded!
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>Extracting Text</strong>
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>Converting to Unicode!</strong>
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>Refining the conversion</strong>
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>Setting up the styles</strong>
+                    </div>
+
+                </div>
+                <div class="col-md-12 middleContainerErrorr" id="middleContainerErrorr">
+                    <div class="row">
+                        <div class="col-md-6 offset-3" align="center">
+                            <span class="badge badge-danger"> Error</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 offset-3">
+                            <img src="style/img/Oops-404-error.png"  class="img-fluid" alt="" style="display:block;margin:auto; width: 40%;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 offset-3" align="center">
+                            <span class="badge badge-danger"> Your File did not converted successfully due to one or more of following reasons</span>
+                        </div>
+                        <div class="alert alert-info">
+                            <strong>Unsupported File Type</strong> This converter currently support Excel and Docx formats only
+                        </div>
+                        <div class="alert alert-info">
+                            <strong>False Extension</strong> You have changed the extension of the document
+                        </div>
+                        <div class="alert alert-info">
+                            <strong>Internet Connectivity Issue</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 offset-2">
+                            <div class="row justify-content-center">
+                                <button type="button" class="btn btn-outline-danger waves-effect" onclick="goBack()" style="font-size:x-large"><i class="fas fa-times-circle fa-3x" style="color: red"></i>Go Back</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-12 middleContainerDownload" id="middleContainerDownload">
+                    <!--<div class="text-center">-->
+                    <div class="row">
+                        <div class="col-md-6 offset-3" align="center">
+                            <span class="badge badge-success"> Your file has successfully converted to unicode</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 offset-3">
+                            <img src="style/img/word.png"  class="img-fluid" alt="" style="display:block;margin:auto;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 offset-3" align="center">
+                            <span class="badge badge-success" id="filename"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 offset-2">
+                            <div class="row justify-content-center">
+                                <button type="button" class="btn btn-outline-danger waves-effect" onclick="goBack()" style="font-size:x-large"><i class="fas fa-times-circle fa-3x" style="color: red"></i>Go Back</button>
+                                <button class="btn btn-outline-danger waves-effect" id="download" onclick="download()" style="font-size:x-large; font-weight: bold"><i class="fas fa-download fa-3x" style="color: blue"></i> &nbsp;Download</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Sign In to Continue</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8 offset-2">
+                            <div class="row">
+                                <div class="col-sm-4 offset-1">
+                                    <img src="style/img/logo/logoUoM.png" class="img-fluid " alt="zoom">
+                                </div>
+                                <div class="col-sm-6 offset-1">
+                                    <img src="style/img/logo/Pleco.jpg" class="img-fluid " alt="zoom">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <hr class="half-rule">
+                    <div class="modal-body mx-3">
+                       <div class="row justify-content-center">
+                           <a type="button" class="btn btn-lg" style="background-color: #3b5998" href="/login/facebook"><i class="fab fa-facebook-f pr-1"></i>&nbsp;Log in with Facebook</a>
+                       </div>
+
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button class="btn" onclick="$('#modalRegisterForm').modal('toggle')"><i class="far fa-times-circle"></i>&nbsp;Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-2">
             <p style="font-size:20px;font-family: uom;">Supported Fonts</p>
             <ul class="list-group">
@@ -322,9 +459,49 @@
     .dropzone.dz-clickable {
         cursor: pointer;
     }
+    .files input {
+        outline: 2px dashed #92b0b3;
+        outline-offset: -10px;
+        -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+        transition: outline-offset .15s ease-in-out, background-color .15s linear;
+        padding: 120px 0px 85px 35%;
+        text-align: center !important;
+        margin: 0;
+        width: 100% !important;
+    }
+    .files input:focus{     outline: 2px dashed #92b0b3;  outline-offset: -10px;
+        -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+        transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
+    }
+    .half-rule {
+        margin:auto;
+        text-align: left;
+        width: 60%;
+    }
+
 </style>
+<script type="text/javascript">
+    $(document).ready(function(){
+        function animateloop () {
+            $("#progressinner").css({marginLeft: "-45%"});
+            $("#progressinner").animate({
+                marginLeft: "145%"
+            }, 2000, function(){animateloop()});
+        }
+        animateloop();
+    });
+</script>
 <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
 <script type="text/javascript">
+    $(".middleContainerProgress").hide();
+    $(".middleContainerDownload").hide();
+    $(".middleContainerErrorr").hide();
+    if (localStorage.getItem("download") == "pending"){
+        document.getElementById("filename").innerText = localStorage.getItem("filename")
+        $(".middleContainerDownload").show();
+        $(".middleContainer").hide();
+
+    }
     $.ajaxSetup({
         beforeSend: function (xhr, settings) {
             if (settings.type == 'POST' || settings.type == 'PUT'
@@ -345,6 +522,8 @@
         } else {
             $(".unauthenticated").hide();
             $(".authenticated").show();
+            localStorage.setItem("status","success");
+
         }
     });
     var logout = function () {
@@ -352,45 +531,57 @@
             $("#user").html('');
             $(".unauthenticated").show();
             $(".authenticated").hide();
-        })
+            localStorage.setItem("status","notLoggedIn");
+
+        });
         return true;
-    }
+    };
 
     function fileUpload() {
-        var file = document.getElementById("fileInput").files[0];
-        console.log(file);
-        // $.post("/upload", function (file) {
-        //
-        // });
+        $(".middleContainer").hide();
+        $(".middleContainerProgress").show();
 
-        var that = this;
+        // var file = document.getElementById("fileInput").files[0];
+        var file = Dropzone.instances[0].files[0];
+        console.log(file);
+
         var formData = new FormData();
 
         // add assoc key values, this will be posts values
         formData.append("file", file);
 
-        // formData.append("upload_file", true);
-        //     $.post("/upload",file,function (data) {
-        //         console.log(data);
-        //     });
-
         $.ajax({
             type: "POST",
             url: "/upload",
-            // xhr: function () {
-            //     var myXhr = $.ajaxSettings.xhr();
-            //     // if (myXhr.upload) {
-            //     //     myXhr.upload.addEventListener('progress', that.progressHandling, false);
-            //     // }
-            //     return myXhr;
-            // },
             success: function (data) {
                 // your callback here
-                console.log(data);
+                console.log(data.status);
+                localStorage.setItem("conversionId",data.conversionId);
+                localStorage.setItem("download","pending");
+                localStorage.setItem("filename",data.filename);
+                document.getElementById("filename").innerText = localStorage.getItem("filename");
+
+                if(data.status == "notLoggedIn"){
+                    localStorage.setItem("status","notLoggedIn")
+                    $(".middleContainerDownload").show();
+                    $(".middleContainerProgress").hide();
+
+                }
+                else if(data.status == "success"){
+                    $(".middleContainerDownload").show();
+                    $(".middleContainerProgress").hide();
+
+                }
+
             },
             error: function (error) {
                 // handle error
                 console.log("error");
+                $(".middleContainerProgress").hide();
+                $(".middleContainerDownload").hide();
+                $(".middleContainerErrorr").show();
+                $(".middleContainer").hide();
+
             },
             async: true,
             data: formData,
@@ -399,6 +590,63 @@
             processData: false,
             timeout: 60000
         });
+
+    }
+    function goBack() {
+        localStorage.removeItem("download");
+        localStorage.removeItem("status");
+        localStorage.removeItem("filename");
+        localStorage.removeItem("conversionId");
+        $(".middleContainerDownload").hide();
+        $(".middleContainerErrorr").hide();
+        $(".middleContainerProgress").hide();
+        $(".middleContainer").show();
+    }
+
+    function download(){
+        console.log("download");
+        if (localStorage.getItem("status")==="notLoggedIn"){
+            $("#modalRegisterForm").modal('show');
+            console.log("not Logged In");
+        }
+        else{
+
+            var formData = new FormData();
+            formData.append("conversionId", localStorage.getItem("conversionId"));
+            console.log(localStorage.getItem("conversionId"));
+
+            var req = new XMLHttpRequest();
+            var urlToSend = "/download?convertionid="+localStorage.getItem("conversionId");
+            req.open("GET", urlToSend, true);
+            req.responseType = "blob";
+            req.onload = function () {
+                var blob = req.response;
+                // var fileName = req.getResponseHeader("filename") //if you have the fileName header available
+                var fileName = localStorage.getItem("filename")
+                // var link=document.createElement('a');
+                // link.href=window.URL.createObjectURL(blob);
+                // link.download=fileName;
+                // link.click();
+
+                if (navigator.msSaveBlob) { // IE 10+
+                    navigator.msSaveBlob(blob, filename);
+                } else {
+                    var link = document.createElement("a");
+                    if (link.download !== undefined) { // feature detection
+                        // Browsers that support HTML5 download attribute
+                        var url = URL.createObjectURL(blob);
+                        link.setAttribute("href", url);
+                        link.setAttribute("download", fileName);
+                        link.style.visibility = 'hidden';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                }
+            };
+
+            req.send()
+        }
 
     }
 </script>

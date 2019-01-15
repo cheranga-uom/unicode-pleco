@@ -1,6 +1,10 @@
 package com.ciperlabs.unicodepleco.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "conversion")
@@ -16,6 +20,12 @@ public class Conversion {
     private String inputFilePath;
     private String outputFilePath;
     private String userId;
+
+    @CreationTimestamp
+    private LocalDateTime createdTime;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedTime;
 
     public Integer getConversionId() {
         return conversionId;
@@ -80,4 +90,16 @@ public class Conversion {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+
+
+    public LocalDateTime getUpdatedTime() {
+        return updatedTime;
+    }
+
+
 }

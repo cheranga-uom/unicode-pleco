@@ -17,9 +17,9 @@ spring:
 #File Uploading
     servlet:
         multipart:
-            max-file-size:  1280KB
-            max-request-size: 1280KB
-#            enabled=false
+            max-file-size:  5000KB
+            max-request-size: 5000KB
+            enabled: true
 security:
   oauth2:
     client:

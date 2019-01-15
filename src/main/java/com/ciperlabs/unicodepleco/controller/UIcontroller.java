@@ -26,11 +26,6 @@ public class UIcontroller {
         return "greeting.html";
     }
 
-    @GetMapping("/header")
-    public String header() {
-
-        return "master/header.html";
-    }
 
     //    @RequestMapping("/test2")
 //    @SuppressWarnings("unchecked")

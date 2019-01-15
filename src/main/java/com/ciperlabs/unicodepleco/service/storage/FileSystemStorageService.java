@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.stream.Stream;
@@ -52,8 +53,8 @@ public class FileSystemStorageService implements StorageService {
             }
 
             //TODO  Randomize the name file name with timestamp
-            String localTime = LocalTime.now().toString();
-            String timeAddedfileName = localTime + " " + filename;
+            String localDateTime = LocalDateTime.now().toString();
+            String timeAddedfileName = localDateTime + " " + filename;
             String prefixAddedFileName = prefix + timeAddedfileName;
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, this.rootLocation.resolve(prefixAddedFileName),
@@ -61,7 +62,7 @@ public class FileSystemStorageService implements StorageService {
 
                 StoredFile storedFile = new StoredFile();
                 storedFile.setFileName(filename);
-                storedFile.setPath(this.rootLocation.resolve(prefixAddedFileName).toString());
+                storedFile.setPath(prefixAddedFileName);
                 storedFile.setInputStream(inputStream);
 
                 return storedFile;
