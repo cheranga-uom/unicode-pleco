@@ -59,7 +59,7 @@
                         .btn {
                             background-color: #b71c1c;
                             /*width:300;*/
-                            height: 100
+                            /*height: 100*/
                             /* border-color: #000; */
                         }
                     </style>
@@ -177,11 +177,11 @@
                         <div class="col-md-8 offset-2">
                             <div class="row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger waves-effect" onclick="goBack()"
-                                        style="font-size:x-large"><i class="fas fa-arrow-circle-left fa-3x"
+                                        style="font-size:x-large; height: 10%"><i class="fas fa-arrow-circle-left fa-1x"
                                                                      style="color: red"></i>Go Back
                                 </button>
                                 <button class="btn btn-outline-danger waves-effect" id="download" onclick="download()"
-                                        style="font-size:x-large; font-weight: bold"><i class="fas fa-download fa-3x"
+                                        style="font-size:x-large; font-weight: bold; height: 10%"><i class="fas fa-download fa-1x"
                                                                                         style="color: blue"></i> &nbsp;Download
                                 </button>
                             </div>
@@ -250,7 +250,7 @@
         var file = Dropzone.instances[0].files[0];
         console.log(file);
 
-        if (file == undefined){
+        if (file == undefined) {
             $(".middleContainerProgress").hide();
             $(".middleContainerDownload").hide();
             $(".middleContainerErrorr").show();
@@ -259,10 +259,10 @@
         }
         var blob = file; // See step 1 above
         var fileReader = new FileReader();
-        fileReader.onloadend = function(e) {
+        fileReader.onloadend = function (e) {
             var arr = (new Uint8Array(e.target.result)).subarray(0, 4);
             var header = "";
-            for(var i = 0; i < arr.length; i++) {
+            for (var i = 0; i < arr.length; i++) {
                 header += arr[i].toString(16);
             }
             console.log(header);
@@ -272,7 +272,7 @@
             //     case "25504446":
             //         return "pdf";
             // }
-            if(header !== "504b34"){
+            if (header !== "504b34") {
                 $(".middleContainerProgress").hide();
                 $(".middleContainerDownload").hide();
                 $(".middleContainerErrorr").show();
@@ -295,18 +295,18 @@
             success: function (data) {
                 // your callback here
                 console.log(data.status);
-                localStorage.setItem("conversionId",data.conversionId);
-                localStorage.setItem("download","pending");
-                localStorage.setItem("filename",data.filename);
+                localStorage.setItem("conversionId", data.conversionId);
+                localStorage.setItem("download", "pending");
+                localStorage.setItem("filename", data.filename);
                 document.getElementById("filename").innerText = localStorage.getItem("filename");
 
-                if(data.status == "notLoggedIn"){
-                    localStorage.setItem("status","notLoggedIn")
+                if (data.status == "notLoggedIn") {
+                    localStorage.setItem("status", "notLoggedIn")
                     $(".middleContainerDownload").show();
                     $(".middleContainerProgress").hide();
 
                 }
-                else if(data.status == "success"){
+                else if (data.status == "success") {
                     $(".middleContainerDownload").show();
                     $(".middleContainerProgress").hide();
 
@@ -331,6 +331,7 @@
         });
 
     }
+
     function goBack() {
         localStorage.removeItem("download");
         localStorage.removeItem("status");
@@ -342,18 +343,18 @@
         $(".middleContainer").show();
     }
 
-    function download(){
+    function download() {
         console.log("download");
-        if (localStorage.getItem("status")==="notLoggedIn"){
+        if (localStorage.getItem("status") === "notLoggedIn") {
             $("#modalRegisterForm").modal('show');
             console.log("not Logged In");
         }
-        else{
+        else {
 
             console.log(localStorage.getItem("conversionId"));
 
             var req = new XMLHttpRequest();
-            var urlToSend = "/download?convertionid="+localStorage.getItem("conversionId");
+            var urlToSend = "/download?convertionid=" + localStorage.getItem("conversionId");
             req.open("GET", urlToSend, true);
             req.responseType = "blob";
             req.onload = function () {
