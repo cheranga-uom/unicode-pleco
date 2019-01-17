@@ -32,6 +32,7 @@ public class DocumentHandler {
     }
 
     public StoredFile convertFile(MultipartFile multipartFile) {
+
         System.out.println(multipartFile.getContentType());
         StoredFile convertedDocument = new StoredFile();
         String rootConvertedFileLocation = rootDocumentDirectory+"/"+docxConvertedLocation;

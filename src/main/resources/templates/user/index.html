@@ -1,0 +1,390 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+
+<head th:replace="user/layout.html :: head"></head>
+<body>
+
+<div class="container-fluid">
+    <!-- chatbot -->
+    <div th:replace="user/layout.html :: navbar"></div>
+    <div th:replace="user/layout.html :: heading"></div>
+
+    <div class="row">
+        <div th:replace="user/layout.html :: leftBar"></div>
+
+        <!--Content Goes Here-->
+        <div class="col-md-8">
+            <div class="row">
+                <p style="font-size:20px;font-family: uom; align-content: center ">Unicode pleco is a universal
+                    Sinhala/Tamil non unicode to unicode documents converter, initiated by <a
+                            href="https://www.mrt.ac.lk/web/nlp" target="_blank">NLP Center</a>
+                    of <a href="https://www.mrt.ac.lk">University of Moratuwa</a> and developed by <a
+                            href="https://www.ciperlabs.com">CiperLabs</a>. The name "Pleco" was derived
+                    from "plecostomus", a fish who cleans dirt/algae in the water. Pleco cleans dirty non unicode text
+                    in
+                    your
+                    documents.</p>
+            </div>
+            <div class="row">
+                <div class="col-md-12 middleContainer" id="middleContainer">
+                    <form action="/upload" class="dropzone needsclick dz-clickable" id="docx_upload">
+
+                        <div class="dz-message needsclick justify-content-center"
+                             style="font-size: xx-large; margin-top: auto; margin-bottom: auto">
+                            Drop files here or <span class="badge badge-success"> <i
+                                class="fas fa-plus"></i> Click &nbsp;</span> &nbsp; to add files.<br>
+                            <div class="row justify-content-center">
+                                <div class="col-md-2">
+                                    <img src="style/img/word.png" style="width :120px; height : 120px" alt="Home">
+                                </div>
+                                <div class="col-md-2">
+                                    <img src="style/img/excel.png" style="width :110px; height : 110px" alt="Home">
+
+                                </div>
+                            </div>
+                            <div class="row justify-content-center" style="font-size: x-small">
+                                <span class="badge badge-info"> Office Open Word XML Format (.Docx)</span>
+                                <span> &nbsp;</span>
+                                <span class="badge badge-info"> Office Open Spreadsheet XML Format (.xlsx)</span>
+                            </div>
+                        </div>
+
+                    </form>
+                    <div class="col-md-2 offset-5">
+                        <button type="submit" id="button" onclick="fileUpload()" class="btn"><i
+                                class="fas fa-cloud-upload-alt"></i>Upload
+                        </button>
+                    </div>
+                    <style>
+                        .btn {
+                            background-color: #b71c1c;
+                            /*width:300;*/
+                            height: 100
+                            /* border-color: #000; */
+                        }
+                    </style>
+
+                </div>
+                <div class="col-md-12 middleContainerProgress" id="middleContainerProgress">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="45"
+                             aria-valuemin="0"
+                             aria-valuemax="100" style="width: 45%" id="progressinner">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px"></div>
+                    <div class="alert alert-success">
+                        <strong>Uploading!</strong> Successfully uploaded!
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>Extracting Text</strong>
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>Converting to Unicode!</strong>
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>Refining the conversion</strong>
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>Setting up the styles</strong>
+                    </div>
+
+                </div>
+                <div class="col-md-12 middleContainerErrorr" id="middleContainerErrorr">
+                    <div class="row">
+                        <div class="col-md-6 offset-3" align="center">
+                            <span class="badge badge-danger"> Error</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 offset-3">
+                            <img src="style/img/Oops-404-error.png" class="img-fluid" alt=""
+                                 style="display:block;margin:auto; width: 40%;">
+                        </div>
+                    </div>
+                    <!--<div class="row">-->
+                    <!--<div class="col" align="center">-->
+                    <!--<span class="badge badge-danger"> Your File did not convert successfully due to one or more of following reasons</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <div class="row">
+                        <div class="alert alert-danger">
+                            <strong>Error! </strong> Your File did not convert successfully due to one or more of
+                            following
+                            reasons
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="alert alert-info">
+                            <strong>Unsupported File Type - </strong> This converter currently support
+                            <strong>Excel</strong>
+                            and <strong>Docx</strong> formats only.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="alert alert-info">
+                            <strong>Too Large File - </strong> Documents larger than <strong>5mb</strong> are
+                            restricted.
+                            Contact us if you want some larger file to be converted.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="alert alert-info">
+                            <strong>False Extension - </strong> You have changed the extension of the document.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="alert alert-info">
+                            <strong>Internet Connectivity Issue - </strong> Please check if you have a stable internet
+                            connection.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 offset-2">
+                            <div class="row justify-content-center">
+                                <button type="button" class="btn btn-outline-danger waves-effect" onclick="goBack()"
+                                        style="font-size:x-large"><i class="fas fa-arrow-circle-left fa-3x"
+                                                                     style="color: red"></i>Go Back
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-12 middleContainerDownload" id="middleContainerDownload">
+                    <!--<div class="text-center">-->
+                    <div class="row">
+                        <div class="col-md-6 offset-3" align="center">
+                            <span class="badge badge-success" style="font-size: large"> Your file has successfully converted to unicode</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 offset-3">
+                            <img src="style/img/word.png" class="img-fluid" alt=""
+                                 style="display:block;margin:auto; width: 40%">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 offset-3" align="center">
+                            <span class="badge badge-info" id="filename" style="font-size: large"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 offset-2">
+                            <div class="row justify-content-center">
+                                <button type="button" class="btn btn-outline-danger waves-effect" onclick="goBack()"
+                                        style="font-size:x-large"><i class="fas fa-arrow-circle-left fa-3x"
+                                                                     style="color: red"></i>Go Back
+                                </button>
+                                <button class="btn btn-outline-danger waves-effect" id="download" onclick="download()"
+                                        style="font-size:x-large; font-weight: bold"><i class="fas fa-download fa-3x"
+                                                                                        style="color: blue"></i> &nbsp;Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Sign In to Continue</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8 offset-2">
+                            <div class="row">
+                                <div class="col-sm-4 offset-1">
+                                    <img src="style/img/logo/logoUoM.png" class="img-fluid " alt="zoom">
+                                </div>
+                                <div class="col-sm-6 offset-1">
+                                    <img src="style/img/logo/Pleco.jpg" class="img-fluid " alt="zoom">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <hr class="half-rule">
+                    <div class="modal-body mx-3">
+                        <div class="row justify-content-center">
+                            <a type="button" class="btn btn-lg" style="background-color: #3b5998"
+                               href="/login/facebook"><i
+                                    class="fab fa-facebook-f pr-1"></i>&nbsp;Log in with Facebook</a>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button class="btn" onclick="$('#modalRegisterForm').modal('toggle')"><i
+                                class="far fa-times-circle"></i>&nbsp;Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="user/layout.html :: rightBar"></div>
+    </div>
+
+
+    <div class="row">&nbsp</div>
+    <div th:replace="user/layout.html :: footer"></div>
+</div>
+<th:block th:replace="user/layout.html :: scripts"/>
+
+<script>
+    function fileUpload() {
+        $(".middleContainer").hide();
+        $(".middleContainerProgress").show();
+
+        // var file = document.getElementById("fileInput").files[0];
+        var file = Dropzone.instances[0].files[0];
+        console.log(file);
+
+        if (file == undefined){
+            $(".middleContainerProgress").hide();
+            $(".middleContainerDownload").hide();
+            $(".middleContainerErrorr").show();
+            $(".middleContainer").hide();
+            return;
+        }
+        var blob = file; // See step 1 above
+        var fileReader = new FileReader();
+        fileReader.onloadend = function(e) {
+            var arr = (new Uint8Array(e.target.result)).subarray(0, 4);
+            var header = "";
+            for(var i = 0; i < arr.length; i++) {
+                header += arr[i].toString(16);
+            }
+            console.log(header);
+            // switch (header) {
+            //     case "504b34":
+            //         return "docx/excel";
+            //     case "25504446":
+            //         return "pdf";
+            // }
+            if(header !== "504b34"){
+                $(".middleContainerProgress").hide();
+                $(".middleContainerDownload").hide();
+                $(".middleContainerErrorr").show();
+                $(".middleContainer").hide();
+                return;
+            }
+
+        };
+        fileReader.readAsArrayBuffer(blob);
+
+
+        var formData = new FormData();
+
+        // add assoc key values, this will be posts values
+        formData.append("file", file);
+
+        $.ajax({
+            type: "POST",
+            url: "/upload",
+            success: function (data) {
+                // your callback here
+                console.log(data.status);
+                localStorage.setItem("conversionId",data.conversionId);
+                localStorage.setItem("download","pending");
+                localStorage.setItem("filename",data.filename);
+                document.getElementById("filename").innerText = localStorage.getItem("filename");
+
+                if(data.status == "notLoggedIn"){
+                    localStorage.setItem("status","notLoggedIn")
+                    $(".middleContainerDownload").show();
+                    $(".middleContainerProgress").hide();
+
+                }
+                else if(data.status == "success"){
+                    $(".middleContainerDownload").show();
+                    $(".middleContainerProgress").hide();
+
+                }
+
+            },
+            error: function (error) {
+                // handle error
+                console.log(error);
+                $(".middleContainerProgress").hide();
+                $(".middleContainerDownload").hide();
+                $(".middleContainerErrorr").show();
+                $(".middleContainer").hide();
+
+            },
+            async: true,
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            timeout: 180000
+        });
+
+    }
+    function goBack() {
+        localStorage.removeItem("download");
+        localStorage.removeItem("status");
+        localStorage.removeItem("filename");
+        localStorage.removeItem("conversionId");
+        $(".middleContainerDownload").hide();
+        $(".middleContainerErrorr").hide();
+        $(".middleContainerProgress").hide();
+        $(".middleContainer").show();
+    }
+
+    function download(){
+        console.log("download");
+        if (localStorage.getItem("status")==="notLoggedIn"){
+            $("#modalRegisterForm").modal('show');
+            console.log("not Logged In");
+        }
+        else{
+
+            console.log(localStorage.getItem("conversionId"));
+
+            var req = new XMLHttpRequest();
+            var urlToSend = "/download?convertionid="+localStorage.getItem("conversionId");
+            req.open("GET", urlToSend, true);
+            req.responseType = "blob";
+            req.onload = function () {
+                var blob = req.response;
+                var fileName = localStorage.getItem("filename")
+
+
+                if (navigator.msSaveBlob) { // IE 10+
+                    navigator.msSaveBlob(blob, filename);
+                }
+                else {
+                    var link = document.createElement("a");
+                    if (link.download !== undefined) { // feature detection
+                        // Browsers that support HTML5 download attribute
+                        var url = URL.createObjectURL(blob);
+                        link.setAttribute("href", url);
+                        link.setAttribute("download", fileName);
+                        link.style.visibility = 'hidden';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                }
+            };
+
+            req.send()
+        }
+    }
+</script>
+</div>
+
+
+</body>
+</html>

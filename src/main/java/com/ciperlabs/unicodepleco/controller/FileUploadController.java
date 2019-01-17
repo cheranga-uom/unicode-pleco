@@ -79,24 +79,7 @@ public class FileUploadController {
 
             }
             else if (conversion.getUserId().equals(details.get("id"))){
-//                try {
-//                    Path file = new File(conversion.getOutputFilePath()).toPath();
-//                    Resource resource = new UrlResource(file.toUri());
-//                    logger.info(" file path : "+file.toUri());
-//                    if (resource.exists() || resource.isReadable()) {
-//
-//                        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-//                                "attachment; filename=\"" + resource.getFilename() + "\"").body(resource);
-//
-//                    } else {
-//                        throw new StorageFileNotFoundException(
-//                                "Could not read file: " + filename);
-////                return ResponseEntity.notFound().build();
-//
-//                    }
-//                } catch (MalformedURLException e) {
-//                    throw new StorageFileNotFoundException("Could not read file: " + filename, e);
-//                }
+
                 Resource resource = storageService.loadAsResource(conversion.getOutputFilePath());
                 System.out.println("Attaching file to download");
                 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
@@ -124,13 +107,14 @@ public class FileUploadController {
     public Map handleFileUpload(@RequestParam("file") MultipartFile maltipartFile,
                                    RedirectAttributes redirectAttributes, Principal principal) throws StorageException {
 
+        StoredFile uploadedDocument = storageService.store(maltipartFile, "uploaded/docx/");
+
         DocumentHandler documentHandler = new DocumentHandler(storageService);
         StoredFile convertedFile = documentHandler.convertFile(maltipartFile);
         Map<String, String> map = new LinkedHashMap<>();
 
         if (convertedFile != null) {
 
-            StoredFile uploadedDocument = storageService.store(maltipartFile, "uploaded/docx/");
             Conversion conversion = new Conversion();
 
             conversion.setInputFileName(uploadedDocument.getFileName());

@@ -72,6 +72,7 @@ import com.ciperlabs.unicodepleco.ClientResources;
 @EnableAuthorizationServer
 @Order(6)
 public class UnicodePlecoApplication extends WebSecurityConfigurerAdapter {
+
     @Autowired
     OAuth2ClientContext oauth2ClientContext2;
 
@@ -81,7 +82,7 @@ public class UnicodePlecoApplication extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
-        http.antMatcher("/**").authorizeRequests().antMatchers("/", "/login**", "/webjars/**", "/error**", "/test**", "/style/**", "/upload", "/download**").permitAll().anyRequest()
+        http.antMatcher("/**").authorizeRequests().antMatchers("/", "/login**", "/webjars/**", "/error**", "/test**", "/style/**", "/upload", "/download**","/admin/assets/**","/admin/dist/**","/admin/**").permitAll().anyRequest()
                 .authenticated().and().exceptionHandling()
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/")).and().logout()
                 .logoutSuccessUrl("/").permitAll().and().csrf()
@@ -112,13 +113,13 @@ public class UnicodePlecoApplication extends WebSecurityConfigurerAdapter {
 //        registration.setOrder(-100);
 //        return registration;
 //    }
-@Bean
-CommandLineRunner init(StorageService storageService) {
-    return (args) -> {
-        storageService.deleteAll();
-        storageService.init();
-    };
-}
+    @Bean
+    CommandLineRunner init(StorageService storageService) {
+        return (args) -> {
+            storageService.deleteAll();
+            storageService.init();
+        };
+    }
     @Bean
     @ConfigurationProperties("github")
     public ClientResources github() {

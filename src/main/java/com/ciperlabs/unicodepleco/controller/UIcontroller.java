@@ -14,8 +14,8 @@ public class UIcontroller {
     Logger logger = LoggerFactory.getLogger(UIcontroller.class);
 
     @GetMapping("/")
-    public String index() {
-        return "index.html";
+    public String index(Model model) {
+        return "user/index";
     }
 
 

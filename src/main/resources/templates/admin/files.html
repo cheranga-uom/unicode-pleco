@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head th:replace="admin/layout.html :: head"></head>
+
+
+<body>
+
+<div th:replace="admin/layout.html :: preloader"></div>
+<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+     data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+
+    <div th:replace="admin/layout.html :: header"></div>
+    <div th:replace="admin/layout.html :: sidebar"></div>
+
+    <!-- Page wrapper  -->
+
+    <div class="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <h4 class="card-title text-center"> Select The time period</h4>
+                            <script type="text/javascript">
+                                $(function () {
+                                    $('.date-picker').datepicker({
+                                        changeMonth: true,
+                                        changeYear: true,
+                                        showButtonPanel: true,
+                                        dateFormat: 'MM yy',
+                                        onClose: function (dateText, inst) {
+                                            $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+                                        },
+                                        format: "mm-yyyy",
+                                        viewMode: "months",
+                                        minViewMode: "months"
+                                    });
+                                });
+                            </script>
+                            <style>
+                                .ui-datepicker-calendar {
+                                    display: none;
+                                }
+                            </style>
+
+                            <div class="feed-widget">
+                                <div class="row">
+                                    <div class="col-md-4"></div>
+                                    <input name="startDate" id="startDate" class="date-picker center"
+                                           placeholder="select the month here"/></div>
+                                <br/>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5"></div>
+                                <button type="button" class="btn btn-primary " onclick="hideFunction()">Search</button>
+                            </div>
+                        </div>
+                        <style>
+                            .btn-primary {
+                                background-color: #0069d9;
+                                border-color: #0069d9;
+                            }
+                        </style>
+                    </div>
+
+                </div>
+            </div>
+            <!-- <div class="col-md-3"></div> -->
+
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div id="result-block" class="col-md-6" style="display: none">
+                    <!-- <div class="col-md-6"> -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title text-center">Results</h4>
+                            <div class="feed-widget">
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10 table-wrapper-scroll-y">
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">id</th>
+                                                <th scope="col">User</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Link</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+            <script>
+                function hideFunction() {
+                    console.log($('.date-picker').val());
+                    var x = document.getElementById("result-block");
+                    if (x.style.display === "none") {
+                        x.style.display = "block";
+                    } else {
+                        x.style.display = "none";
+                    }
+                }
+
+            </script>
+            <!-- </div> -->
+        </div>
+    </div>
+
+
+    <footer th:replace="admin/layout.html :: footer"></footer>
+</div>
+</body>
+</html>
+

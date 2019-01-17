@@ -45,7 +45,7 @@ facebook:
       - email
       - public_profile
   resource:
-    userInfoUri: https://graph.facebook.com/me
+    userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)
 github:
   client:
     clientId: 400e01a24d62ae39

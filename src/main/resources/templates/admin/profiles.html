@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head th:replace="admin/layout.html :: head"></head>
+
+
+<body>
+
+<div th:replace="admin/layout.html :: preloader"></div>
+<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+     data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+
+    <div th:replace="admin/layout.html :: header"></div>
+    <div th:replace="admin/layout.html :: sidebar"></div>
+
+    <div class="page-wrapper">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-lg-2 col-xlg-2 col-md-2"></div>
+                <div class="col-lg-8 col-xlg-9 col-md-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="form-horizontal form-material">
+                                <div class="form-group">
+                                    <p style="font-size:18px;font-family: uom ">User Details</p>
+                                    <label class="col-md-12">Full Name</label>
+                                    <div class="col-md-12">
+                                        <input type="text" placeholder="Johnathan Doe"
+                                               class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-email" class="col-md-12">Email</label>
+                                    <div class="col-md-12">
+                                        <input type="email" placeholder="johnathan@admin.com"
+                                               class="form-control form-control-line" name="example-email"
+                                               id="example-email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Phone No</label>
+                                    <div class="col-md-12">
+                                        <input type="text" placeholder="123 456 7890"
+                                               class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary " onclick="hideFunction()">Update
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                            <form class="form-horizontal form-material">
+
+                                <hr>
+                                <div class="form-group">
+                                    <p style="font-size:18px;font-family: uom ">Change the password</p>
+                                    <label class="col-md-4 control-label">Current Password</label>
+                                    <div class="col-md-3">
+                                        <input id="password-field" type="password" class="form-control" name="password"
+                                               value="secret">
+                                        <span onclick="hideCurrr()" toggle="#password-field"
+                                              class="fa fa-fw fa-eye field-icon toggle-password_cr"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+
+                                    <label class="col-md-4 control-label">New Password</label>
+                                    <div class="col-md-3">
+                                        <input id="password-new" type="password" class="form-control"
+                                               name="passwordNew" value="">
+                                        <span onclick="hideNew()" toggle="#password-field"
+                                              class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+
+                                    <label class="col-md-4 control-label">Confirm Password</label>
+                                    <div class="col-md-3">
+                                        <input id="password-conf" type="password" class="form-control"
+                                               name="passwordConf" value="">
+                                        <span onclick="hideConf()" toggle="#password-field"
+                                              class="fa fa-fw fa-eye field-icon toggle-password_cf"></span>
+                                    </div>
+                                    <script>
+                                        function hideCurrr() {
+                                            var x = document.getElementById("password-field");
+                                            if (x.type === "password") {
+                                                x.type = "text";
+                                            } else {
+                                                x.type = "password";
+                                            }
+                                        }
+
+                                        function hideNew() {
+                                            var x = document.getElementById("password-new");
+                                            if (x.type === "password") {
+                                                x.type = "text";
+                                            } else {
+                                                x.type = "password";
+                                            }
+                                        }
+
+                                        function hideConf() {
+                                            var x = document.getElementById("password-conf");
+                                            if (x.type === "password") {
+                                                x.type = "text";
+                                            } else {
+                                                x.type = "password";
+                                            }
+                                        }
+                                    </script>
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-primary">Update Password</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Column -->
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .btn-primary {
+            background-color: #0069d9;
+            border-color: #0069d9;
+        }
+    </style>
+    <footer th:replace="admin/layout.html :: footer"></footer>
+</div>
+</body>
+</html>
+

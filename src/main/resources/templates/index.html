@@ -1,6 +1,6 @@
 <!--Navbar -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head">
     <meta charset="utf-8">
@@ -62,8 +62,8 @@
                     <ul class="navbar-nav ml-auto nav-flex-icons">
                         <li class="nav-item active">
                             <a class="nav-link" href="https://www.facebook.com/Unicode-Pleco-1949172665132215/"
-                               target="_blank">
-                                <i class="fab fa-facebook-f"></i> Facebook
+                               target="_blank" style="margin-top: 4px">
+                                <i class="fab fa-facebook-f"></i> Facebook Page
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
@@ -71,7 +71,7 @@
                             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
                                aria-haspopup="true"
                                aria-expanded="false">
-                                <i class="fas fa-user"></i> Logged in as: <span id="user"></span> </a>
+                                <img src="" class="rounded float-left" id="profilePic" style="width: 40px"> Logged in as: <span id="user"></span> </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-info"
                                  aria-labelledby="navbarDropdownMenuLink-4">
                                 <a class="dropdown-item" href="#">My account</a>
@@ -83,11 +83,11 @@
                             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-5" data-toggle="dropdown"
                                aria-haspopup="true"
                                aria-expanded="false">
-                                <i class="fas fa-user"></i> Log in with Facebook Or Github</a>
+                                <i class="fas fa-user"></i> Log in with Facebook</a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-info"
                                  aria-labelledby="navbarDropdownMenuLink-4">
                                 <a class="dropdown-item" href="/login/facebook">Login With Facebook</a>
-                                <a class="dropdown-item" href="/login/github">Login With Github</a>
+                                <!--<a class="dropdown-item" href="/login/github">Login With Github</a>-->
                             </div>
 
                         </li>
@@ -155,29 +155,42 @@
         <div class="col-md-8">
             <div class="row">
                 <p style="font-size:20px;font-family: uom; align-content: center ">Unicode pleco is a universal
-                    sinhala/Tamil non unicode to unicode docx converter. The projected was initiated by Natural Language
-                    Processing unit in University of Moratuwa and developed by Ciperlabs.The name "Pleco" was derived
-                    from "plecostomus". "Plecostomus" is a fish who cleans dirts/algae in the water. We also hope to
-                    clen non-unicode text from your docx file.</p>
+                    Sinhala/Tamil non unicode to unicode documents converter, initiated by <a href="https://www.mrt.ac.lk/web/nlp" target="_blank">NLP Center</a>
+                    of <a href="https://www.mrt.ac.lk">University of Moratuwa</a>  and developed by <a href="https://www.ciperlabs.com">CiperLabs</a>. The name "Pleco" was derived
+                    from "plecostomus", a fish who cleans dirt/algae in the water. Pleco cleans dirty non unicode text in your documents.</p>
             </div>
             <div class="row">
                 <div class="col-md-12 middleContainer" id="middleContainer">
                     <form action="/upload" class="dropzone needsclick dz-clickable" id="docx_upload">
 
-                        <div class="dz-message needsclick">
-                            Drop files here or click to upload.<br>
-                            <img src="style/img/word.png" style="width :120px; height : 120px" alt="Home">
-                            <img src="style/img/excel.png" style="width :110px; height : 110px" alt="Home">
+                        <div class="dz-message needsclick justify-content-center" style="font-size: xx-large; margin-top: auto; margin-bottom: auto">
+                            Drop files here or <span class="badge badge-success"> <i class="fas fa-plus"></i> Click &nbsp;</span> &nbsp; to add files.<br>
+                            <div class="row justify-content-center">
+                                <div class="col-md-2">
+                                    <img src="style/img/word.png" style="width :120px; height : 120px" alt="Home">
+                                </div>
+                                <div class="col-md-2">
+                                    <img src="style/img/excel.png" style="width :110px; height : 110px" alt="Home">
+
+                                </div>
+                            </div>
+                            <div class="row justify-content-center" style="font-size: x-small">
+                                <span class="badge badge-info" > Office Open Word XML Format (.Docx)</span>
+                                <span> &nbsp;</span>
+                                <span class="badge badge-info" > Office Open Spreadsheet XML Format (.xlsx)</span>
+
+                            </div>
+
                         </div>
 
                     </form>
                     <div class="col-md-2 offset-5">
-                        <button type="submit" id="button" onclick="fileUpload()" class="btn">Upload</button>
+                        <button type="submit" id="button" onclick="fileUpload()" class="btn"><i class="fas fa-cloud-upload-alt"></i>Upload</button>
                     </div>
                     <style>
                         .btn {
                             background-color: #b71c1c;
-                            width:300;
+                            /*width:300;*/
                             height: 100
                             /* border-color: #000; */
                         }
@@ -220,24 +233,40 @@
                             <img src="style/img/Oops-404-error.png"  class="img-fluid" alt="" style="display:block;margin:auto; width: 40%;">
                         </div>
                     </div>
+                    <!--<div class="row">-->
+                        <!--<div class="col" align="center">-->
+                            <!--<span class="badge badge-danger"> Your File did not convert successfully due to one or more of following reasons</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="row">
-                        <div class="col-md-6 offset-3" align="center">
-                            <span class="badge badge-danger"> Your File did not converted successfully due to one or more of following reasons</span>
+                        <div class="alert alert-danger">
+                            <strong>Error! </strong> Your File did not convert successfully due to one or more of following reasons
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="alert alert-info">
-                            <strong>Unsupported File Type</strong> This converter currently support Excel and Docx formats only
+                            <strong>Unsupported File Type - </strong> This converter currently support <strong>Excel</strong> and <strong>Docx</strong> formats only.
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="alert alert-info">
-                            <strong>False Extension</strong> You have changed the extension of the document
+                            <strong>Too Large File - </strong> Documents larger than <strong>5mb</strong> are restricted. Contact us if you want some larger file to be converted.
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="alert alert-info">
-                            <strong>Internet Connectivity Issue</strong>
+                            <strong>False Extension - </strong> You have changed the extension of the document.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="alert alert-info">
+                            <strong>Internet Connectivity Issue - </strong> Please check if you have a stable internet connection.
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-8 offset-2">
                             <div class="row justify-content-center">
-                                <button type="button" class="btn btn-outline-danger waves-effect" onclick="goBack()" style="font-size:x-large"><i class="fas fa-times-circle fa-3x" style="color: red"></i>Go Back</button>
+                                <button type="button" class="btn btn-outline-danger waves-effect" onclick="goBack()" style="font-size:x-large"><i class="fas fa-arrow-circle-left fa-3x" style="color: red"></i>Go Back</button>
                             </div>
 
                         </div>
@@ -249,29 +278,26 @@
                     <!--<div class="text-center">-->
                     <div class="row">
                         <div class="col-md-6 offset-3" align="center">
-                            <span class="badge badge-success"> Your file has successfully converted to unicode</span>
+                            <span class="badge badge-success" style="font-size: large"> Your file has successfully converted to unicode</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 offset-3">
-                            <img src="style/img/word.png"  class="img-fluid" alt="" style="display:block;margin:auto;">
+                            <img src="style/img/word.png"  class="img-fluid" alt="" style="display:block;margin:auto; width: 40%">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 offset-3" align="center">
-                            <span class="badge badge-success" id="filename"></span>
+                            <span class="badge badge-info" id="filename" style="font-size: large"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-8 offset-2">
                             <div class="row justify-content-center">
-                                <button type="button" class="btn btn-outline-danger waves-effect" onclick="goBack()" style="font-size:x-large"><i class="fas fa-times-circle fa-3x" style="color: red"></i>Go Back</button>
+                                <button type="button" class="btn btn-outline-danger waves-effect" onclick="goBack()" style="font-size:x-large"><i class="fas fa-arrow-circle-left fa-3x" style="color: red"></i>Go Back</button>
                                 <button class="btn btn-outline-danger waves-effect" id="download" onclick="download()" style="font-size:x-large; font-weight: bold"><i class="fas fa-download fa-3x" style="color: blue"></i> &nbsp;Download</button>
-
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -338,13 +364,10 @@
 
                 <!-- Footer Links -->
                 <div class="container-fluid text-center text-md-left">
-
                     <!-- Grid row -->
                     <div class="row">
-
                         <!-- Grid column -->
                         <div class="col-md-6 mt-md-0 mt-3">
-
                             <!-- Content -->
                             <h5 class="text-uppercase">Welcome</h5>
                             <p>Unicode pleco is a universal sinhala/Tamil non unicode to unicode docx converter. The
@@ -352,34 +375,28 @@
                                 and developed by Ciperlabs.The name "Pleco" was derived from "plecostomus".
                                 "Plecostomus" is a fish who cleans dirts/algae in the water. We also hope to clen
                                 non-unicode text from your docx file.</p>
-
                         </div>
                         <!-- Grid column -->
-
                         <hr class="clearfix w-100 d-md-none pb-3">
                         <!-- Grid column -->
                         <div class="col-md-3 mb-md-0 mb-3">
-
                             <!-- Links -->
                             <h5 class="text-uppercase">Quick Links</h5>
-
                             <ul class="list-unstyled">
-                                <li>
-                                    <a href="https://ciperlabs.com" target="_blank">Ciperlabs</a>
-                                </li>
                                 <li>
                                     <a href="https://www.mrt.ac.lk/web/nlp" target="_blank">NLP Center</a>
                                 </li>
                                 <li>
                                     <a href="https://www.mrt.ac.lk/" target="_blank">University of Moratuwa</a>
                                 </li>
+                                <li>
+                                    <a href="https://ciperlabs.com" target="_blank">Ciperlabs</a>
+                                </li>
                             </ul>
-
                         </div>
                         <!-- Grid column -->
                         <!-- Grid column -->
                         <div class="col-md-3 mb-md-0 mb-3">
-
                             <!-- Links -->
                             <h5 class="text-uppercase">Contact Us</h5>
 
@@ -394,9 +411,7 @@
                                 <li>
                                     <a href="mailto:nlu@uom.lk">nlu@uom.lk</a>
                                 </li>
-
                             </ul>
-
                         </div>
                         <!-- Grid column -->
 
@@ -517,6 +532,8 @@
     });
     $.get("/user", function (data) {
         $("#user").html(data.name);
+        $("#profilePic").attr("src",data.picture);
+        console.log(data.picture);
         if (data.name == undefined) {
             logout();
         } else {
@@ -544,6 +561,40 @@
         // var file = document.getElementById("fileInput").files[0];
         var file = Dropzone.instances[0].files[0];
         console.log(file);
+
+        if (file == undefined){
+            $(".middleContainerProgress").hide();
+            $(".middleContainerDownload").hide();
+            $(".middleContainerErrorr").show();
+            $(".middleContainer").hide();
+            return;
+        }
+        var blob = file; // See step 1 above
+        var fileReader = new FileReader();
+        fileReader.onloadend = function(e) {
+            var arr = (new Uint8Array(e.target.result)).subarray(0, 4);
+            var header = "";
+            for(var i = 0; i < arr.length; i++) {
+                header += arr[i].toString(16);
+            }
+            console.log(header);
+            // switch (header) {
+            //     case "504b34":
+            //         return "docx/excel";
+            //     case "25504446":
+            //         return "pdf";
+            // }
+            if(header !== "504b34"){
+                $(".middleContainerProgress").hide();
+                $(".middleContainerDownload").hide();
+                $(".middleContainerErrorr").show();
+                $(".middleContainer").hide();
+                return;
+            }
+
+        };
+        fileReader.readAsArrayBuffer(blob);
+
 
         var formData = new FormData();
 
@@ -576,7 +627,7 @@
             },
             error: function (error) {
                 // handle error
-                console.log("error");
+                console.log(error);
                 $(".middleContainerProgress").hide();
                 $(".middleContainerDownload").hide();
                 $(".middleContainerErrorr").show();
@@ -588,7 +639,7 @@
             cache: false,
             contentType: false,
             processData: false,
-            timeout: 60000
+            timeout: 180000
         });
 
     }
@@ -611,8 +662,6 @@
         }
         else{
 
-            var formData = new FormData();
-            formData.append("conversionId", localStorage.getItem("conversionId"));
             console.log(localStorage.getItem("conversionId"));
 
             var req = new XMLHttpRequest();
@@ -621,16 +670,13 @@
             req.responseType = "blob";
             req.onload = function () {
                 var blob = req.response;
-                // var fileName = req.getResponseHeader("filename") //if you have the fileName header available
                 var fileName = localStorage.getItem("filename")
-                // var link=document.createElement('a');
-                // link.href=window.URL.createObjectURL(blob);
-                // link.download=fileName;
-                // link.click();
+
 
                 if (navigator.msSaveBlob) { // IE 10+
                     navigator.msSaveBlob(blob, filename);
-                } else {
+                }
+                else {
                     var link = document.createElement("a");
                     if (link.download !== undefined) { // feature detection
                         // Browsers that support HTML5 download attribute
@@ -647,8 +693,8 @@
 
             req.send()
         }
-
     }
+
 </script>
 </body>
 
