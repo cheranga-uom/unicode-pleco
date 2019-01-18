@@ -21,21 +21,47 @@ public class AdminUIController {
 
     private UserRepository userRepository;
 
-    private DetailsHandler detailsHandler;
+    private StatisticsHandler statisticsHandler;
 
-    public AdminUIController(UserRepository userRepository, DetailsHandler detailsHandler){
+    public AdminUIController(UserRepository userRepository, StatisticsHandler statisticsHandler){
         this.userRepository = userRepository;
-        this.detailsHandler = detailsHandler;
+        this.statisticsHandler = statisticsHandler;
     }
     @GetMapping("/admin")
-    public String getAdminHome(Model mode, Principal principal){
+    public String getAdminHome(Model model, Principal principal){
 //
 //        User admin = adminFilter(principal);
 //        if(admin == null){
 //            return "redirect:/";
 //        }
+        Integer conversionsOfToday = statisticsHandler.conversionsForToday();
+        Integer conversionsOfWeek = statisticsHandler.conversionsForWeek();
+        Integer conversionsOfMonth = statisticsHandler.conversionsOfTheMonth();
+        Integer conversionsOfYear = statisticsHandler.conversionsOfTheYear();
+        Long totalConversions = statisticsHandler.totalConversions();
 
-        logger.info("conversions count for this week : "+ detailsHandler.conversionsForWeek());
+        Integer usersJoinedToday = statisticsHandler.usersJoinedToday();
+        Integer usersForWeek = statisticsHandler.usersForWeek();
+        Integer usersForMonth = statisticsHandler.usersForWeek();
+        Integer usersForYear = statisticsHandler.usersForYear();
+        Long totalUsers = statisticsHandler.totalUsers();
+
+        logger.info("conversions count for today,week,month,year,total : " + conversionsOfToday + " , " + conversionsOfWeek+ " , " +
+                conversionsOfMonth+ " , "+conversionsOfYear+ " , "+totalConversions);
+        logger.info("users count for today,week,month,year,total : "+ usersJoinedToday+ " , "+usersForWeek+ " , "+ usersForMonth
+                + " , " +usersForYear+ " , "+ totalUsers );
+
+        model.addAttribute("conversionsOfToday",conversionsOfToday);
+        model.addAttribute("conversionsOfWeek",conversionsOfWeek);
+        model.addAttribute("conversionsOfMonth",conversionsOfMonth);
+        model.addAttribute("conversionsOfYear",conversionsOfYear);
+        model.addAttribute("totalConversions",totalConversions);
+
+        model.addAttribute("usersJoinedToday",usersJoinedToday);
+        model.addAttribute("usersForWeek",usersForWeek);
+        model.addAttribute("usersForMonth",usersForWeek);
+        model.addAttribute("usersForYear",usersForYear);
+        model.addAttribute("totalUsers",totalUsers);
 
         return "admin/dashboard.html";
     }

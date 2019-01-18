@@ -13,10 +13,10 @@ public interface ConversionRepository extends JpaRepository<Conversion, Integer>
 
     Integer countConversionByCreatedTimeAfter(LocalDateTime localDateTime);
 
-    @Query("SELECT COUNT(*)" +
-            " FROM   Conversion conversion" +
-            " WHERE  YEARWEEK(created_time, 1) = YEARWEEK(CURDATE(), 1)")
-    Integer findConversionByCurrentWeek();
+//    @Query("SELECT COUNT(*)" +
+//            " FROM   Conversion conversion" +
+//            " WHERE  YEARWEEK(created_time, 1) = YEARWEEK(CURDATE(), 1)")
+//    Integer findConversionByCurrentWeek();
 
 
 }

@@ -19,11 +19,24 @@
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title"> Total Converstions</h4>
+                            <h4 class="card-title"> Total Conversions</h4>
                             <div class="feed-widget">
                                 <ul class="list-style-none feed-body m-0 p-b-20">
                                     <li class="feed-item">
-                                        <div class="feed-icon bg-info"><i class="fas fa-file-alt"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" > 5000</p></li>
+                                        <div class="feed-icon bg-info"><i class="fas fa-file-alt"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" th:text="${totalConversions}" /></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title"> Conver. in this Year</h4>
+                            <div class="feed-widget">
+                                <ul class="list-style-none feed-body m-0 p-b-20">
+                                    <li class="feed-item">
+                                        <div class="feed-icon bg-info"><i class="fas fa-file-alt"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" th:text="${conversionsOfYear}" /></li>
                                 </ul>
                             </div>
                         </div>
@@ -36,7 +49,7 @@
                             <div class="feed-widget">
                                 <ul class="list-style-none feed-body m-0 p-b-20">
                                     <li class="feed-item">
-                                        <div class="feed-icon bg-info"><i class="fas fa-calendar-alt"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" > 5000</p></li>
+                                        <div class="feed-icon bg-info"><i class="fas fa-calendar-alt"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" th:text="${conversionsOfMonth}" /></li>
                                 </ul>
                             </div>
                         </div>
@@ -45,11 +58,24 @@
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title"> Conver. this week</h4>
+                            <h4 class="card-title"> Conver. this Week</h4>
                             <div class="feed-widget">
                                 <ul class="list-style-none feed-body m-0 p-b-20">
                                     <li class="feed-item">
-                                        <div class="feed-icon bg-info"><i class="fas fa-calendar-alt"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" > 5000</p></li>
+                                        <div class="feed-icon bg-info"><i class="fas fa-calendar-alt"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" th:text="${conversionsOfWeek}" /></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title"> Conver. of Today</h4>
+                            <div class="feed-widget">
+                                <ul class="list-style-none feed-body m-0 p-b-20">
+                                    <li class="feed-item">
+                                        <div class="feed-icon bg-info"><i class="fas fa-calendar-alt"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" th:text="${conversionsOfToday}" /></li>
                                 </ul>
                             </div>
                         </div>
@@ -62,7 +88,7 @@
                             <div class="feed-widget">
                                 <ul class="list-style-none feed-body m-0 p-b-20">
                                     <li class="feed-item">
-                                        <div class="feed-icon bg-info"><i class="fas fa-user"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" > 5000</p></li>
+                                        <div class="feed-icon bg-info"><i class="fas fa-user"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" th:text="${totalUsers}" /></li>
                                 </ul>
                             </div>
                         </div>
@@ -73,11 +99,11 @@
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title"> Users Joined This Week</h4>
+                            <h4 class="card-title"> Users Joined This Year</h4>
                             <div class="feed-widget">
                                 <ul class="list-style-none feed-body m-0 p-b-20">
                                     <li class="feed-item">
-                                        <div class="feed-icon bg-info"><i class="fas fa-user-plus"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" > 5000</p></li>
+                                        <div class="feed-icon bg-info"><i class="fas fa-user-plus"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" th:text="${usersForYear}"/></li>
                                 </ul>
                             </div>
                         </div>
@@ -86,11 +112,37 @@
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title"> Unique users(Month)</h4>
+                            <h4 class="card-title"> Users Joined This Month</h4>
                             <div class="feed-widget">
                                 <ul class="list-style-none feed-body m-0 p-b-20">
                                     <li class="feed-item">
-                                        <div class="feed-icon bg-info"><i class="fas fa-user-check"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" > 5000</p></li>
+                                        <div class="feed-icon bg-info"><i class="fas fa-user-check"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" th:text="${usersForMonth}"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title"> Users Joined This Week</h4>
+                            <div class="feed-widget">
+                                <ul class="list-style-none feed-body m-0 p-b-20">
+                                    <li class="feed-item">
+                                        <div class="feed-icon bg-info"><i class="fas fa-user-check"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" th:text="${usersForWeek}"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title"> Users Joined Today</h4>
+                            <div class="feed-widget">
+                                <ul class="list-style-none feed-body m-0 p-b-20">
+                                    <li class="feed-item">
+                                        <div class="feed-icon bg-info"><i class="fas fa-user-check"></i></div>  <p style="font-size:29px;font-family: uom  ;font-weight:700;line-height:1.1; margin-bottom:2px;  color:black;" th:text="${usersJoinedToday}"/></li>
                                 </ul>
                             </div>
                         </div>
