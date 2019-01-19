@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -25,6 +26,13 @@ public class User {
     @NotNull
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Conversion> conversions;
+
+    public List<Conversion> getConversions() {
+        return conversions;
+    }
 
     public UserRole getRole() {
         return role;

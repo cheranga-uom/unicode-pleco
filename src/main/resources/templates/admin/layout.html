@@ -61,9 +61,9 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href=""
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                                src="/admin/assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31"></a>
+                                src="/admin/assets/images/users/1.jpg" alt="user" id="userprofilepic1" class="rounded-circle" width="31"></a>
                         <div class="dropdown-menu dropdown-menu-right user-dd animated">
-                            <a class="dropdown-item" href="javascript:void(0)"><i
+                            <a class="dropdown-item" href="javascript:logout()"><i
                                     class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>
                         </div>
                     </li>
@@ -85,7 +85,7 @@
                     <li>
 
                         <div class="user-profile d-flex no-block dropdown m-t-20">
-                            <div class="user-pic"><img src="/admin/assets/images/users/1.jpg" alt="users"
+                            <div class="user-pic"><img src="/admin/assets/images/users/1.jpg" id="userprofilepic2" alt="users"
                                                        class="rounded-circle" width="40"/>
                             </div>
                             <div class="user-content hide-menu m-l-10">
@@ -93,7 +93,7 @@
                                    aria-haspopup="true" aria-expanded="false">
                                     <h5 class="m-b-0 user-name font-medium"><i class="fa fa-angle-down"><span
                                             id="username"></span></i></h5>
-                                    <span class="op-5 user-email" id="useremail">varun@gmail.com</span>
+                                    <span class="op-5 user-email" id="useremail"></span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Userdd">
                                     <a class="dropdown-item" href="javascript:void(0)" onclick="logout()"><i
@@ -109,8 +109,9 @@
                                                 href="/admin/files" aria-expanded="false"><i
                             class="fas fa-file-alt"></i><span class="hide-menu">Files</span></a></li>
                     <li class="sidebar-item"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                href="/admin/profiles" aria-expanded="false"><i
-                            class="fas fa-users"></i><span class="hide-menu">Profile</span></a></li>
+                                                href="/admin/users" aria-expanded="false"><i
+                            class="fas fa-users"></i><span class="hide-menu">Users</span></a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -140,7 +141,8 @@
         });
         $.get("/user", function (data) {
             $("#username").html(data.name);
-            $("#profilePic").attr("src", data.picture);
+            $("#userprofilepic1").attr("src", data.picture);
+            $("#userprofilepic2").attr("src", data.picture);
             $("#useremail").html(data.email);
             console.log("picture : " +data.picture);
             if (data.role == undefined || data.role === "USER") {
@@ -155,7 +157,8 @@
         var logout = function () {
             $.post("/logout", function () {
                 $("#username").html('');
-                $("#profilePic").attr("src", '');
+                $("#userprofilepic1").attr("src", '');
+                $("#userprofilepic2").attr("src", '');
                 $("#useremail").html('');            // $(".unauthenticated").show();
                 // $(".authenticated").hide();
                 localStorage.setItem("status", "notLoggedIn");

@@ -18,5 +18,5 @@ public interface ConversionRepository extends JpaRepository<Conversion, Integer>
 //            " WHERE  YEARWEEK(created_time, 1) = YEARWEEK(CURDATE(), 1)")
 //    Integer findConversionByCurrentWeek();
 
-
+    List<Conversion> findConversionByCreatedTimeAfterAndCreatedTimeBefore(LocalDateTime after, LocalDateTime before);
 }

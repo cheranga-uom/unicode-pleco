@@ -1,16 +1,14 @@
 package com.ciperlabs.unicodepleco.controller;
 
-import com.ciperlabs.unicodepleco.UnicodePlecoApplication;
-import com.ciperlabs.unicodepleco.documentHandler.word.WDXToUnicode;
 import com.ciperlabs.unicodepleco.model.Conversion;
+import com.ciperlabs.unicodepleco.model.User;
 import com.ciperlabs.unicodepleco.repository.ConversionRepository;
+import com.ciperlabs.unicodepleco.repository.UserRepository;
 import com.ciperlabs.unicodepleco.service.storage.*;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -23,42 +21,47 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.websocket.server.PathParam;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
 import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
 @Controller
-public class FileUploadController {
+public class FileController {
 
-    private final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
+    private final Logger logger = LoggerFactory.getLogger(FileController.class);
 
     private final StorageService storageService;
-    @Autowired
+
     private ConversionRepository conversionRepository;
 
+    private UserRepository userRepository;
+
     @Autowired
-    public FileUploadController(StorageService storageService) {
+    public FileController(StorageService storageService, ConversionRepository conversionRepository, UserRepository userRepository) {
         this.storageService = storageService;
+        this.conversionRepository = conversionRepository;
+        this.userRepository = userRepository;
     }
 
 
     @GetMapping("/download")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathParam("convertionid") int convertionid,Principal principal) {
+    public ResponseEntity serveFile(@PathParam("conversionId") int conversionId,Principal principal) {
                                                                     //TODO fix this concurrent downloads might effect
-        System.out.println(convertionid);
-        Conversion conversion = conversionRepository.findById(convertionid).get();
+        System.out.println("ConversionId : "+conversionId);
+        if (!conversionRepository.findById(conversionId).isPresent()) {
+
+            Map<String, String> response = new LinkedHashMap<>();
+            response.put("status","notAvailable");
+            return ResponseEntity.badRequest().body(response);
+        }
+        Conversion conversion = conversionRepository.findById(conversionId).get();
 
         String filePath = conversion.getOutputFilePath();
-        logger.info("Download FileName : "+ filePath );
+        logger.debug("Download FileName : "+ filePath );
 
         if (principal != null) {
             OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
@@ -69,19 +72,22 @@ public class FileUploadController {
 
             System.out.println(conversion.getConversionId() + "conversion");
 
-            if (conversion.getUserId() == null || conversion.getUserId().equals("")){
-                        conversion.setUserId(details.get("id"));
+            if (conversion.getUser() == null){
+
+                Long userId = Long.valueOf(details.get("id"));
+                User user = userRepository.getOne(userId);
+                        conversion.setUser(user);
                         conversionRepository.save(conversion);
-                Resource resource = storageService.loadAsResource(conversion.getOutputFilePath());
-                System.out.println("Attaching file to download user unknown");
+                Resource resource = storageService.loadAsResource(filePath);
+                logger.debug("Attaching file to download user unknownv: "+conversion.getInputFileName());
                 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + resource.getFilename() + "\"").body(resource);
 
             }
-            else if (conversion.getUserId().equals(details.get("id"))){
+            else if (conversion.getUser().getId().equals(Long.valueOf(details.get("id")))){
 
                 Resource resource = storageService.loadAsResource(conversion.getOutputFilePath());
-                System.out.println("Attaching file to download");
+                logger.debug("Attaching file to download : "+ conversion.getInputFileName());
                 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + resource.getFilename() + "\"").body(resource);
 
@@ -89,14 +95,14 @@ public class FileUploadController {
             else {
                 Map<String, String> response = new LinkedHashMap<>();
                 response.put("status","invalidUser");
-                return (ResponseEntity<Resource>) ResponseEntity.badRequest();
+                return ResponseEntity.badRequest().body(response);
             }
 
         }
         else {
             Map<String, String> response = new LinkedHashMap<>();
             response.put("status","notLoggedIn");
-            return (ResponseEntity<Resource>) ResponseEntity.badRequest();
+            return ResponseEntity.badRequest().body(response);
         }
 
 
@@ -135,7 +141,9 @@ public class FileUploadController {
                 details = (Map<String, String>) authentication.getDetails();
                 logger.info("details = " + details);  // id, email, name, link etc.
 
-                conversion.setUserId(details.get("id"));
+                Long userId = Long.valueOf(details.get("id")+"");
+                User user = userRepository.getOne(userId);
+                conversion.setUser(user);
                 conversionRepository.save(conversion);
 
                 map.put("status","success");
@@ -169,7 +177,7 @@ public class FileUploadController {
     public String listUploadedFiles(Model model) throws IOException {
 
         model.addAttribute("files", storageService.loadAll().map(
-                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                path -> MvcUriComponentsBuilder.fromMethodName(FileController.class,
                         "serveFile", path.getFileName().toString()).build().toString())
                 .collect(Collectors.toList()));
 

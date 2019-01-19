@@ -29,8 +29,8 @@ public class AdminUIController {
     }
     @GetMapping("/admin")
     public String getAdminHome(Model model, Principal principal){
-//
-//        User admin = adminFilter(principal);
+
+//        User admin = AdminFilter.filter(principal, userRepository);
 //        if(admin == null){
 //            return "redirect:/";
 //        }
@@ -69,7 +69,7 @@ public class AdminUIController {
     @GetMapping("/admin/files")
     public String getAdminFiles(Model model, Principal principal){
 
-        User admin = adminFilter(principal);
+        User admin = AdminFilter.filter(principal, userRepository);
         if(admin == null){
             return "redirect:/";
         }
@@ -77,38 +77,17 @@ public class AdminUIController {
         return "admin/files.html";
     }
 
-    @GetMapping("/admin/profiles")
+    @GetMapping("/admin/users")
     public String getUserProfiles(Model model, Principal principal){
 
-        User admin = adminFilter(principal);
+        User admin = AdminFilter.filter(principal,userRepository);
         if(admin == null){
             return "redirect:/";
         }
 
 
-        return "admin/profiles.html";
+        return "admin/users.html";
     }
 
 
-
-
-    public User adminFilter(Principal principal) {
-        if (principal != null) {
-
-            OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
-            Authentication authentication = oAuth2Authentication.getUserAuthentication();
-            Map<String, LinkedHashMap<String, LinkedHashMap<String, String>>> details = new LinkedHashMap<>();
-            details = (Map<String, LinkedHashMap<String, LinkedHashMap<String, String>>>) authentication.getDetails();
-
-            Long id = Long.valueOf(details.get("id")+"");
-            logger.info("User id : " + id);
-            User user = userRepository.getOne(id);
-            if(user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.SUPER_ADMIN){
-                return user;
-            }
-
-            return null;
-        }
-        return null;
-    }
 }

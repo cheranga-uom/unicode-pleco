@@ -19,7 +19,10 @@ public class Conversion {
     private String outputFileName;
     private String inputFilePath;
     private String outputFilePath;
-    private String userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private User user;
 
     @CreationTimestamp
     private LocalDateTime createdTime;
@@ -83,12 +86,12 @@ public class Conversion {
         this.outputFilePath = outputFilePath;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
 

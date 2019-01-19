@@ -2,9 +2,10 @@
       lang="en">
 
 <head th:replace="user/layout.html :: head"></head>
-<body>
+<body onload="loaderFunction()">
 
-<div class="container-fluid">
+<div th:replace="user/layout.html :: loader"></div>
+<div class="animate-bottom container-fluid" id="content" style="display: none">
     <!-- chatbot -->
     <div th:replace="user/layout.html :: navbar"></div>
     <div th:replace="user/layout.html :: heading"></div>
@@ -26,7 +27,7 @@
                     documents.</p>
             </div>
             <div class="row">
-                <div class="col-md-12 middleContainer" id="middleContainer">
+                <div class="col-md-12 middleContainer heartbeat" id="middleContainer">
                     <form action="/upload" class="dropzone needsclick dz-clickable" id="docx_upload">
 
                         <div class="dz-message needsclick justify-content-center"
@@ -178,11 +179,12 @@
                             <div class="row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger waves-effect" onclick="goBack()"
                                         style="font-size:x-large; height: 10%"><i class="fas fa-arrow-circle-left fa-1x"
-                                                                     style="color: red"></i>Go Back
+                                                                                  style="color: red"></i>Go Back
                                 </button>
                                 <button class="btn btn-outline-danger waves-effect" id="download" onclick="download()"
-                                        style="font-size:x-large; font-weight: bold; height: 10%"><i class="fas fa-download fa-1x"
-                                                                                        style="color: blue"></i> &nbsp;Download
+                                        style="font-size:x-large; font-weight: bold; height: 10%"><i
+                                        class="fas fa-download fa-1x"
+                                        style="color: blue"></i> &nbsp;Download
                                 </button>
                             </div>
                         </div>
@@ -242,6 +244,23 @@
 <th:block th:replace="user/layout.html :: scripts"/>
 
 <script>
+
+    // var middleContainer = document.getElementById("middleContainer");
+    //
+    // function onDragStart(event) {
+    //     event.dataTransfer.setData('text/html', null); //cannot be empty string
+    //     middleContainer.class += ' heartbeat';
+    //     console.log("start");
+    // }
+    //
+    // function onDragOver(event) {
+    //     console.log("over")
+    //     // middleContainer.class += ' heartbeat';
+    // }
+    //
+    // middleContainer.addEventListener('dragstart', onDragStart, false);
+    // middleContainer.addEventListener('dragover', onDragOver, false);
+
     function fileUpload() {
         $(".middleContainer").hide();
         $(".middleContainerProgress").show();
@@ -354,7 +373,7 @@
             console.log(localStorage.getItem("conversionId"));
 
             var req = new XMLHttpRequest();
-            var urlToSend = "/download?convertionid=" + localStorage.getItem("conversionId");
+            var urlToSend = "/download?conversionId=" + localStorage.getItem("conversionId");
             req.open("GET", urlToSend, true);
             req.responseType = "blob";
             req.onload = function () {
@@ -384,8 +403,6 @@
         }
     }
 </script>
-</div>
-
 
 </body>
 </html>

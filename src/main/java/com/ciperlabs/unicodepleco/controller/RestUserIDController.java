@@ -42,6 +42,7 @@ public class RestUserIDController {
 
             map.put("name",name );
             map.put("picture",profilePictureUrl);
+            map.put("email",email);
 
             User userModel = new User();
             if (userRepository.existsById(id)){
