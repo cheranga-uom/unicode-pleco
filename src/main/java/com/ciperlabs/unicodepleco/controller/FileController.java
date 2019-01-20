@@ -1,6 +1,7 @@
 package com.ciperlabs.unicodepleco.controller;
 
 import com.ciperlabs.unicodepleco.model.Conversion;
+import com.ciperlabs.unicodepleco.model.FileType;
 import com.ciperlabs.unicodepleco.model.User;
 import com.ciperlabs.unicodepleco.repository.ConversionRepository;
 import com.ciperlabs.unicodepleco.repository.UserRepository;
@@ -123,12 +124,20 @@ public class FileController {
 
             Conversion conversion = new Conversion();
 
+            if(convertedFile.getFileType() == FileType.DOCX){
+                map.put("fileType",FileType.DOCX+"");
+                conversion.setInputFileType(FileType.DOCX+"");
+            }
+            else if(convertedFile.getFileType() == FileType.EXCEL){
+                map.put("fileType",FileType.EXCEL+"");
+                conversion.setInputFileType(FileType.EXCEL+"");
+            }
+
             conversion.setInputFileName(uploadedDocument.getFileName());
             conversion.setInputFilePath(uploadedDocument.getPath());
             conversion.setInputFileType(maltipartFile.getContentType());
             conversion.setOutputFileName(convertedFile.getFileName());
             conversion.setOutputFilePath(convertedFile.getPath());
-            conversion.setInputFileType("docx");
             conversionRepository.save(conversion);
             map.put("conversionId",conversion.getConversionId()+"");
             map.put("filename","Unicode - " + uploadedDocument.getFileName());

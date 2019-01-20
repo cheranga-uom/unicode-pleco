@@ -59,9 +59,6 @@
                     <style>
                         .btn {
                             background-color: #b71c1c;
-                            /*width:300;*/
-                            /*height: 100*/
-                            /* border-color: #000; */
                         }
                     </style>
 
@@ -105,11 +102,6 @@
                                  style="display:block;margin:auto; width: 40%;">
                         </div>
                     </div>
-                    <!--<div class="row">-->
-                    <!--<div class="col" align="center">-->
-                    <!--<span class="badge badge-danger"> Your File did not convert successfully due to one or more of following reasons</span>-->
-                    <!--</div>-->
-                    <!--</div>-->
                     <div class="row">
                         <div class="alert alert-danger">
                             <strong>Error! </strong> Your File did not convert successfully due to one or more of
@@ -165,7 +157,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 offset-3">
-                            <img src="style/img/word.png" class="img-fluid" alt=""
+                            <img src="style/img/word.png" class="img-fluid" alt="" id="downloadFileImage"
                                  style="display:block;margin:auto; width: 40%">
                         </div>
                     </div>
@@ -243,23 +235,24 @@
 </div>
 <th:block th:replace="user/layout.html :: scripts"/>
 
-<script>
+<script type="text/javascript">
 
-    // var middleContainer = document.getElementById("middleContainer");
-    //
-    // function onDragStart(event) {
-    //     event.dataTransfer.setData('text/html', null); //cannot be empty string
-    //     middleContainer.class += ' heartbeat';
-    //     console.log("start");
-    // }
-    //
-    // function onDragOver(event) {
-    //     console.log("over")
-    //     // middleContainer.class += ' heartbeat';
-    // }
-    //
-    // middleContainer.addEventListener('dragstart', onDragStart, false);
-    // middleContainer.addEventListener('dragover', onDragOver, false);
+    $(".middleContainerProgress").hide();
+    $(".middleContainerDownload").hide();
+    $(".middleContainerErrorr").hide();
+    if (localStorage.getItem("download") == "pending"){
+        document.getElementById("filename").innerText = localStorage.getItem("filename");
+        var fileType = localStorage.getItem("fileType")
+        if(fileType === "DOCX"){
+            $("#downloadFileImage").setAttribute("src",'style/img/word.png')
+        }
+        else if (fileType === "EXCEL") {
+            $("#downloadFileImage").setAttribute("src",'style/img/excel.png')
+        }
+        $(".middleContainerDownload").show();
+        $(".middleContainer").hide();
+
+    }
 
     function fileUpload() {
         $(".middleContainer").hide();
@@ -285,12 +278,7 @@
                 header += arr[i].toString(16);
             }
             console.log(header);
-            // switch (header) {
-            //     case "504b34":
-            //         return "docx/excel";
-            //     case "25504446":
-            //         return "pdf";
-            // }
+
             if (header !== "504b34") {
                 $(".middleContainerProgress").hide();
                 $(".middleContainerDownload").hide();
@@ -298,10 +286,8 @@
                 $(".middleContainer").hide();
                 return;
             }
-
         };
         fileReader.readAsArrayBuffer(blob);
-
 
         var formData = new FormData();
 
@@ -317,6 +303,8 @@
                 localStorage.setItem("conversionId", data.conversionId);
                 localStorage.setItem("download", "pending");
                 localStorage.setItem("filename", data.filename);
+                localStorage.setItem("fileType",data.fileType);
+
                 document.getElementById("filename").innerText = localStorage.getItem("filename");
 
                 if (data.status == "notLoggedIn") {
@@ -326,9 +314,14 @@
 
                 }
                 else if (data.status == "success") {
+                    if(data.fileType === "DOCX"){
+                        $("#downloadFileImage").setAttribute("src",'style/img/word.png')
+                    }
+                    else if (data.fileType === "EXCEL") {
+                        $("#downloadFileImage").setAttribute("src",'style/img/excel.png')
+                    }
                     $(".middleContainerDownload").show();
                     $(".middleContainerProgress").hide();
-
                 }
 
             },
@@ -356,6 +349,7 @@
         localStorage.removeItem("status");
         localStorage.removeItem("filename");
         localStorage.removeItem("conversionId");
+        localStorage.removeItem("fileType");
         $(".middleContainerDownload").hide();
         $(".middleContainerErrorr").hide();
         $(".middleContainerProgress").hide();

@@ -548,15 +548,7 @@ xmlns:th="http://www.thymeleaf.org">
     </script>
     <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
     <script type="text/javascript">
-        $(".middleContainerProgress").hide();
-        $(".middleContainerDownload").hide();
-        $(".middleContainerErrorr").hide();
-        if (localStorage.getItem("download") == "pending"){
-            document.getElementById("filename").innerText = localStorage.getItem("filename")
-            $(".middleContainerDownload").show();
-            $(".middleContainer").hide();
 
-        }
         $.ajaxSetup({
             beforeSend: function (xhr, settings) {
                 if (settings.type == 'POST' || settings.type == 'PUT'

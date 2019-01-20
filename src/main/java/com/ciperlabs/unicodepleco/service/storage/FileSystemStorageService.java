@@ -63,7 +63,6 @@ public class FileSystemStorageService implements StorageService {
                 StoredFile storedFile = new StoredFile();
                 storedFile.setFileName(filename);
                 storedFile.setPath(prefixAddedFileName);
-                storedFile.setInputStream(inputStream);
 
                 return storedFile;
             }

@@ -1,9 +1,12 @@
 package com.ciperlabs.unicodepleco.controller;
 
 import com.ciperlabs.unicodepleco.documentHandler.word.WDXToUnicode;
+import com.ciperlabs.unicodepleco.model.FileType;
 import com.ciperlabs.unicodepleco.service.storage.StorageProperties;
 import com.ciperlabs.unicodepleco.service.storage.StorageService;
 import com.ciperlabs.unicodepleco.service.storage.StoredFile;
+import com.j256.simplemagic.ContentInfo;
+import com.j256.simplemagic.ContentInfoUtil;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +27,7 @@ public class DocumentHandler {
     private final Logger logger = LoggerFactory.getLogger(DocumentHandler.class);
     private String rootDocumentDirectory = "Documents";
     private String docxConvertedLocation = "converted/docx/";         //TODO read from properties
-    private StorageService storageService = null;
+    private StorageService storageService;
 
 
     public DocumentHandler(StorageService storageService) {
@@ -33,7 +36,17 @@ public class DocumentHandler {
 
     public StoredFile convertFile(MultipartFile multipartFile) {
 
-        System.out.println(multipartFile.getContentType());
+        ContentInfoUtil contentInfoUtil = new ContentInfoUtil();
+
+        try {
+            ContentInfo fileType = contentInfoUtil.findMatch(multipartFile.getInputStream());
+            logger.info("file type : " + fileType.getContentType().getMimeType());
+            logger.info("file type : " + fileType.getMimeType());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         StoredFile convertedDocument = new StoredFile();
         String rootConvertedFileLocation = rootDocumentDirectory+"/"+docxConvertedLocation;
         try {
@@ -44,7 +57,7 @@ public class DocumentHandler {
 
             System.out.println(multipartFile.getOriginalFilename());
             File directory = new File(rootConvertedFileLocation);
-            logger.info("Creating Upload directory if not exist : " + rootConvertedFileLocation + " : " + directory.mkdirs());
+            logger.info("Creating Uplo  ad directory if not exist : " + rootConvertedFileLocation + " : " + directory.mkdirs());
             String localTime = LocalTime.now().toString() + " ";
             String outPutFileName = localTime + multipartFile.getOriginalFilename();
             String outputFileDriectoryAndName = rootConvertedFileLocation + outPutFileName;
@@ -56,6 +69,7 @@ public class DocumentHandler {
 
                 convertedDocument.setPath(docxConvertedLocation+outPutFileName);
                 convertedDocument.setFileName(outPutFileName);
+                convertedDocument.setFileType(FileType.DOCX);
 
                 // Create Table entry
                 return convertedDocument;

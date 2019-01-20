@@ -1,5 +1,7 @@
 package com.ciperlabs.unicodepleco.service.storage;
 
+import com.ciperlabs.unicodepleco.model.FileType;
+
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,6 +12,16 @@ public class StoredFile {
     private String fileName;
     private String path;
     private InputStream inputStream;
+    private FileType fileType;
+
+
+    public FileType getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(FileType fileType) {
+        this.fileType = fileType;
+    }
 
     public String getFileName() {
         return fileName;
@@ -40,7 +52,7 @@ public class StoredFile {
         return inputStream;
     }
 
-    public void setInputStream(InputStream inputStream) {
-        this.inputStream = inputStream;
-    }
+//    public void setInputStream(InputStream inputStream) {
+//        this.inputStream = inputStream;
+//    }
 }
