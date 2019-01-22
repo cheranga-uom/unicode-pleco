@@ -1,0 +1,276 @@
+<th:block xmlns:th="http://www.thymeleaf.org"
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+          layout:fragment="end">
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="style/js/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="style/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="style/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="style/js/mdb.min.js"></script>
+    <link rel="stylesheet" href="style/css/dropzone.css">
+    <script type="text/javascript" src="style/js/dropzone.js"></script>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style type="text/css">
+
+        #dropzone {
+            margin-bottom: 3rem;
+        }
+
+        .dropzone {
+            border: 2px dashed #b71c1c;
+            outline: 2px solid #b71c1c;
+            outline-offset: -8px;
+            border-radius: 5px;
+            background: white;
+        }
+
+        .dropzone .dz-message {
+            font-weight: 400;
+        }
+
+        .dropzone .dz-message .note {
+            font-size: 0.8em;
+            font-weight: 200;
+            display: block;
+            margin-top: 1.4rem;
+        }
+
+        .dropzone.dz-clickable {
+            cursor: pointer;
+        }
+
+        .files input {
+            outline: 2px dashed #92b0b3;
+            outline-offset: -10px;
+            -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+            transition: outline-offset .15s ease-in-out, background-color .15s linear;
+            padding: 120px 0px 85px 35%;
+            text-align: center !important;
+            margin: 0;
+            width: 100% !important;
+        }
+
+        .files input:focus {
+            outline: 2px dashed #92b0b3;
+            outline-offset: -10px;
+            -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+            transition: outline-offset .15s ease-in-out, background-color .15s linear;
+            border: 1px solid #92b0b3;
+        }
+
+        .half-rule {
+            margin: auto;
+            text-align: left;
+            width: 60%;
+        }
+
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function animateloop() {
+                $("#progressinner").css({marginLeft: "-45%"});
+                $("#progressinner").animate({
+                    marginLeft: "145%"
+                }, 2000, function () {
+                    animateloop()
+                });
+            }
+
+            animateloop();
+        });
+    </script>
+    <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
+    <script type="text/javascript">
+        $(".middleContainerProgress").hide();
+        $(".middleContainerDownload").hide();
+        $(".middleContainerErrorr").hide();
+        if (localStorage.getItem("download") == "pending") {
+            document.getElementById("filename").innerText = localStorage.getItem("filename")
+            $(".middleContainerDownload").show();
+            $(".middleContainer").hide();
+
+        }
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (settings.type == 'POST' || settings.type == 'PUT'
+                    || settings.type == 'DELETE') {
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/
+                        .test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-XSRF-TOKEN", Cookies
+                            .get('XSRF-TOKEN'));
+                    }
+                }
+            }
+        });
+        $.get("/user", function (data) {
+            $("#user").html(data.name);
+            $("#profilePic").attr("src", data.picture);
+            console.log(data.picture);
+            if (data.name == undefined) {
+                logout();
+            } else {
+                $(".unauthenticated").hide();
+                $(".authenticated").show();
+                localStorage.setItem("status", "success");
+
+            }
+        });
+        var logout = function () {
+            $.post("/logout", function () {
+                $("#user").html('');
+                $(".unauthenticated").show();
+                $(".authenticated").hide();
+                localStorage.setItem("status", "notLoggedIn");
+
+            });
+            return true;
+        };
+
+        function fileUpload() {
+            $(".middleContainer").hide();
+            $(".middleContainerProgress").show();
+
+            // var file = document.getElementById("fileInput").files[0];
+            var file = Dropzone.instances[0].files[0];
+            console.log(file);
+
+            if (file == undefined) {
+                $(".middleContainerProgress").hide();
+                $(".middleContainerDownload").hide();
+                $(".middleContainerErrorr").show();
+                $(".middleContainer").hide();
+                return;
+            }
+            var blob = file; // See step 1 above
+            var fileReader = new FileReader();
+            fileReader.onloadend = function (e) {
+                var arr = (new Uint8Array(e.target.result)).subarray(0, 4);
+                var header = "";
+                for (var i = 0; i < arr.length; i++) {
+                    header += arr[i].toString(16);
+                }
+                console.log(header);
+                // switch (header) {
+                //     case "504b34":
+                //         return "docx/excel";
+                //     case "25504446":
+                //         return "pdf";
+                // }
+                if (header !== "504b34") {
+                    $(".middleContainerProgress").hide();
+                    $(".middleContainerDownload").hide();
+                    $(".middleContainerErrorr").show();
+                    $(".middleContainer").hide();
+                    return;
+                }
+
+            };
+            fileReader.readAsArrayBuffer(blob);
+
+
+            var formData = new FormData();
+
+            // add assoc key values, this will be posts values
+            formData.append("file", file);
+
+            $.ajax({
+                type: "POST",
+                url: "/upload",
+                success: function (data) {
+                    // your callback here
+                    console.log(data.status);
+                    localStorage.setItem("conversionId", data.conversionId);
+                    localStorage.setItem("download", "pending");
+                    localStorage.setItem("filename", data.filename);
+                    document.getElementById("filename").innerText = localStorage.getItem("filename");
+
+                    if (data.status == "notLoggedIn") {
+                        localStorage.setItem("status", "notLoggedIn")
+                        $(".middleContainerDownload").show();
+                        $(".middleContainerProgress").hide();
+
+                    }
+                    else if (data.status == "success") {
+                        $(".middleContainerDownload").show();
+                        $(".middleContainerProgress").hide();
+
+                    }
+
+                },
+                error: function (error) {
+                    // handle error
+                    console.log(error);
+                    $(".middleContainerProgress").hide();
+                    $(".middleContainerDownload").hide();
+                    $(".middleContainerErrorr").show();
+                    $(".middleContainer").hide();
+
+                },
+                async: true,
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                timeout: 180000
+            });
+
+        }
+
+        function goBack() {
+            localStorage.removeItem("download");
+            localStorage.removeItem("status");
+            localStorage.removeItem("filename");
+            localStorage.removeItem("conversionId");
+            $(".middleContainerDownload").hide();
+            $(".middleContainerErrorr").hide();
+            $(".middleContainerProgress").hide();
+            $(".middleContainer").show();
+        }
+
+        function download() {
+            console.log("download");
+            if (localStorage.getItem("status") === "notLoggedIn") {
+                $("#modalRegisterForm").modal('show');
+                console.log("not Logged In");
+            }
+            else {
+
+                console.log(localStorage.getItem("conversionId"));
+
+                var req = new XMLHttpRequest();
+                var urlToSend = "/download?convertionid=" + localStorage.getItem("conversionId");
+                req.open("GET", urlToSend, true);
+                req.responseType = "blob";
+                req.onload = function () {
+                    var blob = req.response;
+                    var fileName = localStorage.getItem("filename")
+
+
+                    if (navigator.msSaveBlob) { // IE 10+
+                        navigator.msSaveBlob(blob, filename);
+                    }
+                    else {
+                        var link = document.createElement("a");
+                        if (link.download !== undefined) { // feature detection
+                            // Browsers that support HTML5 download attribute
+                            var url = URL.createObjectURL(blob);
+                            link.setAttribute("href", url);
+                            link.setAttribute("download", fileName);
+                            link.style.visibility = 'hidden';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+                    }
+                };
+
+                req.send()
+            }
+        }
+
+    </script>
+</th:block>

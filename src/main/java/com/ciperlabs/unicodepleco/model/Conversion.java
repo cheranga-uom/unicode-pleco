@@ -1,6 +1,10 @@
 package com.ciperlabs.unicodepleco.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "conversion")
@@ -15,7 +19,16 @@ public class Conversion {
     private String outputFileName;
     private String inputFilePath;
     private String outputFilePath;
-    private String userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private User user;
+
+    @CreationTimestamp
+    private LocalDateTime createdTime;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedTime;
 
     public Integer getConversionId() {
         return conversionId;
@@ -73,11 +86,23 @@ public class Conversion {
         this.outputFilePath = outputFilePath;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
+
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+
+
+    public LocalDateTime getUpdatedTime() {
+        return updatedTime;
+    }
+
+
 }

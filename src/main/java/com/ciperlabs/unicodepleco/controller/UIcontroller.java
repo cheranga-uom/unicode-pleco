@@ -14,8 +14,8 @@ public class UIcontroller {
     Logger logger = LoggerFactory.getLogger(UIcontroller.class);
 
     @GetMapping("/")
-    public String index() {
-        return "index.html";
+    public String index(Model model) {
+        return "user/index";
     }
 
 
@@ -26,11 +26,6 @@ public class UIcontroller {
         return "greeting.html";
     }
 
-    @GetMapping("/header")
-    public String header() {
-
-        return "master/header.html";
-    }
 
     //    @RequestMapping("/test2")
 //    @SuppressWarnings("unchecked")

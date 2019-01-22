@@ -9,17 +9,21 @@ spring:
         hibernate:
             ddl-auto: update
             naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-
+                show_sql: true
+                format_sql: true
 
 #File Uploading
     servlet:
         multipart:
-            max-file-size:  1280KB
-            max-request-size: 1280KB
-#            enabled=false
+            max-file-size:  5000KB
+            max-request-size: 5000KB
+            enabled: true
+
+
 security:
   oauth2:
     client:
@@ -45,7 +49,7 @@ facebook:
       - email
       - public_profile
   resource:
-    userInfoUri: https://graph.facebook.com/me
+    userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)
 github:
   client:
     clientId: 400e01a24d62ae39
@@ -62,9 +66,12 @@ github:
 logging:
   level:
     org.springframework.security: DEBUG
+    org.hibernate:
+          type: DEBUG
 
 
 #Path to excel files stored folder
 storage:
     Document:
         path: Documents
+

@@ -22,8 +22,8 @@ This class will handle the received stored file objects to identify the file typ
 public class DocumentHandler {
 
     private final Logger logger = LoggerFactory.getLogger(DocumentHandler.class);
-
-    private String docxConvertedLocation = "Documents/converted/docx/";         //TODO read from properties
+    private String rootDocumentDirectory = "Documents";
+    private String docxConvertedLocation = "converted/docx/";         //TODO read from properties
     private StorageService storageService = null;
 
 
@@ -32,9 +32,10 @@ public class DocumentHandler {
     }
 
     public StoredFile convertFile(MultipartFile multipartFile) {
+
         System.out.println(multipartFile.getContentType());
         StoredFile convertedDocument = new StoredFile();
-        String rootConvertedFileLocation = docxConvertedLocation;
+        String rootConvertedFileLocation = rootDocumentDirectory+"/"+docxConvertedLocation;
         try {
 
             XWPFDocument docx = new XWPFDocument(multipartFile.getInputStream());      // Convert fileinut stream to a XWPF document
@@ -53,7 +54,7 @@ public class DocumentHandler {
                 FileOutputStream out = new FileOutputStream(outputFile);
                 convertedFile.write(out);
 
-                convertedDocument.setPath(outputFileDriectoryAndName);
+                convertedDocument.setPath(docxConvertedLocation+outPutFileName);
                 convertedDocument.setFileName(outPutFileName);
 
                 // Create Table entry
