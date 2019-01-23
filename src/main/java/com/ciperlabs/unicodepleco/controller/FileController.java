@@ -135,7 +135,7 @@ public class FileController {
 
             conversion.setInputFileName(uploadedDocument.getFileName());
             conversion.setInputFilePath(uploadedDocument.getPath());
-            conversion.setInputFileType(maltipartFile.getContentType());
+            conversion.setInputFileType(uploadedDocument.getFileType()+"");
             conversion.setOutputFileName(convertedFile.getFileName());
             conversion.setOutputFilePath(convertedFile.getPath());
             conversionRepository.save(conversion);
@@ -156,8 +156,8 @@ public class FileController {
                 conversionRepository.save(conversion);
 
                 map.put("status","success");
-
             }
+
             else {
                 map.put("status","notLoggedIn");
 

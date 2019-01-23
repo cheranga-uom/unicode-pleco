@@ -37,6 +37,7 @@ public class RestUserIDController {
             Long id = Long.valueOf(details.get("id")+"");
             String profilePictureUrl = details.get("picture").get("data").get("url");
             String email = details.get("email")+"";
+            String user_link = details.get("link")+"";
 
             Map<String, String> map = new LinkedHashMap<>();
 
@@ -54,6 +55,7 @@ public class RestUserIDController {
                 userModel.setName(name);
                 userModel.setProfilePictureurl(profilePictureUrl);
                 userModel.setRole(UserRole.USER);
+                userModel.setProfile_link(user_link);
                 userRepository.save(userModel);
             }
             map.put("role",userModel.getRole()+"");

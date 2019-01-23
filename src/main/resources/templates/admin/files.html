@@ -27,7 +27,7 @@
                             <h4 class="card-title text-center"> Select The time period</h4>
                             <script type="text/javascript">
                                 $(function () {
-                                    $('.date-picker').datepicker({
+                                    $('#startDate').datepicker({
                                         changeMonth: true,
                                         changeYear: true,
                                         showButtonPanel: true,
@@ -56,7 +56,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-5"></div>
-                                <button type="button" class="btn btn-primary " onclick="hideFunction()">Search</button>
+                                <button type="button" class="btn btn-primary " onclick="searchMonth()">Search</button>
                             </div>
                         </div>
                         <style>
@@ -72,74 +72,188 @@
             <!-- <div class="col-md-3"></div> -->
 
             <div class="row">
-                <div class="col-md-3"></div>
-                <div id="result-block" class="col-md-6" style="display: none">
-                    <!-- <div class="col-md-6"> -->
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title text-center">Results</h4>
-                            <div class="feed-widget">
-                                <div class="row">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-10 table-wrapper-scroll-y">
-                                        <table class="table table-bordered table-striped">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">id</th>
-                                                <th scope="col">User</th>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Link</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Results</h4>
+                        <div class="feed-widget">
+                            <!--<div class="col-md-1"></div>-->
+                            <div class="col-md-12 table-wrapper-scroll-y">
+                                <table id="filesTable">
+                                    <thead>
+                                    <tr>
+                                        <th>Created Time</th>
+                                        <th>Input File Type</th>
+                                        <th> Output File Type</th>
+                                        <th>Input File Name</th>
+                                        <th>Output File Name</th>
+                                        <!--<th>Input File Path</th>-->
+                                        <!--<th>Output File Path</th>-->
+                                        <th>Original</th>
+                                        <!--<th>Converted</th>-->
 
-                                            </tbody>
-                                        </table>
+                                        <!--<th> User Name</th>-->
+                                        <!--<th> Profile Link</th>-->
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-                                    </div>
-                                    <div class="col-md-1"></div>
-                                </div>
-
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <!-- </div> -->
+
                     </div>
+                    <!-- </div> -->
                 </div>
             </div>
-            <script>
-                function hideFunction() {
-                    console.log($('.date-picker').val());
-                    var x = document.getElementById("result-block");
-                    if (x.style.display === "none") {
-                        x.style.display = "block";
-                    } else {
-                        x.style.display = "none";
+        </div>
+
+
+        <footer th:replace="admin/layout.html :: footer"></footer>
+    </div>
+    <script src="/admin/dist/js/bootstrap-datepicker.js"></script>
+    <th:block th:include="admin/layout.html :: auth"></th:block>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        var files = /*[[${files}]]*/ file;
+        var dataTable;
+        function downloadConverted(data) {
+            console.log("ID : " + data);
+            var fileId = data.split("-")[0];
+            var url = "/admin/files/download/converted?conversionId=";
+            download(url+fileId);
+        }
+        function downloadOriginal(data) {
+            console.log("ID : " + data);
+            var fileId = data.split("-")[0];
+            console.log(fileId);
+            var url = "/admin/files/download/original?conversionId=";
+            download(url+fileId);
+        }
+
+        function download(url) {
+            // console.log(fileId);
+            // var fileId = data.split("-")[0];
+            var req = new XMLHttpRequest();
+            // var urlToSend = url+fileId
+            console.log("url : " + url);
+
+            req.open("GET", url, true);
+            req.responseType = "blob";
+            req.onload = function () {
+                var blob = req.response;
+                var fileName;
+
+                var disposition = req.getResponseHeader('Content-Disposition');
+                if (disposition && disposition.indexOf('attachment') !== -1) {
+                    var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                    var matches = filenameRegex.exec(disposition);
+                    if (matches != null && matches[1]) {
+                        fileName = matches[1].replace(/['"]/g, '');
+                    }
+                    console.log("filename : "+ fileName)
+                }
+                if (navigator.msSaveBlob) { // IE 10+
+                    navigator.msSaveBlob(blob, fileName);
+                }
+                else {
+                    var link = document.createElement("a");
+                    if (link.download !== undefined) { // feature detection
+                        // Browsers that support HTML5 download attribute
+                        var url = URL.createObjectURL(blob);
+                        link.setAttribute("href", url);
+                        link.setAttribute("download", fileName);
+                        link.style.visibility = 'hidden';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
                     }
                 }
+            };
 
-            </script>
-            <!-- </div> -->
-        </div>
-    </div>
+            req.send()
+        }
+        var thisDocument = this;
+
+        function showTable() {
+            console.log(files);
+
+            dataTable = $('#filesTable').DataTable(
+                {
+                    data: files,
+                    columns: [
+                        // {data : "conversionId"},
+                        {data: "createdTime"},
+                        {data: "inputFileType"},
+                        {data: "outputFileType"},
+                        {data: "inputFileName"},
+                        {data: "outputFileName"},
+                        // {data: "inputFilePath"},
+                        // {data: "outputFilePath"},
+                        {data: "conversionId" , render : function ( data, type, row, meta ) {
+                                return type === 'display'  ?
+                                    '<div class=row>'
+                                        +'<div class="col">'
+                                            +'<button class="waves-button-input blue-gradient" onclick="thisDocument.downloadOriginal(this.id)" id="'+ data +"-original"+'" > Download Original<i class="fa fa-download"></i></button>'
+                                        +'</div>'
+                                        +'<div class="col">'
+                                            +'<button class="waves-button-input green" onclick="thisDocument.downloadConverted(this.id)" id="'+ data +"-converted"+'" > Download Converted<i class="fa fa-check"></i></button>'
+                                        +'</div> '
+                                    +'</div>'
+                                    :
+                                    data;
+                            }},
+
+                    ],
+                }
+            );
+
+        }
+
+        $(document).ready(
+            function () {
+                showTable();
+
+            }
+        )
+        ;
+
+        /*]]>*/
 
 
-    <footer th:replace="admin/layout.html :: footer"></footer>
-</div>
-<script src="/admin/dist/js/bootstrap-datepicker.js"></script>
-<th:block th:include="admin/layout.html :: auth"></th:block>
+        function searchMonth() {
 
+            console.log($('.date-picker').val());
+            var formData = new FormData();
+
+            var monthYear = $('.date-picker').val().split("-");
+            var monthDate = new Date(monthYear[1],monthYear[0]-1,1).toISOString();
+            console.log(monthDate);
+            formData.append("month", monthDate);
+            $("#filesTable").dataTable().fnDestroy();
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/files/history/month",
+                success: function (data) {
+
+                    files = data;
+                    showTable();
+                },
+                error: function (error) {
+                    // handle error
+                    console.log(error);
+
+                },
+                async: true,
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                timeout: 60000
+            });
+        }
+    </script>
 </body>
 </html>
-

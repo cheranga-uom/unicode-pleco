@@ -1,5 +1,8 @@
 package com.ciperlabs.unicodepleco.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -22,6 +25,7 @@ public class Conversion {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
+    @JsonBackReference
     private User user;
 
     @CreationTimestamp

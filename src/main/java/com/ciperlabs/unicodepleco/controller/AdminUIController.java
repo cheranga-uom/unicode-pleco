@@ -77,17 +77,17 @@ public class AdminUIController {
         return "admin/files.html";
     }
 
-    @GetMapping("/admin/users")
-    public String getUserProfiles(Model model, Principal principal){
-
-        User admin = AdminFilter.filter(principal,userRepository);
-        if(admin == null){
-            return "redirect:/";
-        }
-
-
-        return "admin/users.html";
-    }
+//    @GetMapping("/admin/users")
+//    public String getUserProfiles(Model model, Principal principal){
+//
+//        User admin = AdminFilter.filter(principal,userRepository);
+//        if(admin == null){
+//            return "redirect:/";
+//        }
+//
+//
+//        return "admin/users.html";
+//    }
 
 
 }

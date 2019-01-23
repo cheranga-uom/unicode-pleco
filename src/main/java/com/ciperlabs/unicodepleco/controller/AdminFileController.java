@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -55,7 +56,7 @@ public class AdminFileController {
             Long id = Long.valueOf(details.get("id"));
             User user = userRepository.getOne(id);
 
-            if (user.getRole() != UserRole.SUPER_ADMIN || user.getRole() != UserRole.ADMIN){
+            if (user.getRole() != UserRole.SUPER_ADMIN && user.getRole() != UserRole.ADMIN){
                 Map<String, String> response = new LinkedHashMap<>();
                 response.put("status","UserNotAllowed");
                 return ResponseEntity.badRequest().body(response);            }
@@ -70,11 +71,11 @@ public class AdminFileController {
             return ResponseEntity.badRequest().body(response);
         }
     }
-    @GetMapping("/download/converted")
+    @GetMapping("admin/files/download/converted")
     @ResponseBody
     public ResponseEntity downloadConvertedFile(@PathParam("conversionId") int conversionId
             , Principal principal) {
-        System.out.println(conversionId);
+        System.out.println("ConversionId : "+conversionId);
         if (!conversionRepository.findById(conversionId).isPresent()) {
 
             Map<String, String> response = new LinkedHashMap<>();
@@ -88,31 +89,31 @@ public class AdminFileController {
 
     }
 
-    @GetMapping("/download/original")
+    @GetMapping("admin/files/download/original")
     @ResponseBody
-    public ResponseEntity downloadOriginalFile(@PathParam("conversionId") int convertionId, Principal principal) {
+    public ResponseEntity downloadOriginalFile(@PathParam("conversionId") int conversionId, Principal principal) {
 
 
-        System.out.println(convertionId);
-        if (!conversionRepository.findById(convertionId).isPresent()) {
+        System.out.println("ConversionId : "+conversionId);
+        if (!conversionRepository.findById(conversionId).isPresent()) {
 
             Map<String, String> response = new LinkedHashMap<>();
             response.put("status","InvalidFile");
             return ResponseEntity.badRequest().body(response);        }
-        Conversion conversion = conversionRepository.findById(convertionId).get();
+        Conversion conversion = conversionRepository.findById(conversionId).get();
 
         String filePath = conversion.getInputFilePath();
 
         return serveFile(principal, filePath);
 
     }
-    @PostMapping("/history/user")
+    @PostMapping("admin/files/history/user")
      public List<Conversion> getHistoryOfUser(@RequestParam("userId") Long userId, Principal principal){
 
-//        User admin = AdminFilter.filter(principal, userRepository);
-//        if(admin == null){
-//            return null;
-//        }
+        User admin = AdminFilter.filter(principal, userRepository);
+        if(admin == null){
+            return null;
+        }
 
         if (userRepository.existsById(userId)){
 
@@ -121,33 +122,34 @@ public class AdminFileController {
         return null;
     }
 
-    @GetMapping("/history/user")
+    @GetMapping("admin/files/history/user")
     public String getHistoryOfUserPage(@PathParam("userId") Long userId, Model model, Principal principal){
 
-//        User admin = AdminFilter.filter(principal, userRepository);
-//        if(admin == null){
-//            return "redirect:/;
-//        }
+        User admin = AdminFilter.filter(principal, userRepository);
+        if(admin == null){
+            return "redirect:/";
+        }
 
         if (userRepository.existsById(userId)){
 
             List<Conversion> conversions = userRepository.getOne(userId).getConversions();
             logger.info("Coversions by User : "+userId +" : " + conversions);
-            model.addAllAttributes(conversions);
+            model.addAttribute("files",conversions);
 
             return "admin/files";
         }
         return "admin/error-404";
     }
 
-    @RequestMapping("/history/month")
-    public List<Conversion> getHistoryOfMonth(@RequestParam("month")LocalDateTime month, Principal principal){
+    /* from admin/files page post method to retrieve files for the given month*/
+    @PostMapping("/admin/files/history/month")
+    @ResponseBody
+    public List<Conversion> getHistoryOfMonth(@RequestParam("month") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime month, Principal principal){
 
-//        User admin = AdminFilter.filter(principal, userRepository);
-//        if(admin == null){
-//            return null;
-//        }
-        //TODO fix next month
+        User admin = AdminFilter.filter(principal, userRepository);
+        if(admin == null){
+            return null;
+        }
         LocalDateTime nextMonth = month.plusMonths(1);
         return  conversionRepository.findConversionByCreatedTimeAfterAndCreatedTimeBefore(month,nextMonth);
 

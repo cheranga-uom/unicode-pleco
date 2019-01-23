@@ -82,7 +82,7 @@ public class UnicodePlecoApplication extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
-        http.antMatcher("/**").authorizeRequests().antMatchers("/", "/login**", "/webjars/**", "/error**", "/test**", "/style/**", "/upload", "/download**","/admin/assets/**","/admin/dist/**","/admin/**").permitAll().anyRequest()
+        http.antMatcher("/**").authorizeRequests().antMatchers("/", "/login**", "/webjars/**", "/error**", "/test**", "/style/**", "/upload", "/download**","/admin/assets/**","/admin/dist/**").permitAll().anyRequest()
                 .authenticated().and().exceptionHandling()
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/")).and().logout()
                 .logoutSuccessUrl("/").permitAll().and().csrf()

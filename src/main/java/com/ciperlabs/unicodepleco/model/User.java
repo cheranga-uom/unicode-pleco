@@ -1,6 +1,9 @@
 package com.ciperlabs.unicodepleco.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -22,12 +25,22 @@ public class User {
     @Column(name = "profile_picture_url")
     private String profilePictureurl;
     private String email;
+    private String profile_link;
+
+    public String getProfile_link() {
+        return profile_link;
+    }
+
+    public void setProfile_link(String profile_link) {
+        this.profile_link = profile_link;
+    }
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Conversion> conversions;
 
     public List<Conversion> getConversions() {
@@ -108,4 +121,5 @@ public class User {
     public void setUpdatedBy(Integer updatedBy) {
         this.updatedBy = updatedBy;
     }
+
 }

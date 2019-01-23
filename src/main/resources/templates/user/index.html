@@ -315,10 +315,10 @@
                 }
                 else if (data.status == "success") {
                     if(data.fileType === "DOCX"){
-                        $("#downloadFileImage").setAttribute("src",'style/img/word.png')
+                        $("#downloadFileImage").attr("src",'style/img/word.png')
                     }
                     else if (data.fileType === "EXCEL") {
-                        $("#downloadFileImage").setAttribute("src",'style/img/excel.png')
+                        $("#downloadFileImage").attr("src",'style/img/excel.png')
                     }
                     $(".middleContainerDownload").show();
                     $(".middleContainerProgress").hide();

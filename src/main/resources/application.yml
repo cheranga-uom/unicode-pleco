@@ -47,9 +47,10 @@ facebook:
     clientAuthenticationScheme: form
     scope:
       - email
+      - user_link
       - public_profile
   resource:
-    userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)
+    userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250),link
 github:
   client:
     clientId: 400e01a24d62ae39

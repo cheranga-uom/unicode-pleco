@@ -38,14 +38,14 @@ public class DocumentHandler {
 
         ContentInfoUtil contentInfoUtil = new ContentInfoUtil();
 
-        try {
-            ContentInfo fileType = contentInfoUtil.findMatch(multipartFile.getInputStream());
-            logger.info("file type : " + fileType.getContentType().getMimeType());
-            logger.info("file type : " + fileType.getMimeType());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ContentInfo fileType = contentInfoUtil.findMatch(multipartFile.getInputStream());
+//            logger.info("file type : " + fileType.getContentType().getMimeType());
+//            logger.info("file type : " + fileType.getMimeType());
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         StoredFile convertedDocument = new StoredFile();
         String rootConvertedFileLocation = rootDocumentDirectory+"/"+docxConvertedLocation;
