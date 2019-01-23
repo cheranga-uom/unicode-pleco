@@ -1,0 +1,107 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+
+<head th:replace="user/layout.html :: head"></head>
+<body onload="loaderFunction()">
+
+<div th:replace="user/layout.html :: loader"></div>
+<div class="animate-bottom container-fluid" id="content" style="display: none">
+    <!-- chatbot -->
+    <div th:replace="user/layout.html :: navbar"></div>
+    <div th:replace="user/layout.html :: heading"></div>
+
+    <div class="row">
+        <div th:replace="user/layout.html :: leftBar"></div>
+
+        <!--Content Goes Here-->
+
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-4 offset-4"> <p style="font-size:29px;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;" align="center">About Us</p> </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-md-4 offset-4"><a style="font-size:20px;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;" href='https://www.mrt.ac.lk/web/nlp' target="_blank" align="center">CENTRE FOR NATIONAL LANGUAGES PROCESSING</a>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 offset-2">
+                        <p align="justified">The National Languages Processing Centre was established to enable Sinhala and Tamil, the national languages of Sri Lanka, to fully benefit from current and future computing and communication technologies. Our centre comprises a team of experts and research students from different institutions in the country who focus on areas such as Natural Language Processing and Computational Linguistics.
+
+                            Our work ranges from basic research in computational linguistics for Sinhala and Tamil, to key applications in human language technology for the two languages, as well as English. We make use of cutting edge technologies, and tailor them according to the needs of our local languages.  We are currently developing language and linguistic resources, as well as basic language processing tools such as parts of speech (POS) taggers and morphological analysers. We make these tools publicly available, in the expectation that it would further research initiatives for our local languages. Our key application is Si-Ta, the Sinhala-Tamil translation system for official government documents, which is currently being used by some government organizations.</p>
+                    </div>
+
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="col-md-4 offset-4"><a style="font-size:20px;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;" href='https://www.ciperlabs.com' target="_blank" align="center">CIPERLABS</a></div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 offset-2">
+                    <p align="justified">The National Languages Processing Centre was established to enable Sinhala and Tamil, the national languages of Sri Lanka, to fully benefit from current and future computing and communication technologies. Our centre comprises a team of experts and research students from different institutions in the country who focus on areas such as Natural Language Processing and Computational Linguistics.
+
+                        Our work ranges from basic research in computational linguistics for Sinhala and Tamil, to key applications in human language technology for the two languages, as well as English. We make use of cutting edge technologies, and tailor them according to the needs of our local languages.  We are currently developing language and linguistic resources, as well as basic language processing tools such as parts of speech (POS) taggers and morphological analysers. We make these tools publicly available, in the expectation that it would further research initiatives for our local languages. Our key application is Si-Ta, the Sinhala-Tamil translation system for official government documents, which is currently being used by some government organizations.</p>
+                </div>
+
+            </div>
+
+
+            <br/>
+
+        </div>
+
+
+        <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Sign In to Continue</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8 offset-2">
+                            <div class="row">
+                                <div class="col-sm-4 offset-1">
+                                    <img src="style/img/logo/logoUoM.png" class="img-fluid " alt="zoom">
+                                </div>
+                                <div class="col-sm-6 offset-1">
+                                    <img src="style/img/logo/Pleco.jpg" class="img-fluid " alt="zoom">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <hr class="half-rule">
+                    <div class="modal-body mx-3">
+                        <div class="row justify-content-center">
+                            <a type="button" class="btn btn-lg" style="background-color: #3b5998"
+                               href="/login/facebook"><i
+                                    class="fab fa-facebook-f pr-1"></i>&nbsp;Log in with Facebook</a>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button class="btn" onclick="$('#modalRegisterForm').modal('toggle')"><i
+                                class="far fa-times-circle"></i>&nbsp;Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="user/layout.html :: rightBar"></div>
+    </div>
+
+
+    <div class="row">&nbsp</div>
+    <div th:replace="user/layout.html :: footer"></div>
+</div>
+<th:block th:replace="user/layout.html :: scripts"/>
+
+</body>
+</html>
