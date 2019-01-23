@@ -202,16 +202,19 @@ xmlns:th="http://www.thymeleaf.org">
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">UoM Home
+                        <li class="nav-item" id="home_link">
+                            <a class="nav-link" href="/">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="advanced_link">
                             <a class="nav-link" href="#">Advanced Conversions</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
+                            <a class="nav-link" href="/about" id="about_link">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/report_issue" id="issue_link">Report an Issue</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto nav-flex-icons">
@@ -519,7 +522,6 @@ xmlns:th="http://www.thymeleaf.org">
         };
     </script>
 </div>
-
 </body>
 
 </html>
