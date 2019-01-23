@@ -34,6 +34,7 @@ public class WDXToUnicode {
     private HashMap<String, String> styeleConvertedFont = null;                  //StyleId,font
 
     private WDXToUnicode() {
+
     }                            // Avoid accidental creation of Object without File
 
     public WDXToUnicode(XWPFDocument docx) {
@@ -51,7 +52,6 @@ public class WDXToUnicode {
         tamilUnicodeFonts.setHAnsi(tamilUnicodeFont);
         tamilUnicodeFonts.setCs(tamilUnicodeFont);
 
-        this.engine = new Engine();
         this.documentStyles = this.docx.getStyles();
 
         this.stylesCopy = new HashMap<>();
