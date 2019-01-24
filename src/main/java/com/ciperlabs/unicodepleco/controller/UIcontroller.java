@@ -28,6 +28,11 @@ public class UIcontroller {
         return "user/reportIssue";
     }
 
+    @GetMapping("/advanced_conversion")
+    public String advancedConversion(Model model) {
+        return "user/advancedConversion";
+    }
+
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
         model.addAttribute("name", name);
