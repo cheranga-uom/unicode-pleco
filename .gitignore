@@ -25,3 +25,5 @@
 /.nb-gradle/
 
 Documents/
+
+src/main/resources/application.yml

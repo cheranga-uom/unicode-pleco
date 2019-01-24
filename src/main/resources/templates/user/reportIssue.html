@@ -28,14 +28,22 @@
                         style="font-size:15px;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;">
                     Select the issue type</p></div>
                 <div class="col-md-4">
-                    <select id="select" onchange="changeImage()" class="browser-default custom-selecty">
+                    <select id="select" onchange="changeImage()" class="browser-default custom-select dropdown">
                         <option selected="selected" value="issue">Issue</option>
                         <option value="suggestion">Suggestion</option>
                     </select>
+                    <style>
+                        .dropdown {
+                            /*-webkit-appearance: menulist-button;*/
+                            /*height: 20px;*/
+                            float: left;
+                            /*width: 20px;*/
+                        }
+                    </style>
                 </div>
                 <script>
                     function changeImage() {
-                        if (document.getElementById('select').value == "1") {
+                        if (document.getElementById('select').value === "issue") {
                             // document.getElementById('select').selected="2";
                             //    document.getElementById('select').value=="2"
                             console.log("Value is 1");
@@ -48,7 +56,7 @@
                             document.getElementById("dropText").innerHTML = "Please add you docx/excel files here"
 
                         }
-                        if (document.getElementById('select').value == "2") {
+                        if (document.getElementById('select').value === "suggestion") {
                             console.log("Value is 2");
                             // document.getElementById('select').selected=="1";
                             var elem = document.getElementById("dropImage2");
