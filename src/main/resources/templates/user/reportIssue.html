@@ -24,10 +24,18 @@
             <div class="row">
                 <div class="col-md-4"><p style="font-size:15px;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;" >Select the issue type</p> </div>
                 <div class="col-md-4">
-                    <select id="select" onchange="changeImage()" class="browser-default custom-selecty">
+                    <select id="select" onchange="changeImage()" class="browser-default custom-selecty dropdown">
                         <option selected="selected" value="1">Issue</option>
                         <option value="2">Suggession</option>
                     </select>
+                    <style>
+                        .dropdown {
+                            /*-webkit-appearance: menulist-button;*/
+                            /*height: 20px;*/
+                            float: left;
+                            /*width: 20px;*/
+                        }
+                    </style>
                 </div>
                 <script>
                     function changeImage(){
