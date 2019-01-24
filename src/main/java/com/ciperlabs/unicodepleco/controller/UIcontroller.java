@@ -36,20 +36,4 @@ public class UIcontroller {
     }
 
 
-    //    @RequestMapping("/test2")
-//    @SuppressWarnings("unchecked")
-//    public Map<String, String> user2(Principal principal) {
-//        if (principal != null) {
-//            OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
-//            Authentication authentication = oAuth2Authentication.getUserAuthentication();
-//            Map<String, String> details = new LinkedHashMap<>();
-//            details = (Map<String, String>) authentication.getDetails();
-//            logger.info("details = " + details);  // id, email, name, link etc.
-//            Map<String, String> map = new LinkedHashMap<>();
-//            map.put("email", details.get("email"));
-//            return map;
-//        }
-//        return null;
-//    }
-
 }

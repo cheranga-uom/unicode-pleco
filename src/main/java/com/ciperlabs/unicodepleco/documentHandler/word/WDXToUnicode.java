@@ -56,6 +56,8 @@ public class WDXToUnicode {
 
         this.stylesCopy = new HashMap<>();
         this.styeleConvertedFont = new HashMap<>();
+
+        this.engine = new Engine();
     }
 
     public XWPFDocument startConversion() {

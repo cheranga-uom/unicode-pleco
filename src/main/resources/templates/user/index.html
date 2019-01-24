@@ -248,12 +248,12 @@
     $(".middleContainerErrorr").hide();
     if (localStorage.getItem("download") == "pending"){
         document.getElementById("filename").innerText = localStorage.getItem("filename");
-        var fileType = localStorage.getItem("fileType")
+        var fileType = localStorage.getItem("fileType");
         if(fileType === "DOCX"){
-            $("#downloadFileImage").setAttribute("src",'style/img/word.png')
+            $("#downloadFileImage").attr("src", 'style/img/word.png')
         }
         else if (fileType === "EXCEL") {
-            $("#downloadFileImage").setAttribute("src",'style/img/excel.png')
+            $("#downloadFileImage").attr("src", 'style/img/excel.png')
         }
         $(".middleContainerDownload").show();
         $(".middleContainer").hide();
@@ -313,13 +313,8 @@
 
                 document.getElementById("filename").innerText = localStorage.getItem("filename");
 
-                if (data.status == "notLoggedIn") {
-                    localStorage.setItem("status", "notLoggedIn")
-                    $(".middleContainerDownload").show();
-                    $(".middleContainerProgress").hide();
-
-                }
-                else if (data.status == "success") {
+                if (data.status == "notLoggedIn" || data.status == "success") {
+                    localStorage.setItem("status", data.status);
                     if(data.fileType === "DOCX"){
                         $("#downloadFileImage").attr("src",'style/img/word.png')
                     }
@@ -328,6 +323,7 @@
                     }
                     $(".middleContainerDownload").show();
                     $(".middleContainerProgress").hide();
+
                 }
 
             },

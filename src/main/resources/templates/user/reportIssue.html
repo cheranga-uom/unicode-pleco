@@ -18,33 +18,37 @@
         <div class="col-md-8">
 
             <div class="row">
-                <div class="col-md-6 offset-3"> <p style="font-size:29px;font-weight:700;line-height:1.1; text-align:justify; margin-bottom:2px;  color:#252525;" >Report Issues/Sugession Here</p> </div>
+                <div class="col-md-6 offset-3"><p
+                        style="font-size:29px;font-weight:700;line-height:1.1; text-align:justify; margin-bottom:2px;  color:#252525;">
+                    Report Issues/Sugession Here</p></div>
             </div>
             <hr/>
             <div class="row">
-                <div class="col-md-4"><p style="font-size:15px;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;" >Select the issue type</p> </div>
+                <div class="col-md-4"><p
+                        style="font-size:15px;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;">
+                    Select the issue type</p></div>
                 <div class="col-md-4">
                     <select id="select" onchange="changeImage()" class="browser-default custom-selecty">
-                        <option selected="selected" value="1">Issue</option>
-                        <option value="2">Suggession</option>
+                        <option selected="selected" value="issue">Issue</option>
+                        <option value="suggestion">Suggestion</option>
                     </select>
                 </div>
                 <script>
-                    function changeImage(){
-                        if(document.getElementById('select').value=="1"){
+                    function changeImage() {
+                        if (document.getElementById('select').value == "1") {
                             // document.getElementById('select').selected="2";
                             //    document.getElementById('select').value=="2"
                             console.log("Value is 1");
                             var elem = document.getElementById("dropImage2");
                             elem.style.display = "block";
-                            elem.style="width :110px; height : 110px";
+                            elem.style = "width :110px; height : 110px";
                             var s = document.getElementById('dropImage1');
                             s.src = "/style/img/word.png";
-                            s.style="width :120px; height : 120px";
-                            document.getElementById("dropText").innerHTML="Please add you docx/excel files here"
+                            s.style = "width :120px; height : 120px";
+                            document.getElementById("dropText").innerHTML = "Please add you docx/excel files here"
 
                         }
-                        if(document.getElementById('select').value=="2"){
+                        if (document.getElementById('select').value == "2") {
                             console.log("Value is 2");
                             // document.getElementById('select').selected=="1";
                             var elem = document.getElementById("dropImage2");
@@ -52,27 +56,35 @@
                             var s = document.getElementById('dropImage1');
                             console.log(s)
                             s.src = "/style/img/font.png";
-                            document.getElementById("dropText").innerHTML="Please add your font file if you have any";
+                            document.getElementById("dropText").innerHTML = "Please add your font file if you have any";
                         }
                     }
                 </script>
             </div>
             <br/>
             <div class="row">
-                <div class="col-md-4"><p style="font-size:15px;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;" >Briefly Expalin The Issue/ Suggession</p> </div>
-                <div class="col-md-8">  <textarea class="form-control #CC0000" style=" border: 1px solid #b71c1c;" id="exampleFormControlTextarea4" rows="3"></textarea></div>
+                <div class="col-md-4"><p
+                        style="font-size:15px;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;">
+                    Briefly Expalin The Issue/ Suggession</p></div>
+                <div class="col-md-8"><textarea class="form-control #CC0000" style=" border: 1px solid #b71c1c;"
+                                                id="commentArea" rows="3"></textarea></div>
 
             </div>
             <br/>
             <div class="row">
-                <div class="col-md-4"><p style="font-size:15px;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;" >Drop the related files here.</p> </div>
+                <div class="col-md-4"><p
+                        style="font-size:15px;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;">Drop
+                    the related files here.</p></div>
                 <div class="col-md-8">
-                    <form action="/upload" class="dropzone needsclick dz-clickable" id="docx_upload">
+                    <form class="dropzone needsclick dz-clickable" id="docx_upload">
 
                         <div class="dz-message needsclick">
-                            <div id="dropText">Please add you docx/excel files here</div><br>
-                            <img id="dropImage1" src="/style/img/word.png" style="width :120px; height : 120px" alt="Home">
-                            <img id="dropImage2" src="/style/img/excel.png" style="width :110px; height : 110px" alt="Home">
+                            <div id="dropText">Please add you docx/excel files here</div>
+                            <br>
+                            <img id="dropImage1" src="/style/img/word.png" style="width :120px; height : 120px"
+                                 alt="Home">
+                            <img id="dropImage2" src="/style/img/excel.png" style="width :110px; height : 110px"
+                                 alt="Home">
                         </div>
 
                     </form>
@@ -80,20 +92,155 @@
                         <div class="col-md-5"></div>
                         <div class="col-md-2">
                             <br/>
-                            <button type="submit" id="button" class="btn">Report</button>
+                            <button type="submit" id="button" class="btn" onclick="submitReport()">Report</button>
                         </div>
                     </div>
                     <style>
                         .btn {
                             background-color: #b71c1c;
-                            width: 300px;
-                            height: 100px
+                            /*width: 300px;*/
+                            /*height: 100px*/
                             /* border-color: #000; */
                         }
                     </style>
 
                 </div>
 
+            </div>
+        </div>
+        <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Sign In before submitting the issue so, we can go
+                            back to you.</h4>
+                        <!--<a href="/" type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                        <!--<span aria-hidden="true">&times;</span>-->
+                        <!--</a>-->
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8 offset-2">
+                            <div class="row">
+                                <div class="col-sm-4 offset-1">
+                                    <img src="/style/img/logo/logoUoM.png" class="img-fluid " alt="zoom">
+                                </div>
+                                <div class="col-sm-6 offset-1">
+                                    <img src="/style/img/logo/Pleco.jpg" class="img-fluid " alt="zoom">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <hr class="half-rule">
+                    <div class="modal-body mx-3">
+                        <div class="row justify-content-center">
+                            <a type="button" class="btn btn-lg" style="background-color: #3b5998"
+                               href="/login/facebook"><i
+                                    class="fab fa-facebook-f pr-1"></i>&nbsp;Log in with Facebook</a>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <a class="btn" href="/"><i
+                                class="far fa-times-circle"></i>&nbsp;Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade right modal-scrolling" id="issueSuccessModal" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" data-backdrop="false" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-side modal-top-right  modal-notify modal-success" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <p class="heading">Issue Submitted Successfully</p>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">×</span>
+                        </button>
+                    </div>
+
+                    <!--Body-->
+                    <div class="modal-body">
+
+                        <div class="row justify-content-center">
+                            <div class="row text-center">
+                                <img src="/style/img/logo/Pleco.jpg" alt="Pleco - Unicode Document Converter"
+                                     class="img-fluid z-depth-1-half rounded-circle">
+                            </div>
+
+                            <div class="row justify-content-center">
+                                <div class="row justify-content-center">
+                                    <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <p>Thank You very much.</p>
+                                    <p>Your feedback will be used to improve the system</p>
+                                    <p class="card-text">
+                                        <strong>We'll get back to you soon</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                        <a type="button" href="/" class="btn waves-effect waves-light">Go Back Home
+                            <i class="fas fa-home"></i> </a>
+                        <a type="button" class="btn btn-outline-warning waves-effect" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade right" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             data-backdrop="false" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-side modal-top-right modal-notify modal-warning" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <p class="heading lead">Some Errors Found</p>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">×</span>
+                        </button>
+                    </div>
+
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <i class="fa fa-times fa-4x mb-3 animated rotateIn"></i>
+                            <ul class="list-group z-depth-0">
+                                <li class="list-group-item justify-content-between">
+                                    <span class="badge badge-primary badge-pill">1</span>
+                                    Issue/Suggestion cannot be empty or exceed 1000 words.
+                                </li>
+                                <li class="list-group-item justify-content-between">
+                                    <span class="badge badge-primary badge-pill">2</span>
+                                    Maximum file attachment size is 10mb
+                                </li>
+                                <li class="list-group-item justify-content-between">
+                                    <span class="badge badge-primary badge-pill">3</span>
+                                    You can't attach harmful file types(eg: exe..)
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                        <a type="button" class="btn btn-success waves-effect waves-light">Got It
+                            <i class="far fa-thumbs-up animated shake"></i> </a>
+                    </div>
+                </div>
+                <!--/.Content-->
             </div>
         </div>
 
@@ -105,10 +252,68 @@
     <div th:replace="user/layout.html :: footer"></div>
 </div>
 
+
+<th:block th:replace="user/layout.html :: scripts"/>
 <script type="text/javascript">
     $('#issue_link').addClass("active");
-</script>>
-<th:block th:replace="user/layout.html :: scripts"/>
+</script>
+>
+<script type="text/javascript">
+    if (localStorage.getItem("status") != "success") {
+        $("#modalRegisterForm").modal({backdrop: 'static', keyboard: false});
+    }
 
+    function submitReport() {
+
+        var comment = $.trim($("#commentArea").val());
+        var issueType = $.trim($("#select").val());
+        if (localStorage.getItem("status") !== "success") {
+            $("#modalRegisterForm").modal('show');
+            return;
+        }
+        if (comment === undefined) {
+            $("#errorModal").modal('show');
+            return;
+        }
+        // var file = document.getElementById("fileInput").files[0];
+        var file = Dropzone.instances[0].files[0];
+        console.log(file);
+        var formData = new FormData();
+        if (file !== undefined) {
+
+            // add assoc key values, this will be posts values
+            formData.append("file", file);
+        }
+        formData.append("comment", comment);
+        formData.append("issueType", issueType);
+
+        $.ajax({
+            type: "POST",
+            url: "/issue/submit",
+            success: function (data) {
+                // your callback here
+
+                //Show success message
+                $('#issueSuccessModal').modal('show');
+
+            },
+            error: function (error) {
+                // handle error
+                console.log(error);
+                // Show log in form
+                $("#errorModal").modal('show');
+
+
+            },
+            async: true,
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            timeout: 180000
+        });
+
+    }
+</script>
 </body>
 </html>
