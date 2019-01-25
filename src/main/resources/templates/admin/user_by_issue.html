@@ -15,8 +15,38 @@
 
     <div class="page-wrapper">
         <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 offset-3">
+                    <div class="card">
+                        <div class="card-body">
 
-            <!--contents should go here-->
+                            <div class="row" align="center">
+                                <img src="" id="profPic" style="width :120px; margin:auto; height : 120px" alt="Home">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3"> Name - </div>
+                                <div class="col-md-10" id="name"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3"> Email - </div>
+                                <div class="col-md-10" id="email"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3"> Number of Conversions - </div>
+                                <div class="col-md-10" id="conversions"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3"> Profile Link - </div>
+                                <div class="col-md-10">
+                                    <a href="#" id="profLink" target="_blank">See Profile</a>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -31,6 +61,13 @@
     /*<![CDATA[*/
 
     var user = /*[[${user}]]*/ null;
+    document.getElementById("profPic").src = user.profilePicLink;
+    document.getElementById("name").innerHTML = user.name;
+    document.getElementById("email").innerHTML = user.email;
+    document.getElementById("conversions").innerHTML = user.noOfConversions;
+    document.getElementById("profLink").href = user.profileLink;
+
+
 
     console.log(user);
 </script>
