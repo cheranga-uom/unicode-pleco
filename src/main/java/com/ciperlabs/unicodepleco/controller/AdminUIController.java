@@ -1,19 +1,16 @@
 package com.ciperlabs.unicodepleco.controller;
 
 import com.ciperlabs.unicodepleco.model.User;
-import com.ciperlabs.unicodepleco.model.UserRole;
+import com.ciperlabs.unicodepleco.repository.IssueRepository;
 import com.ciperlabs.unicodepleco.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 @Controller
 public class AdminUIController {
@@ -23,9 +20,12 @@ public class AdminUIController {
 
     private StatisticsHandler statisticsHandler;
 
-    public AdminUIController(UserRepository userRepository, StatisticsHandler statisticsHandler){
+    private IssueRepository issueRepository;
+
+    public AdminUIController(UserRepository userRepository, StatisticsHandler statisticsHandler, IssueRepository issueRepository) {
         this.userRepository = userRepository;
         this.statisticsHandler = statisticsHandler;
+        this.issueRepository = issueRepository;
     }
     @GetMapping("/admin")
     public String getAdminHome(Model model, Principal principal){
@@ -75,6 +75,21 @@ public class AdminUIController {
         }
 
         return "admin/files.html";
+    }
+
+    @GetMapping("admin/issues")
+    public String getIssues(Model model, Principal principal) {
+        User admin = AdminFilter.filter(principal, userRepository);
+        if (admin == null) {
+            return "redirect:/";
+        }
+        List issues = issueRepository.findAll();
+
+        logger.info("issues : " + issues);
+        model.addAttribute("issues", issues);
+
+        return "admin/issues.html";
+
     }
 
 //    @GetMapping("/admin/users")

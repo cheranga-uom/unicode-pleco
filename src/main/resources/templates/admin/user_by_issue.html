@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head th:replace="/admin/layout.html :: head"></head>
+
+
+<body>
+
+<div th:replace="/admin/layout.html :: preloader"></div>
+<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+     data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+
+    <div th:replace="/admin/layout.html :: header"></div>
+    <div th:replace="/admin/layout.html :: sidebar"></div>
+
+    <div class="page-wrapper">
+        <div class="container-fluid">
+
+            <!--contents should go here-->
+
+        </div>
+    </div>
+
+
+    <footer th:replace="/admin/layout.html :: footer"></footer>
+</div>
+<th:block th:include="/admin/layout.html :: auth"></th:block>
+
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var user = /*[[${user}]]*/ null;
+
+    console.log(user);
+</script>
+
+</body>
+</html>
+

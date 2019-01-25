@@ -17,7 +17,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.websocket.server.PathParam;
 import java.security.Principal;
@@ -43,7 +46,7 @@ public class AdminFileController {
     }
 
 
-    private ResponseEntity serveFile(Principal principal, String filePath){
+    public ResponseEntity serveFile(Principal principal, String filePath) {
         logger.info("Download FileName : " + filePath);
 
         if (principal != null) {
@@ -154,5 +157,6 @@ public class AdminFileController {
         return  conversionRepository.findConversionByCreatedTimeAfterAndCreatedTimeBefore(month,nextMonth);
 
     }
+
 
 }

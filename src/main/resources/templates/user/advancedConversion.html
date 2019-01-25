@@ -16,46 +16,62 @@
 
         <!--Content Goes Here-->
         <div class="col-md-8">
-          <div class="row">
-                        <div class="col-md-4 offset-4"> <p style="font-size:29px;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;" align="center">Advanced Conversions</p> </div>
-          </div>
-          <hr/>
-          <br/>
-          <br/>
-          <div class="vibrate-1"><h1>Coming Soon!<h1></div>
+            <div class="row">
+                <div class="col-md-4 offset-4"><p
+                        style="font-size:29px;font-weight:700;line-height:1.1; margin-bottom:2px;  color:#252525;"
+                        align="center">Advanced Conversions</p></div>
+            </div>
+            <hr/>
+            <br/>
+            <br/>
+            <div class="vibrate-1">
+                <h1>Coming Soon!<h1>
+            </div>
         </div>
         <style type="text/css">
-           h1 {
-             position: relative;
-             text-transform: uppercase;
-             letter-spacing: 6px;
-             font-size: 7vw;
-             text-align: center;
-             font-weight: 900;
-             text-decoration: none;
-             color: white;
-             display: inline-block;
-             background-size: 120% 100%;
-             -webkit-background-clip: text;
-             -webkit-text-fill-color: transparent;
-             -moz-background-clip: text;
-             -moz-text-fill-color: transparent;
-             -ms-background-clip: text;
-             -ms-text-fill-color: transparent;
-             background-clip: text;
-             text-fill-color: transparent;
-             background-color: #b71c1c;
-             animation: 0.2s shake infinite alternate;
-           }
+            h1 {
+                position: relative;
+                text-transform: uppercase;
+                letter-spacing: 6px;
+                font-size: 7vw;
+                text-align: center;
+                font-weight: 900;
+                text-decoration: none;
+                color: white;
+                display: inline-block;
+                background-size: 120% 100%;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                -moz-background-clip: text;
+                -moz-text-fill-color: transparent;
+                -ms-background-clip: text;
+                -ms-text-fill-color: transparent;
+                background-clip: text;
+                text-fill-color: transparent;
+                background-color: #b71c1c;
+                animation: 0.2s shake infinite alternate;
+            }
 
-           @keyframes shake {
-             0% { transform: skewX(-15deg); }
-             5% { transform: skewX(15deg); }
-             10% { transform: skewX(-15deg); }
-             15% { transform: skewX(15deg); }
-             20% { transform: skewX(0deg); }
-             100% { transform: skewX(0deg); }
-           }
+            @keyframes shake {
+                0% {
+                    transform: skewX(-15deg);
+                }
+                5% {
+                    transform: skewX(15deg);
+                }
+                10% {
+                    transform: skewX(-15deg);
+                }
+                15% {
+                    transform: skewX(15deg);
+                }
+                20% {
+                    transform: skewX(0deg);
+                }
+                100% {
+                    transform: skewX(0deg);
+                }
+            }
         </style>
         <div th:replace="user/layout.html :: rightBar"></div>
     </div>
@@ -67,7 +83,10 @@
 
 </div>
 <th:block th:replace="user/layout.html :: scripts"/>
-
+<script type="text/javascript">
+    $('#advanced_link').addClass("active");
+</script>
+>
 
 </body>
 </html>

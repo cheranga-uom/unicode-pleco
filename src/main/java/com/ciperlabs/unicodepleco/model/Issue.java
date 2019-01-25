@@ -1,7 +1,9 @@
 package com.ciperlabs.unicodepleco.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.LastModifiedBy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,7 +31,26 @@ public class Issue {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
+    @JsonBackReference
     private User user;
+
+    @Enumerated(EnumType.STRING)
+    private IssueStatus issueStatus;
+
+    @LastModifiedBy
+    private org.springframework.security.core.userdetails.User updatedBy;
+
+    public org.springframework.security.core.userdetails.User getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public IssueStatus getIssueStatus() {
+        return issueStatus;
+    }
+
+    public void setIssueStatus(IssueStatus issueStatus) {
+        this.issueStatus = issueStatus;
+    }
 
     public Integer getIssueId() {
         return issueId;

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head th:replace="admin/layout.html :: head"></head>
+
+
+<body>
+
+<div th:replace="admin/layout.html :: preloader"></div>
+<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+     data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+
+    <div th:replace="admin/layout.html :: header"></div>
+    <div th:replace="admin/layout.html :: sidebar"></div>
+
+    <div class="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Results</h4>
+                        <div class="feed-widget">
+                            <!--<div class="col-md-1"></div>-->
+                            <div class="col-md-12 table-wrapper-scroll-y">
+                                <table id="issueTable">
+                                    <thead>
+                                    <tr>
+                                        <th>Created Time</th>
+                                        <th>Issue Type</th>
+                                        <th> Comment</th>
+                                        <th>File</th>
+                                        <th>User/th>
+                                        <th>Original</th>
+                                        <th>Action</th>
+
+                                        <!--<th> User Name</th>-->
+                                        <!--<th> Profile Link</th>-->
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<footer th:replace="admin/layout.html :: footer"></footer>
+</div>
+<th:block th:include="admin/layout.html :: auth"></th:block>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var issues = /*[[${issues}]]*/ null;
+    var dataTable;
+    var thisDocument = this;
+
+    function showTable() {
+        console.log("issues" + issues);
+
+        dataTable = $('#issueTable').DataTable(
+            {
+                data: issues,
+                columns: [
+                    {data: "createdTime"},
+                    {data: "issueType"},
+                    {data: "comment"},
+                    {
+                        data: "issueId", render: function (data, type, row, meta) {
+                            return type === 'display' ?
+                                '<div class=row>'
+                                // +'<div class="col">'
+                                + '<button class="waves-button-input blue-gradient" onclick="thisDocument.downloadFile(this.id)" id="' + data + "-file" + '" > Download File<i class="fa fa-download"></i></button>'
+                                // +'</div>'
+                                // +'<div class="col">'
+                                // +'<button class="waves-button-input green" onclick="thisDocument.downloadConverted(this.id)" id="'+ data +"-converted"+'" > Download Converted<i class="fa fa-check"></i></button>'
+                                // +'</div> '
+                                + '</div>'
+                                :
+                                data;
+                        }
+                    },
+                    {
+                        data: "issueId", render: function (data, type, row, meta) {
+                            return type === 'display' ?
+                                '<div class=row>'
+                                // +'<div class="col">'
+                                + '<button class="waves-button-input blue-gradient" onclick="thisDocument.viewUser(this.id)" id="' + data + "-profile" + '" > User profile<i class="fa fa-download"></i></button>'
+                                // +'</div>'
+                                // +'<div class="col">'
+                                // +'<button class="waves-button-input green" onclick="thisDocument.downloadConverted(this.id)" id="'+ data +"-converted"+'" > Download Converted<i class="fa fa-check"></i></button>'
+                                // +'</div> '
+                                + '</div>'
+                                :
+                                data;
+                        }
+                    },
+                    {data: "status"},
+                    {
+                        data: "issueId", render: function (data, type, row, meta) {
+                            return type === 'display' ?
+                                '<div class=row>'
+                                + '<div class="col">'
+                                + '<button class="waves-button-input blue-gradient" onclick="thisDocument.resolve(this.id)" id="' + data + "-resolve" + '" > Resolve<i class="fa fa-download"></i></button>'
+                                + '</div>'
+                                + '<div class="col">'
+                                + '<button class="waves-button-input green" onclick="thisDocument.reject(this.id)" id="' + data + "-reject" + '" > Reject<i class="fa fa-check"></i></button>'
+                                + '</div> '
+                                + '</div>'
+                                :
+                                data;
+                        }
+                    },
+
+                ],
+            }
+        );
+
+    }
+
+
+    $(document).ready(
+        function () {
+            showTable();
+
+        }
+    );
+
+    /*]]>*/
+
+    function viewUser(data) {
+        var issueId = data.split("-")[0];
+        var url = "/admin/user_view_by_issue?issueId=";
+        window.open(url + issueId, "_blank");
+    }
+
+    function downloadFile(data) {
+        var issueId = data.split("-")[0];
+
+        var url = "/admin/issues/download?issueId="
+
+        download(url + issueId);
+    }
+
+    function download(url) {
+        // console.log(fileId);
+        // var fileId = data.split("-")[0];
+        var req = new XMLHttpRequest();
+        // var urlToSend = url+fileId
+        console.log("url : " + url);
+
+        req.open("GET", url, true);
+        req.responseType = "blob";
+        req.onload = function () {
+            var blob = req.response;
+            var fileName;
+
+            var disposition = req.getResponseHeader('Content-Disposition');
+            if (disposition && disposition.indexOf('attachment') !== -1) {
+                var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                var matches = filenameRegex.exec(disposition);
+                if (matches != null && matches[1]) {
+                    fileName = matches[1].replace(/['"]/g, '');
+                }
+                console.log("filename : " + fileName)
+            }
+            if (navigator.msSaveBlob) { // IE 10+
+                navigator.msSaveBlob(blob, fileName);
+            }
+            else {
+                var link = document.createElement("a");
+                if (link.download !== undefined) { // feature detection
+                    // Browsers that support HTML5 download attribute
+                    var url = URL.createObjectURL(blob);
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", fileName);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            }
+        };
+
+        req.send()
+    }
+
+</script>
+</body>
+</html>
+
