@@ -30,10 +30,10 @@ public class AdminUIController {
     @GetMapping("/admin")
     public String getAdminHome(Model model, Principal principal){
 
-//        User admin = AdminFilter.filter(principal, userRepository);
-//        if(admin == null){
-//            return "redirect:/";
-//        }
+        User admin = AdminFilter.filter(principal, userRepository);
+        if (admin == null) {
+            return "redirect:/";
+        }
         Integer conversionsOfToday = statisticsHandler.conversionsForToday();
         Integer conversionsOfWeek = statisticsHandler.conversionsForWeek();
         Integer conversionsOfMonth = statisticsHandler.conversionsOfTheMonth();
