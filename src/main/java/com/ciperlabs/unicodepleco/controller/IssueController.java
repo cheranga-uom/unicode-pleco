@@ -222,7 +222,7 @@ public class IssueController {
             userMap.put("userId", user.getId());
             userMap.put("name", user.getName());
             userMap.put("profileLink", user.getProfile_link());
-            userMap.put("profilePicLink", user.getProfile_link());
+            userMap.put("profilePicLink", user.getProfilePictureurl());
             userMap.put("email", user.getEmail());
             userMap.put("noOfConversions", conversionRepository.countConversionByUser(user));
             model.addAttribute("user", userMap);
