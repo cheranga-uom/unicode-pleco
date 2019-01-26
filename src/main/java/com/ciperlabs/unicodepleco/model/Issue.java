@@ -29,7 +29,7 @@ public class Issue {
     @UpdateTimestamp
     private LocalDateTime updatedTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     @JsonBackReference
     private User user;

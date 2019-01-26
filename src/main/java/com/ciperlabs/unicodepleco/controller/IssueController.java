@@ -132,15 +132,19 @@ public class IssueController {
         User admin = AdminFilter.filter(principal, userRepository);
         if (admin == null) {
             map.put("status", "accessDenied");
-            return map;
+            return null;
         }
         if (issueRepository.existsById(issueId)) {
             Issue issue = issueRepository.getOne(issueId);
             issue.setIssueStatus(IssueStatus.RESOLVED);
+            issueRepository.save(issue);
+
             map.put("status", "success");
         } else {
             map.put("status", "wrongId");
         }
+//        List issues = issueRepository.findAll();
+//        map.put("issues",issues);
         return map;
     }
 
@@ -157,10 +161,13 @@ public class IssueController {
         if (issueRepository.existsById(issueId)) {
             Issue issue = issueRepository.getOne(issueId);
             issue.setIssueStatus(IssueStatus.REJECTED);
+            issueRepository.save(issue);
             map.put("status", "success");
         } else {
             map.put("status", "wrongId");
         }
+//        List<Issue> issues = issueRepository.findAll();
+//        map.put("issues",issues);
         return map;
     }
 

@@ -27,14 +27,12 @@
                                     <tr>
                                         <th>Created Time</th>
                                         <th>Issue Type</th>
-                                        <th> Comment</th>
+                                        <th>Comment</th>
                                         <th>File</th>
-                                        <th>User/th>
-                                        <th>Original</th>
+                                        <th>User</th>
+                                        <th>Status</th>
                                         <th>Action</th>
 
-                                        <!--<th> User Name</th>-->
-                                        <!--<th> Profile Link</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -94,26 +92,22 @@
                             return type === 'display' ?
                                 '<div class=row>'
                                 // +'<div class="col">'
-                                + '<button class="waves-button-input blue-gradient" onclick="thisDocument.viewUser(this.id)" id="' + data + "-profile" + '" > User profile<i class="fa fa-download"></i></button>'
-                                // +'</div>'
-                                // +'<div class="col">'
-                                // +'<button class="waves-button-input green" onclick="thisDocument.downloadConverted(this.id)" id="'+ data +"-converted"+'" > Download Converted<i class="fa fa-check"></i></button>'
-                                // +'</div> '
+                                + '<button class="waves-button-input blue-gradient" onclick="thisDocument.viewUser(this.id)" id="' + data + "-profile" + '" > User profile<i class="fa fa-user"></i></button>'
                                 + '</div>'
                                 :
                                 data;
                         }
                     },
-                    {data: "status"},
+                    {data: "issueStatus"},
                     {
                         data: "issueId", render: function (data, type, row, meta) {
                             return type === 'display' ?
                                 '<div class=row>'
                                 + '<div class="col">'
-                                + '<button class="waves-button-input blue-gradient" onclick="thisDocument.resolve(this.id)" id="' + data + "-resolve" + '" > Resolve<i class="fa fa-download"></i></button>'
+                                + '<button class="waves-button-input blue-gradient" onclick="thisDocument.resolve(this.id)" id="' + data + "-resolve" + '" > Resolve<i class="fa fa-check"></i></button>'
                                 + '</div>'
                                 + '<div class="col">'
-                                + '<button class="waves-button-input green" onclick="thisDocument.reject(this.id)" id="' + data + "-reject" + '" > Reject<i class="fa fa-check"></i></button>'
+                                + '<button class="waves-button-input green" onclick="thisDocument.reject(this.id)" id="' + data + "-reject" + '" > Reject <i class="fa fa-archive"></i></button>'
                                 + '</div> '
                                 + '</div>'
                                 :
@@ -137,6 +131,47 @@
 
     /*]]>*/
 
+    function resolve(data) {
+        var issueId = data.split("-")[0];
+        var url = "/admin/issues/resolve";
+        sendRequestAndReDraw(url, issueId)
+
+    }
+
+    function reject(data) {
+        var issueId = data.split("-")[0];
+        var url = "/admin/issues/reject";
+        sendRequestAndReDraw(url, issueId)
+    }
+
+    function sendRequestAndReDraw(url, issueId) {
+
+        var formData = new FormData();
+        formData.append("issueId", issueId);
+        $.ajax({
+            type: "POST",
+            url: url,
+            success: function (data) {
+                // your callback here
+                // console.log(data.status);
+                // dataTable.clear();
+                // dataTable.rows.add(data.issues);
+                // dataTable.draw();
+                window.location.reload()
+            },
+            error: function (error) {
+                // handle error
+                dataTable.clear();
+
+            },
+            async: true,
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            timeout: 60000
+        });
+    }
     function viewUser(data) {
         var issueId = data.split("-")[0];
         var url = "/admin/user_view_by_issue?issueId=";
