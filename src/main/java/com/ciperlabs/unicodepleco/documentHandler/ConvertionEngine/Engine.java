@@ -47,12 +47,12 @@ public class Engine {
 
             return new String[]{text, sinhalaUnicodeFont};
         }
-        if (lastFont.equals("LTRL") && font.equals("")) {
+        if (lastFont.equalsIgnoreCase("LTRL") && font.equalsIgnoreCase("")) {
             font = "LTRL";
             lastFont = font;
             //System.out.println("LTRL : "+text);
 
-        } else if (lastFont.equals("LTRL") && font.equalsIgnoreCase("Arial")) {
+        } else if (lastFont.equalsIgnoreCase("LTRL") && font.equalsIgnoreCase("Arial")) {
             font = "LTRL";
             lastFont = "LTRL";
             //System.out.println("Arial : "+text);
@@ -62,8 +62,8 @@ public class Engine {
         /*
             Starts font mappings
          */
-        if (font.equals("Thibus16STru") || font.equals("Thibus15STru") || font.equals("Thibus02S")
-                || font.equals("Thibus02STru") || font.equals("Thibus05STru")) {
+        if (font.equalsIgnoreCase("Thibus16STru") || font.equalsIgnoreCase("Thibus15STru") || font.equalsIgnoreCase("Thibus02S")
+                || font.equalsIgnoreCase("Thibus02STru") || font.equalsIgnoreCase("Thibus05STru")) {
 
             tamilLastCharError1 = false;
             tamilLastCharError2 = false;
@@ -87,7 +87,7 @@ public class Engine {
 
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
-        } else if (font.equals("FMAbhaya") || font.equals("FMAbabld") || font.equals("FMAbabldBold") || font.equals("FMAbhayax") || font.equals("FMEmaneex") || font.equals("FMDeranax")) {
+        } else if (font.equalsIgnoreCase("FMAbhaya") || font.equalsIgnoreCase("FMAbabld") || font.equalsIgnoreCase("FMAbabldBold") || font.equalsIgnoreCase("FMAbhayax") || font.equalsIgnoreCase("FMEmaneex") || font.equalsIgnoreCase("FMDeranax")) {
 
             tamilLastCharError1 = false;
             tamilLastCharError2 = false;
@@ -111,8 +111,8 @@ public class Engine {
 
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
-        } else if (font.equals("DL-Manel-bold") || font.equals("DL-Manel") || font.equals("DL-Manel-bold.")
-                || font.equals("DL-Manel-bold.-x") || font.equals("DL-Manel..")) {
+        } else if (font.equalsIgnoreCase("DL-Manel-bold") || font.equalsIgnoreCase("DL-Manel") || font.equalsIgnoreCase("DL-Manel-bold.")
+                || font.equalsIgnoreCase("DL-Manel-bold.-x") || font.equalsIgnoreCase("DL-Manel..")) {
 
             tamilLastCharError1 = false;
             tamilLastCharError2 = false;
@@ -138,7 +138,7 @@ public class Engine {
 
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
-        } else if (font.equals("mutu kata")) {
+        } else if (font.equalsIgnoreCase("mutu kata")) {
 
             tamilLastCharError1 = false;
             tamilLastCharError2 = false;
@@ -162,7 +162,7 @@ public class Engine {
 
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
-        } else if (font.equals("Sinhala INetFont")) {
+        } else if (font.equalsIgnoreCase("Sinhala INetFont")) {
 
             tamilLastCharError1 = false;
             tamilLastCharError2 = false;
@@ -186,11 +186,11 @@ public class Engine {
 
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
-        } else if (font.equals("LTRL") || font.equals("Arial")) {                // Checking arial is not correct but not incorrect either
+        } else if (font.equalsIgnoreCase("LTRL") || font.equalsIgnoreCase("Arial")) {                // Checking arial is not correct but not incorrect either
 
             unicodeText = LTRL.convert(text);
             return new String[]{unicodeText, sinhalaUnicodeFont};
-        } else if (font.equals("T06ThibusTru") || font.equals("T02Thibus") || font.equals("T04ThibusTru")
+        } else if (font.equalsIgnoreCase("T06ThibusTru") || font.equalsIgnoreCase("T02Thibus") || font.equalsIgnoreCase("T04ThibusTru")
                 ) {
 
             sinhalaLastCharError1 = false;
@@ -221,7 +221,7 @@ public class Engine {
 
             return new String[]{unicodeText, tamilUnicodeFont};
 
-        } else if (font.equals("Kalaham")) {
+        } else if (font.equalsIgnoreCase("Kalaham")) {
 
             sinhalaLastCharError1 = false;
             sinhalaLastCharError2 = false;
@@ -252,7 +252,7 @@ public class Engine {
 
             return new String[]{unicodeText, tamilUnicodeFont};
 
-        } else if (font.equals("Nallur")) {
+        } else if (font.equalsIgnoreCase("Nallur")) {
 
             sinhalaLastCharError1 = false;
             sinhalaLastCharError2 = false;
@@ -282,7 +282,7 @@ public class Engine {
 
             return new String[]{unicodeText, tamilUnicodeFont};
 
-        } else if (font.equals("Baamini") || font.equals("Bamini")) {
+        } else if (font.equalsIgnoreCase("Baamini") || font.equalsIgnoreCase("Bamini")) {
 
             sinhalaLastCharError1 = false;
             sinhalaLastCharError2 = false;
@@ -313,7 +313,7 @@ public class Engine {
 
             return new String[]{unicodeText, tamilUnicodeFont};
 
-        } else if (font.equals("Symbol")) {
+        } else if (font.equalsIgnoreCase("Symbol")) {
             sinhalaLastCharError1 = false;
             sinhalaLastCharError2 = false;
             tamilLastCharError1 = false;
@@ -321,7 +321,7 @@ public class Engine {
             tamilLastCharError3 = false;
             unicodeText = Symbol.convert(text);
             return new String[]{unicodeText, sinhalaUnicodeFont};
-        } else if (font.equals("")) {                    // Just in case for any left Overs - This should be removed from production
+        } else if (font.equalsIgnoreCase("")) {                    // Just in case for any left Overs - This should be removed from production
             unicodeText = LTRL.convert(text);
             return new String[]{unicodeText, sinhalaUnicodeFont};
         } else {
