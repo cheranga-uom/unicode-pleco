@@ -50,40 +50,56 @@ public class EXLToUnicode {
                             System.out.println("***********************Begining of a cell***********************");
                             if (str.numFormattingRuns() > 0) {
                                 //richstring for output
+                                System.out.println("Number of formatting runs = "+str.numFormattingRuns());
                                 XSSFRichTextString richString = new XSSFRichTextString("");
                                 //length of a unicode is no equal to a non unicode one so we have to keep track of the correct length.
                                 for (int k = 0; k < str.numFormattingRuns() + 1; k++) {
-                                    if (str.getFontOfFormattingRun(k) != null) {
-                                        String fontname = str.getFontOfFormattingRun(k).getFontName();
+                                    try {
+                                        if (str.getFontOfFormattingRun(k) != null) {
+                                            String fontname = str.getFontOfFormattingRun(k).getFontName();
+                                            int startIndex = str.getIndexOfFormattingRun(k);
+                                            int length = str.getLengthOfFormattingRun(k);
+                                            String text = str.getString().substring(startIndex, startIndex + length);
+
+                                            System.out.println("Original Font = " + fontname + "\n" + "Original Start Index " + startIndex + "\n" + "Original legth " + length + "\n");
+                                            System.out.println("Original text" + text);
+                                            String[] convertedText = engine.toUnicode(text, fontname);
+                                            System.out.println("Converted text" + convertedText[0]);
+                                            //Concatinating the richstrings.
+                                            int uicodeStartIndex = richString.length();
+                                            int unicodeLegth = convertedText[0].length();
+                                            richString = new XSSFRichTextString(richString.getString() + convertedText[0]);
+                                            //creating the new font with same size, colour but with the unicode font type.
+                                            XSSFFont newFont = str.getFontOfFormattingRun(k);
+                                            //selecting sinhala or tamil font
+
+                                            String uicodeFontName = "";
+                                            System.out.println("Lengths are from " + startIndex + " to " + (startIndex + length));
+                                            if (convertedText[1] == "SINHALA") {
+                                                uicodeFontName = sinhalaUnicodeFont;
+                                            } else if (convertedText[1] == "TAMIL") {
+                                                uicodeFontName = tamilUnicodeFont;
+                                            } else {
+                                                uicodeFontName = convertedText[1];
+                                            }
+                                            System.out.println("Output font = " + uicodeFontName);
+                                            newFont.setFontName(uicodeFontName); //changing the font
+                                            //                                            currentlength
+                                            richString.applyFont(uicodeStartIndex, uicodeStartIndex + unicodeLegth, newFont);
+                                        }
+                                    }
+                                    catch (Exception e){
                                         int startIndex = str.getIndexOfFormattingRun(k);
                                         int length = str.getLengthOfFormattingRun(k);
                                         String text = str.getString().substring(startIndex, startIndex + length);
 
-                                        System.out.println("Original Font = " + fontname + "\n" + "Original Start Index " + startIndex + "\n" + "Original legth " + length + "\n");
+                                        System.out.println("Original Font = " + "Unicode" + "\n" + "Original Start Index " + startIndex + "\n" + "Original legth " + length + "\n");
                                         System.out.println("Original text" + text);
-                                        String[] convertedText = engine.toUnicode(text, fontname);
-                                        System.out.println("Converted text" + convertedText[0]);
+//
                                         //Concatinating the richstrings.
                                         int uicodeStartIndex = richString.length();
-                                        int unicodeLegth = convertedText[0].length();
-                                        richString = new XSSFRichTextString(richString.getString() + convertedText[0]);
-                                        //creating the new font with same size, colour but with the unicode font type.
-                                        XSSFFont newFont = str.getFontOfFormattingRun(k);
-                                        //selecting sinhala or tamil font
-
-                                        String uicodeFontName = "";
-                                        System.out.println("Lengths are from " + startIndex + " to " + (startIndex + length));
-                                        if (convertedText[1] == "SINHALA") {
-                                            uicodeFontName = sinhalaUnicodeFont;
-                                        } else if (convertedText[1] == "TAMIL") {
-                                            uicodeFontName = tamilUnicodeFont;
-                                        } else {
-                                            uicodeFontName = convertedText[1];
-                                        }
-                                        System.out.println("Output font = " + uicodeFontName);
-                                        newFont.setFontName(uicodeFontName); //changing the font
-                                        //                                            currentlength
-                                        richString.applyFont(uicodeStartIndex, uicodeStartIndex + unicodeLegth, newFont);
+                                        richString = new XSSFRichTextString(richString.getString() + text);
+//
                                     }
                                 }
                                 //getting last recorded row number
@@ -132,7 +148,7 @@ public class EXLToUnicode {
                                 String uniFontName = "";
                                 if (convertedText[1] == "SINHALA") {
                                     uniFontName = sinhalaUnicodeFont;
-                                } else if (convertedText[1] == "Tamil") {
+                                } else if (convertedText[1] == "TAMIL") {
                                     uniFontName = tamilUnicodeFont;
                                 } else {
                                     uniFontName = convertedText[1];
@@ -181,7 +197,7 @@ public class EXLToUnicode {
         InputStream fileStream = null;
         try {
             fileStream = new FileInputStream(
-                    "C:\\Users\\sudeepa\\Desktop\\testSinhala.xlsx");
+                    "C:\\Users\\sudeepa\\Desktop\\ministris.Results.Framework.2016.12.20.xlsx");
             Workbook workBook = WorkbookFactory.create(fileStream);
             EXLToUnicode exlToUnicode=new EXLToUnicode((XSSFWorkbook) workBook);
 
