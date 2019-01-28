@@ -45,6 +45,7 @@ public class EXLToUnicode {
             for (Row row : sheet) {
                 for (Cell cell : row) {
                     switch (cell.getCellType()) {
+                        // case 1 = cell type is a string
                         case 1:
                             XSSFRichTextString str = (XSSFRichTextString) cell.getRichStringCellValue();
                             System.out.println("***********************Begining of a cell***********************");
