@@ -76,12 +76,12 @@
                         data: "issueId", render: function (data, type, row, meta) {
                             return type === 'display' ?
                                 '<div class=row>'
-                                // +'<div class="col">'
+                                +'<div class="col">'
                                 + '<button class="waves-button-input blue-gradient" onclick="thisDocument.downloadFile(this.id)" id="' + data + "-file" + '" > Download File<i class="fa fa-download"></i></button>'
-                                // +'</div>'
-                                // +'<div class="col">'
-                                // +'<button class="waves-button-input green" onclick="thisDocument.downloadConverted(this.id)" id="'+ data +"-converted"+'" > Download Converted<i class="fa fa-check"></i></button>'
-                                // +'</div> '
+                                +'</div>'
+                                +'<div class="col">'
+                                +'<button class="waves-button-input green" onclick="thisDocument.downloadConverted(this.id)" id="'+ data +"-converted"+'" > Download Converted<i class="fa fa-check"></i></button>'
+                                +'</div> '
                                 + '</div>'
                                 :
                                 data;
