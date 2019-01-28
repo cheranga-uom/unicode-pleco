@@ -178,6 +178,12 @@ public class IssueController {
         if (issueRepository.existsById(issueId)) {
             Issue issue = issueRepository.getOne(issueId);
             String filePath = issue.getFilePath();
+
+            if( filePath == null || filePath.equals("")){
+                Map<String, String> response = new LinkedHashMap<>();
+                response.put("status","User havent submit a file");
+                return ResponseEntity.badRequest().body(response);
+            }
             return adminFileController.serveFile(principal, filePath);
         } else {
             return null;
