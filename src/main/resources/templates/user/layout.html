@@ -69,6 +69,32 @@
     <div id="fb-root" th:fragment="chatbot"></div>
 
     <div class="row" th:fragment="navbar">
+        <!-- Load Facebook SDK for JavaScript -->
+        <div id="fb-root"></div>
+        <script>
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId            : '218681569012035',
+                    autoLogAppEvents : true,
+                    xfbml            : true,
+                    version          : 'v2.11'
+                });
+            };
+        </script>
+        <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
+        <!-- Your customer chat code -->
+        <div class="fb-customerchat"
+             attribution=setup_tool
+             page_id="1949172665132215"
+             theme_color="#fa3c4c">
+        </div>
         <div class="col-xl-12" style="padding :0%">
             <!-- nav bar -->
             <nav class="mb-1 navbar navbar-expand-lg navbar-dark #b71c1c red darken-4 ">
@@ -182,32 +208,14 @@
         <div class="col-md-2" th:fragment="leftBar">
             <p style="font-size:20px;font-family: uom;">Supported Fonts</p>
             <ul class="list-group">
-                <li class="list-group-item active #b71c1c red darken-4">Sinhala</li>
-                <li class="list-group-item">FMAbaya</li>
-                <li class="list-group-item">Thibus16STru</li>
-                <li class="list-group-item">FMAbabld</li>
-                <li class="list-group-item">Thibus15STru</li>
-                <li class="list-group-item">Thibus02S</li>
-                <li class="list-group-item">Thibus02STru</li>
-                <li class="list-group-item">Thibus05STru</li>
-                <li class="list-group-item">Sinhala INetFont</li>
-                <li class="list-group-item">DL-Manel</li>
-                <li class="list-group-item">Mutu Kata</li>
-                <li class="list-group-item">LTRL</li>
+                <li class="list-group-item active #b71c1c red darken-4">News</li>
+                <li class="list-group-item"><a href="/about#fonts">Supported Fonts</a></li>
+                <li class="list-group-item"><a href="https://www.mrt.ac.lk/web/">UOM</a></li>
+                <li class="list-group-item"><a href="https://www.ciperlabs.com/">Ciperlabs</a></li>
             </ul>
         </div>
 
         <div class="col-md-2" th:fragment="rightBar">
-            <p style="font-size:20px;font-family: uom;">Supported Fonts</p>
-            <ul class="list-group">
-                <li class="list-group-item active #b71c1c red darken-4">Tamil</li>
-                <li class="list-group-item">Kalaham</li>
-                <li class="list-group-item">T06ThibusTru</li>
-                <li class="list-group-item">Baamini</li>
-                <li class="list-group-item">Bamini</li>
-                <li class="list-group-item">T02Thibus</li>
-                <li class="list-group-item">T04ThibusTru</li>
-            </ul>
         </div>
     </div>
 
