@@ -59,7 +59,7 @@ public class IssueController {
         Issue issue = new Issue();
         Map<String, String> map = new LinkedHashMap<>();
 
-        if (multipartFile == null) {
+        if (multipartFile != null) {
 
             if (issueType.equalsIgnoreCase(IssueType.SUGGESTION + "")) {
 
