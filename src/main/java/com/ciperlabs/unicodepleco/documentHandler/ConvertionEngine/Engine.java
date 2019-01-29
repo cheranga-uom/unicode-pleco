@@ -5,11 +5,14 @@ import com.ciperlabs.unicodepleco.documentHandler.ConvertionEngine.LegacyToUnico
 import com.ciperlabs.unicodepleco.documentHandler.ConvertionEngine.LegacyToUnicodeFontMappings.Tamil.Bamini;
 import com.ciperlabs.unicodepleco.documentHandler.ConvertionEngine.LegacyToUnicodeFontMappings.Tamil.Kalaham;
 import com.ciperlabs.unicodepleco.documentHandler.ConvertionEngine.LegacyToUnicodeFontMappings.Tamil.Nallur;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by gayan@ciperlabs.com on 4/21/18.
  */
 public class Engine {
+    private final Logger logger = LoggerFactory.getLogger(Engine.class);
     private static String sinhalaUnicodeFont = "SINHALA";
     private static String tamilUnicodeFont = "TAMIL";
     private static String lastFont = "";
@@ -35,7 +38,7 @@ public class Engine {
         Accepts the @param text and @param font
         return  an array of strings containing the @convertedText and @UnicodeFont
          */
-//        System.out.println("Text  :" + text + "font   : " +font);
+        logger.debug("Text  :" + text + " font   : " +font);
         String unicodeText = text;
         String newFont = null;
         if (font == null) {

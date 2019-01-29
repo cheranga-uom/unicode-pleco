@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /*
@@ -26,7 +27,7 @@ public class DocumentHandler {
     private final Logger logger = LoggerFactory.getLogger(DocumentHandler.class);
     private String rootDocumentDirectory = "Documents/";
     private String docxConvertedLocation = "converted/docx/";         //TODO read from properties
-    private String excelConvertedLocation = "converted/excel";
+    private String excelConvertedLocation = "converted/excel/";
 
     private String docxLocation = rootDocumentDirectory + docxConvertedLocation;
     private String excelLocation = rootDocumentDirectory + excelConvertedLocation;
@@ -63,11 +64,11 @@ public class DocumentHandler {
             POIXMLDocument convertedFile = docxConverter.startConversion();             // Converting the document
 
             System.out.println(multipartFile.getOriginalFilename());
-            convertedDocument = saveFile(docxLocation, multipartFile, convertedFile);
+            convertedDocument = saveFile(docxConvertedLocation, multipartFile, convertedFile);
             convertedDocument.setFileType(FileType.DOCX);
+
         } catch (IOException e) {
             logger.error(e.getMessage());           //TODO logging stack trace
-
         }
         return convertedDocument;
     }
@@ -81,7 +82,7 @@ public class DocumentHandler {
             EXLToUnicode excelConverter = new EXLToUnicode(excel);                       // Excel Converter
             POIXMLDocument convertedFile = excelConverter.startConversion();             // Converting the document
 
-            convertedDocument = saveFile(excelLocation, multipartFile, convertedFile);
+            convertedDocument = saveFile(excelConvertedLocation, multipartFile, convertedFile);
             convertedDocument.setFileType(FileType.EXCEL);
 
         } catch (IOException e) {
@@ -92,13 +93,14 @@ public class DocumentHandler {
         return convertedDocument;
     }
 
-    public StoredFile saveFile(String rootConvertedFileLocation, MultipartFile multipartFile, POIXMLDocument convertedFile) {
+    public StoredFile saveFile(String convertedFileLocation, MultipartFile multipartFile, POIXMLDocument convertedFile) {
 
         StoredFile convertedDocument = new StoredFile();
+        String rootConvertedFileLocation = rootDocumentDirectory+convertedFileLocation;
         try {
-            File directory = new File(rootConvertedFileLocation);
-            logger.info("Creating Uplo  ad directory if not exist : " + rootConvertedFileLocation + " : " + directory.mkdirs());
-            String localTime = LocalTime.now().toString() + " ";
+            File directory = new File(convertedFileLocation);
+            logger.info("Creating Uplo  ad directory if not exist : " + convertedFileLocation + " : " + directory.mkdirs());
+            String localTime = LocalDateTime.now().toString() + " ";
             String outPutFileName = localTime + multipartFile.getOriginalFilename();
             String outputFileDriectoryAndName = rootConvertedFileLocation + outPutFileName;
             File outputFile = new File(outputFileDriectoryAndName);
@@ -107,9 +109,8 @@ public class DocumentHandler {
 
             convertedFile.write(out);
 
-            convertedDocument.setPath(docxConvertedLocation + outPutFileName);
+            convertedDocument.setPath(convertedFileLocation + outPutFileName);
             convertedDocument.setFileName(outPutFileName);
-            convertedDocument.setFileType(FileType.DOCX);
 
         } catch (IOException e) {
             logger.error(e.getMessage());           //TODO logging stack trace

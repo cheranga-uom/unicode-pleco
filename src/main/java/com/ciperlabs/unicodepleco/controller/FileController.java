@@ -114,7 +114,7 @@ public class FileController {
     public Map handleFileUpload(@RequestParam("file") MultipartFile maltipartFile,
                                    RedirectAttributes redirectAttributes, Principal principal) throws StorageException {
 
-        StoredFile uploadedDocument = storageService.store(maltipartFile, "uploaded/docx/");
+        StoredFile uploadedDocument = new StoredFile();
 
         DocumentHandler documentHandler = new DocumentHandler(storageService);
         StoredFile convertedFile = documentHandler.convertFile(maltipartFile);
@@ -127,10 +127,14 @@ public class FileController {
             if(convertedFile.getFileType() == FileType.DOCX){
                 map.put("fileType",FileType.DOCX+"");
                 conversion.setInputFileType(FileType.DOCX+"");
+                uploadedDocument = storageService.store(maltipartFile, "uploaded/docx/");
+
             }
             else if(convertedFile.getFileType() == FileType.EXCEL){
                 map.put("fileType",FileType.EXCEL+"");
                 conversion.setInputFileType(FileType.EXCEL+"");
+                uploadedDocument = storageService.store(maltipartFile, "uploaded/excel/");
+
             }
 
             conversion.setInputFileName(uploadedDocument.getFileName());
