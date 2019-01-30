@@ -1,6 +1,8 @@
 package com.ciperlabs.unicodepleco.controller;
 
+import com.ciperlabs.unicodepleco.model.Conversion;
 import com.ciperlabs.unicodepleco.model.User;
+import com.ciperlabs.unicodepleco.repository.ConversionRepository;
 import com.ciperlabs.unicodepleco.repository.IssueRepository;
 import com.ciperlabs.unicodepleco.repository.UserRepository;
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -22,10 +25,14 @@ public class AdminUIController {
 
     private IssueRepository issueRepository;
 
-    public AdminUIController(UserRepository userRepository, StatisticsHandler statisticsHandler, IssueRepository issueRepository) {
+    private ConversionRepository conversionRepository;
+
+    public AdminUIController(UserRepository userRepository, StatisticsHandler statisticsHandler,
+                             IssueRepository issueRepository, ConversionRepository conversionRepository) {
         this.userRepository = userRepository;
         this.statisticsHandler = statisticsHandler;
         this.issueRepository = issueRepository;
+        this.conversionRepository = conversionRepository;
     }
     @GetMapping("/admin")
     public String getAdminHome(Model model, Principal principal){
@@ -73,6 +80,12 @@ public class AdminUIController {
         if(admin == null){
             return "redirect:/";
         }
+
+        LocalDateTime today = LocalDateTime.now();
+        today = today.withDayOfMonth(1);
+        LocalDateTime nextMonth = today.plusMonths(1);
+        List<Conversion> files = conversionRepository.findConversionByCreatedTimeAfterAndCreatedTimeBefore(today,nextMonth);
+        model.addAttribute("files",files);
 
         return "admin/files.html";
     }

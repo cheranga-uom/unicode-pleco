@@ -24,12 +24,12 @@ public class EXLToUnicode {
         this.returnWorkbook = new XSSFWorkbook();
         //Creating a new engine.
         this.engine = new Engine();
-        startConversion();
+//        startConversion();
     }
     public XSSFWorkbook startConversion() {
         convertCells(workbook);
         //convert other elements if will be done in the future! eg : charts
-        return returnWorkbook;
+        return workbook;
     }
     public void convertCells(XSSFWorkbook workBook) {
         int numberOfSheets = workBook.getNumberOfSheets();
@@ -191,29 +191,30 @@ public class EXLToUnicode {
         return this.returnWorkbook;
     }
     //getting the original workbook which we changed in line 100, 143
-    public  Workbook getChangedOriginalWorkbook(){
-        return this.workbook;
-    }
-    public static void main(String[] args) {
-        InputStream fileStream = null;
-        try {
-            fileStream = new FileInputStream(
-                    "C:\\Users\\sudeepa\\Desktop\\ministris.Results.Framework.2016.12.20.xlsx");
-            Workbook workBook = WorkbookFactory.create(fileStream);
-            EXLToUnicode exlToUnicode=new EXLToUnicode((XSSFWorkbook) workBook);
+    //    public  Workbook getChangedOriginalWorkbook(){
+    //        return this.workbook;
+    //    }
 
-
-            try (OutputStream fileOut = new FileOutputStream("C:\\Users\\sudeepa\\Desktop\\workbooks.xlsx")) {
-                exlToUnicode.getChangedOriginalWorkbook().write(fileOut);
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (InvalidFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    //    public static void main(String[] args) {
+    //        InputStream fileStream = null;
+    //        try {
+    //            fileStream = new FileInputStream(
+    //                    "C:\\Users\\sudeepa\\Desktop\\ministris.Results.Framework.2016.12.20.xlsx");
+    //            Workbook workBook = WorkbookFactory.create(fileStream);
+    //            EXLToUnicode exlToUnicode=new EXLToUnicode((XSSFWorkbook) workBook);
+    //
+    //
+    //            try (OutputStream fileOut = new FileOutputStream("C:\\Users\\sudeepa\\Desktop\\workbooks.xlsx")) {
+    //                exlToUnicode.getChangedOriginalWorkbook().write(fileOut);
+    //            }
+    //
+    //        } catch (FileNotFoundException e) {
+    //            e.printStackTrace();
+    //        } catch (InvalidFormatException e) {
+    //            e.printStackTrace();
+    //        } catch (IOException e) {
+    //            e.printStackTrace();
+    //        }
+    //    }
 
 }

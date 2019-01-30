@@ -80,57 +80,74 @@ public class WDXToUnicode {
 
             XWPFParagraph paragraph = paragraphs.get(currentParagraphPosition);
             List<XWPFRun> runs = paragraph.getRuns();
-            if (runs != null) {
-                int runsLength = runs.size();
-                int i = 0;
-                while (i < runsLength) {
-                    XWPFRun run = runs.get(i);
-                    String fontFamily = getFontFamily(run);
-                    String[] convertedText = engine.toUnicode(run.getText(0), fontFamily);
-                    String sConvertedText = convertedText[0];
-
-                    // Fixing broken Word issues 1st attempt
-                    for (String nonStartable : nonStartables) {
-                        if (sConvertedText != null && sConvertedText.startsWith(nonStartable)) {
-//                            run.setText(text.substring(1),0);
-                            sConvertedText = sConvertedText.substring(1);
-                            if (i > 0) {
-                                XWPFRun preRun = runs.get(i - 1);
-                                preRun.setText(nonStartable, -1);
-                            } else if (currentParagraphPosition > 0) {
-                                List<XWPFRun> olderRuns = paragraphs.get(currentParagraphPosition).getRuns();
-                                XWPFRun olderRun = olderRuns.get(olderRuns.size() - 1);
-                                olderRun.setText(nonStartable, -1);
-                            }
-                        }
-                    }
-
-                    //fixing broken word issue 2nd attempt
-                    for (String nonStartable : nonStartables) {
-                        if (sConvertedText != null && sConvertedText.startsWith(nonStartable)) {
-//                            run.setText(text.substring(1),0);
-                            sConvertedText = sConvertedText.substring(1);
-//                            System.out.println(sConvertedText.substring(1)+ " : "+run.getText(0)+nonStartable);
-                            if (i > 0) {
-                                XWPFRun preRun = runs.get(i - 1);
-                                preRun.setText(nonStartable, -1);
-                            } else if (currentParagraphPosition > 0) {
-                                List<XWPFRun> olderRuns = paragraphs.get(currentParagraphPosition).getRuns();
-                                XWPFRun olderRun = olderRuns.get(olderRuns.size() - 1);
-                                olderRun.setText(nonStartable, -1);
-                            }
-                        }
-                    }
-                    run.setText(sConvertedText, 0);
-                    this.setFontFamily(run, convertedText[1]);
-                    i++;
-                }
-            }
+            convertParagrpahRuns(runs, paragraph);
             convertTextBoxes(paragraph);                   //Convert Text boxes within the current paragraph
             currentParagraphPosition++;
         }
     }
 
+    private void convertParagrpahRuns(List<XWPFRun> runs, XWPFParagraph paragraph){
+
+        int currentParagraphPosition = paragraph.getDocument().getPosOfParagraph(paragraph);
+
+        if (runs != null) {
+            int runsLength = runs.size();
+            int i = 0;
+            while (i < runsLength) {
+                XWPFRun run = runs.get(i);
+                String fontFamily = getFontFamily(run);
+
+                CTR ctrRun =  run.getCTR();
+                int sizeOfCtr = ctrRun.sizeOfTArray();
+
+                // Fixing the first text position separately because it might have text which should go to previous runners
+                String[] convertedText = engine.toUnicode(run.getText(0), fontFamily);
+                String sConvertedText = convertedText[0];
+
+                // Fixing broken Word issues 1st attempt
+                sConvertedText = fixBrokenWordIssue(runs, sConvertedText, currentParagraphPosition , paragraph, i);
+
+                //fixing broken word issue 2nd attempt
+                sConvertedText = fixBrokenWordIssue(runs, sConvertedText, currentParagraphPosition , paragraph, i);
+
+                run.setText(sConvertedText, 0);
+
+                for (int runnerTextPosition = 1; runnerTextPosition < sizeOfCtr; runnerTextPosition++) {
+                    String[] nonZeroPostionedConverted = engine.toUnicode(run.getText(runnerTextPosition), fontFamily);
+                    String nonZeroPostionedConvertedText = nonZeroPostionedConverted[0];
+
+                    run.setText(nonZeroPostionedConvertedText, runnerTextPosition);
+
+                }
+
+                this.setFontFamily(run, convertedText[1]);
+                i++;
+            }
+        }
+    }
+
+    private String fixBrokenWordIssue(List<XWPFRun> runs, String sConvertedText, int currentParagraphPosition , XWPFParagraph paragraph, int runnerPosition){
+        for (String nonStartable : nonStartables) {
+
+            if (sConvertedText != null && sConvertedText.startsWith(nonStartable)) {
+//                            run.setText(text.substring(1),0);
+                sConvertedText = sConvertedText.substring(1);
+                if (runnerPosition > 0) {
+                    XWPFRun preRun = runs.get(runnerPosition - 1);
+                    preRun.setText(nonStartable, -1);
+                }
+                else if (currentParagraphPosition > 0) {
+                    List<XWPFRun> olderRuns = paragraph.getDocument().getParagraphs().get(currentParagraphPosition -1).getRuns();
+                    if(olderRuns.size() >0){
+                        XWPFRun olderRun = olderRuns.get(olderRuns.size() - 1);
+                        olderRun.setText(nonStartable, -1);
+
+                    }
+                }
+            }
+        }
+        return sConvertedText;
+    }
     private void convertTables(XWPFDocument docx) {
 
         List<XWPFTable> tables = docx.getTables();
@@ -144,15 +161,16 @@ public class WDXToUnicode {
 
                         List<XWPFRun> cellRuns = celssParagraph.getRuns();
 
-                        for (XWPFRun footerTableCellRun : cellRuns) {
-                            String fontFamily = getFontFamily(footerTableCellRun);
-                            String[] convertedText = engine.toUnicode(footerTableCellRun.getText(0), fontFamily);
-                            String sConvertedText = convertedText[0];
-                            footerTableCellRun.setText(sConvertedText, 0);
-
-                            this.setFontFamily(footerTableCellRun, convertedText[1]);
-
-                        }
+//                        for (XWPFRun footerTableCellRun : cellRuns) {
+//                            String fontFamily = getFontFamily(footerTableCellRun);
+//                            String[] convertedText = engine.toUnicode(footerTableCellRun.getText(0), fontFamily);
+//                            String sConvertedText = convertedText[0];
+//                            footerTableCellRun.setText(sConvertedText, 0);
+//
+//                            this.setFontFamily(footerTableCellRun, convertedText[1]);
+//
+//                        }
+                        convertRuns(cellRuns);
 
                     }
 
@@ -163,6 +181,27 @@ public class WDXToUnicode {
         }
     }
 
+    private void convertRuns(List<XWPFRun> runs){
+
+        for (XWPFRun run : runs) {
+
+            String fontFamily = getFontFamily(run);
+
+            CTR ctrRun =  run.getCTR();
+            int sizeOfCtr = ctrRun.sizeOfTArray();
+
+            for (int runnerTextPosition = 0; runnerTextPosition < sizeOfCtr ; runnerTextPosition++) {
+                String[] convertedText = engine.toUnicode(run.getText(0), fontFamily);
+                String sConvertedText = convertedText[0];
+                run.setText(sConvertedText, 0);
+                this.setFontFamily(run, convertedText[1]);
+
+            }
+
+
+        }
+
+    }
     private void convertFooter(XWPFDocument docx) {
 
         List<XWPFFooter> footers = docx.getFooterList();
@@ -175,16 +214,17 @@ public class WDXToUnicode {
                 for (XWPFParagraph footerParagraph : footerParagraphs) {
                     System.out.println("Have Footer Paragraphs");
                     List<XWPFRun> footerRuns = footerParagraph.getRuns();
-                    for (XWPFRun footerRun : footerRuns) {
-                        String fontFamily = getFontFamily(footerRun);
-                        String[] convertedText = engine.toUnicode(footerRun.getText(0), fontFamily);
-                        String sConvertedText = convertedText[0];
-
-                        footerRun.setText(sConvertedText, 0);
-
-                        this.setFontFamily(footerRun, convertedText[1]);
-
-                    }
+//                    for (XWPFRun footerRun : footerRuns) {
+//                        String fontFamily = getFontFamily(footerRun);
+//                        String[] convertedText = engine.toUnicode(footerRun.getText(0), fontFamily);
+//                        String sConvertedText = convertedText[0];
+//
+//                        footerRun.setText(sConvertedText, 0);
+//
+//                        this.setFontFamily(footerRun, convertedText[1]);
+//
+//                    }
+                    convertRuns(footerRuns);
 
                 }
 
@@ -202,13 +242,14 @@ public class WDXToUnicode {
 
                                 List<XWPFRun> footerTableCellRuns = footerTableCellParagraph.getRuns();
 
-                                for (XWPFRun footerTableCellRun : footerTableCellRuns) {
-                                    String fontFamily = getFontFamily(footerTableCellRun);
-                                    String[] convertedText = engine.toUnicode(footerTableCellRun.getText(0), fontFamily);
-                                    String sConvertedText = convertedText[0];
-                                    footerTableCellRun.setText(sConvertedText, 0);
-                                    this.setFontFamily(footerTableCellRun, convertedText[1]);
-                                }
+//                                for (XWPFRun footerTableCellRun : footerTableCellRuns) {
+//                                    String fontFamily = getFontFamily(footerTableCellRun);
+//                                    String[] convertedText = engine.toUnicode(footerTableCellRun.getText(0), fontFamily);
+//                                    String sConvertedText = convertedText[0];
+//                                    footerTableCellRun.setText(sConvertedText, 0);
+//                                    this.setFontFamily(footerTableCellRun, convertedText[1]);
+//                                }
+                                convertRuns(footerTableCellRuns);
 
                             }
 
@@ -232,15 +273,16 @@ public class WDXToUnicode {
                 for (XWPFParagraph headerParagraph : headerParagraphs) {
 //                    System.out.println("Have Footer Paragraphs");
                     List<XWPFRun> headerRuns = headerParagraph.getRuns();
-                    for (XWPFRun headerRun : headerRuns) {
-//                        System.out.println("Have Footer Runs...");
-                        String fontFamily = getFontFamily(headerRun);
-                        String[] convertedText = engine.toUnicode(headerRun.getText(0), fontFamily);
-                        String sConvertedText = convertedText[0];
-                        headerRun.setText(sConvertedText, 0);
-//                        System.out.println(sConvertedText);
-                        this.setFontFamily(headerRun, convertedText[1]);
-                    }
+//                    for (XWPFRun headerRun : headerRuns) {
+////                        System.out.println("Have Footer Runs...");
+//                        String fontFamily = getFontFamily(headerRun);
+//                        String[] convertedText = engine.toUnicode(headerRun.getText(0), fontFamily);
+//                        String sConvertedText = convertedText[0];
+//                        headerRun.setText(sConvertedText, 0);
+////                        System.out.println(sConvertedText);
+//                        this.setFontFamily(headerRun, convertedText[1]);
+//                    }
+                    convertRuns(headerRuns);
 
                 }
 
@@ -258,15 +300,16 @@ public class WDXToUnicode {
 
                                 List<XWPFRun> headerTableCellRuns = headerTableCellParagraph.getRuns();
 
-                                for (XWPFRun headerTableCellRun : headerTableCellRuns) {
-                                    String fontFamily = getFontFamily(headerTableCellRun);
-                                    String[] convertedText = engine.toUnicode(headerTableCellRun.getText(0), fontFamily);
-                                    String sConvertedText = convertedText[0];
-                                    headerTableCellRun.setText(sConvertedText, 0);
-//                                    System.out.println(sConvertedText);
-                                    this.setFontFamily(headerTableCellRun, convertedText[1]);
-
-                                }
+//                                for (XWPFRun headerTableCellRun : headerTableCellRuns) {
+//                                    String fontFamily = getFontFamily(headerTableCellRun);
+//                                    String[] convertedText = engine.toUnicode(headerTableCellRun.getText(0), fontFamily);
+//                                    String sConvertedText = convertedText[0];
+//                                    headerTableCellRun.setText(sConvertedText, 0);
+////                                    System.out.println(sConvertedText);
+//                                    this.setFontFamily(headerTableCellRun, convertedText[1]);
+//
+//                                }
+                                convertRuns(headerTableCellRuns);
 
                             }
 
