@@ -16,8 +16,13 @@ public class Conversion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer conversionId;
-    private String inputFileType;
-    private String outputFileType;
+
+    @Enumerated(EnumType.STRING)
+    private FileType inputFileType;
+
+    @Enumerated(EnumType.STRING)
+    private FileType outputFileType;
+
     private String inputFileName;
     private String outputFileName;
     private String inputFilePath;
@@ -42,19 +47,20 @@ public class Conversion {
 //        this.conversionId = conversionId;
 //    }
 
-    public String getInputFileType() {
+
+    public FileType getInputFileType() {
         return inputFileType;
     }
 
-    public void setInputFileType(String inputFileType) {
+    public void setInputFileType(FileType inputFileType) {
         this.inputFileType = inputFileType;
     }
 
-    public String getOutputFileType() {
+    public FileType getOutputFileType() {
         return outputFileType;
     }
 
-    public void setOutputFileType(String outputFileType) {
+    public void setOutputFileType(FileType outputFileType) {
         this.outputFileType = outputFileType;
     }
 
