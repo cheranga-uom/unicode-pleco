@@ -185,52 +185,6 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header text-center">
-                        <h4 class="modal-title w-100 font-weight-bold">Sign In to Continue</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-8 offset-2">
-                            <div class="row">
-                                <div class="col-sm-4 offset-1">
-                                    <img src="style/img/logo/logoUoM.png" class="img-fluid " alt="zoom">
-                                </div>
-                                <div class="col-sm-6 offset-1">
-                                    <img src="style/img/logo/Pleco.jpg" class="img-fluid " alt="zoom">
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <hr class="half-rule">
-                    <div class="modal-body mx-3">
-                        <div class="row justify-content-center">
-                            <p> We will <strong>never </strong> post on your facebook.</p>
-                            <p> We will <strong>never </strong> share your credentials with anyone.</p>
-                            <p> This is <strong>only </strong> required so that we can reply to your issues/ suggestions.</p>
-                            <p> We are <strong>not a partner</strong> of Facebook Family.</p>
-                            <a type="button" class="btn btn-lg  btn-fb"
-                               style="background-color: #3b5998"
-                               href="/login/facebook"><i
-                                    class="fab fa-facebook-f pr-1"></i>&nbsp;Log in with Facebook</a>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer d-flex justify-content-center">
-                        <button class="btn" onclick="$('#modalRegisterForm').modal('toggle')"><i
-                                class="far fa-times-circle"></i>&nbsp;Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div th:replace="user/layout.html :: rightBar"></div>
     </div>
@@ -373,7 +327,7 @@
     function download() {
         console.log("download");
         if (localStorage.getItem("status") === "notLoggedIn") {
-            $("#modalRegisterForm").modal('show');
+            $("#fbSignInForm").modal('show');
             console.log("not Logged In");
         }
         else {
@@ -405,6 +359,7 @@
                         document.body.removeChild(link);
                     }
                 }
+                goBack();
             };
 
             req.send()

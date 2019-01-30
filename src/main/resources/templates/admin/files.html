@@ -88,7 +88,7 @@
                                         <th>Output File Name</th>
                                         <!--<th>Input File Path</th>-->
                                         <!--<th>Output File Path</th>-->
-                                        <th>Original</th>
+                                        <th>Files</th>
                                         <!--<th>Converted</th>-->
 
                                         <!--<th> User Name</th>-->
@@ -111,13 +111,21 @@
 
         <footer th:replace="admin/layout.html :: footer"></footer>
     </div>
-    <script src="/admin/dist/js/bootstrap-datepicker.js"></script>
+</div>
+
+<script src="/admin/dist/js/bootstrap-datepicker.js"></script>
     <th:block th:include="admin/layout.html :: auth"></th:block>
+
     <script th:inline="javascript">
+
+
         /*<![CDATA[*/
 
         var files = /*[[${files}]]*/ file;
         var dataTable;
+
+
+
         function downloadConverted(data) {
             console.log("ID : " + data);
             var fileId = data.split("-")[0];
@@ -191,7 +199,8 @@
                         {data: "outputFileName"},
                         // {data: "inputFilePath"},
                         // {data: "outputFilePath"},
-                        {data: "conversionId" , render : function ( data, type, row, meta ) {
+                        {
+                            data: "conversionId" , render : function ( data, type, row, meta ) {
                                 return type === 'display'  ?
                                     '<div class=row>'
                                         +'<div class="col">'
@@ -203,7 +212,8 @@
                                     +'</div>'
                                     :
                                     data;
-                            }},
+                            }
+                        },
 
                     ],
                 }
