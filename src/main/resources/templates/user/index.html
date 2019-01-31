@@ -313,6 +313,8 @@
     }
 
     function goBack() {
+        Dropzone.instances[0].removeAllFiles();
+
         localStorage.removeItem("download");
         localStorage.removeItem("status");
         localStorage.removeItem("filename");

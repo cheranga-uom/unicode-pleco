@@ -2,10 +2,13 @@
       lang="en">
 
 <head th:replace="user/layout.html :: head"></head>
-<body onload="loaderFunction()">
+<!--<body onload="loaderFunction()">-->
+<body>
+<!--<div th:replace="user/layout.html :: loader"></div>-->
+<!--<div class="animate-bottom container-fluid" id="content" style="display: none">-->
+<body>
+<div class="container-fluid">
 
-<div th:replace="user/layout.html :: loader"></div>
-<div class="animate-bottom container-fluid" id="content" style="display: none">
     <!-- chatbot -->
     <div th:replace="user/layout.html :: navbar"></div>
     <div th:replace="user/layout.html :: heading"></div>

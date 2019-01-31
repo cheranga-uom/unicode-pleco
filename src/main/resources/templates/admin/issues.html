@@ -79,9 +79,9 @@
                                 +'<div class="col">'
                                 + '<button class="waves-button-input blue-gradient" onclick="thisDocument.downloadFile(this.id)" id="' + data + "-file" + '" > Download File<i class="fa fa-download"></i></button>'
                                 +'</div>'
-                                +'<div class="col">'
-                                +'<button class="waves-button-input green" onclick="thisDocument.downloadConverted(this.id)" id="'+ data +"-converted"+'" > Download Converted<i class="fa fa-check"></i></button>'
-                                +'</div> '
+                                // +'<div class="col">'
+                                // +'<button class="waves-button-input green" onclick="thisDocument.downloadConverted(this.id)" id="'+ data +"-converted"+'" > Download Converted<i class="fa fa-check"></i></button>'
+                                // +'</div> '
                                 + '</div>'
                                 :
                                 data;
@@ -185,6 +185,13 @@
 
         download(url + issueId);
     }
+    // function downloadConverted(data) {
+    //     var issueId = data.split("-")[0];
+    //
+    //     var url = "/admin/issues/download?issueId=";
+    //
+    //     download(url + issueId);
+    // }
 
     function download(url) {
         // console.log(fileId);
