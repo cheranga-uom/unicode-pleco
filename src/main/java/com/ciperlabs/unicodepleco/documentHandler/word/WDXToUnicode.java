@@ -13,7 +13,8 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * Created by gayan@ciperlabs.com on 4/21/18.
  */
@@ -32,6 +33,8 @@ public class WDXToUnicode {
     private HashMap<String, XWPFStyle> stylesCopy = null;
     private String currentStyleId = null;
     private HashMap<String, String> styeleConvertedFont = null;                  //StyleId,font
+
+    private final Logger logger = LoggerFactory.getLogger(WDXToUnicode.class);
 
     private WDXToUnicode() {
 
@@ -359,11 +362,16 @@ public class WDXToUnicode {
     }
 
     private void updateStylesToNewFont() {
-
+        logger.info(" Number of styles to update : " + stylesCopy.size());
         for (String styleId : stylesCopy.keySet()) {
             XWPFStyle style = stylesCopy.get(styleId);
             String font = styeleConvertedFont.get(styleId);
-            if (font.equals("SINHALA")) {                                 // Setting Font Family
+            if (font == null){
+                logger.info(" Font returned from engine is null, for styleId : " + styleId);
+            }
+            else if (font.equals("SINHALA")) {                                 // Setting Font Family
+                logger.info("Updating Styles To New Sinhala Font : "+ styleId + " font :"+ font);
+
 //                        run.getCTR().setRPr(sinhalaUnicodeCTRPr);
                 try {
                     CTFonts ctFonts = style.getCTStyle().getRPr().getRFonts();
@@ -379,6 +387,8 @@ public class WDXToUnicode {
 
             } else if (font.equals("TAMIL")) {
 //                        run.getCTR().setRPr(tamilUnicodeCTRPr);
+                logger.info("Updating Styles To New Tamil Font : "+ styleId + " font :"+ font);
+
                 try {
                     CTFonts ctFonts = style.getCTStyle().getRPr().getRFonts();
                     if (ctFonts != null) {
@@ -395,6 +405,7 @@ public class WDXToUnicode {
     }
 
     private String getFontFamily(XWPFRun run) {
+
         String fontFamily = run.getFontFamily();
         if (fontFamily == null) {                                         // When the font in the run is null check for the default fonts in styles.xml
             String styleID = run.getParagraph().getStyleID();
