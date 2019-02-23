@@ -85,7 +85,7 @@ public class DocumentHandler {
 
     private StoredFile tryDocx(MultipartFile multipartFile) {
 
-        StoredFile convertedDocument = new StoredFile();
+        StoredFile convertedDocument = null;
         try {
 
             XWPFDocument docx = new XWPFDocument(multipartFile.getInputStream());       // Convert fileinut stream to a XWPF document
@@ -104,7 +104,7 @@ public class DocumentHandler {
 
     private StoredFile tryExcel(MultipartFile multipartFile) {
 
-        StoredFile convertedDocument = new StoredFile();
+        StoredFile convertedDocument = null;
         try {
 
             XSSFWorkbook excel = new XSSFWorkbook(multipartFile.getInputStream());      // Convert fileinut stream to a XSSFWorkbook document
@@ -123,15 +123,10 @@ public class DocumentHandler {
     }
 
     private StoredFile tryPDF(MultipartFile multipartFile) {
+
         StoredFile convertedDocument = null;
 
 
-//        URI uri = null;
-//        try {
-//            uri = new URI("http","locahost:5000","/api/converter",null);
-//        } catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        }
         String uri = "http://localhost:5000/api/converter";
         logger.info("Sending PDF file to convert  : " + uri);
         RestTemplate restTemplate = new RestTemplate();
@@ -143,7 +138,7 @@ public class DocumentHandler {
         logger.info("Abs PDF File path PDF to word.. : " + absolutePDFPath);
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("pdfFilePath", absoluteDirectoryPath);
+        map.add("pdfFilePath", absolutePDFPath);
 
         String docxLoadingFilePath = pdfToWordDocxLocation + storedPDF.getFileName() + ".docx";
         String absoluteDocxPath = absoluteDirectoryPath + "/" + docxLoadingFilePath;
@@ -154,6 +149,7 @@ public class DocumentHandler {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//        headers.setExpires(10);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
 
@@ -164,12 +160,6 @@ public class DocumentHandler {
             logger.info("Trying to load Converted PDF docx filePath .. : " + docxLoadingFilePath);
 
             File docxFile = storageService.loadAsResource(docxLoadingFilePath).getFile();
-
-//            FileInputStream docxInputStream = new FileInputStream(docxFile);
-//            MultipartFile multipartFile1 = new MockMultipartFile(docxFile.getName(),
-//                    docxFile.getName(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-//                    IOUtils.toByteArray(docxInputStream));
-
             FileItem fileItem = new DiskFileItem(docxFile.getName(), Files.probeContentType(docxFile.toPath()), false, docxFile.getName(), (int) docxFile.length(), docxFile.getParentFile());
 
             try {
@@ -179,7 +169,7 @@ public class DocumentHandler {
                 // Or faster..
                 // IOUtils.copy(new FileInputStream(file), fileItem.getOutputStream());
             } catch (IOException ex) {
-                // do something.
+                logger.error(ex.toString());
             }
 
             MultipartFile multipartFile1 = new CommonsMultipartFile(fileItem);

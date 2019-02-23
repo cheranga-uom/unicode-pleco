@@ -116,8 +116,9 @@ public class FileController {
     @RequestMapping("/upload")
     @ResponseBody
     public Map handleFileUpload(@RequestParam("file") MultipartFile maltipartFile,
-                                   RedirectAttributes redirectAttributes, Principal principal, String inputFileType) throws StorageException {
+                                    @RequestParam("inputfiletype") String inputFileType, Principal principal ) throws StorageException {
 
+        logger.info("Recieved File Type : "+ inputFileType);
         StoredFile uploadedDocument = new StoredFile();
 
         DocumentHandler documentHandler = new DocumentHandler(storageService, environment);
