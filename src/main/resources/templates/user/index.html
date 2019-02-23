@@ -393,7 +393,11 @@
             req.responseType = "blob";
             req.onload = function () {
                 var blob = req.response;
-                var fileName = localStorage.getItem("filename")
+                var fileName = localStorage.getItem("filename");
+
+                if(localStorage.getItem("fileType") == "DOCX"){
+                    fileName += ".docx";
+                }
 
 
                 if (navigator.msSaveBlob) { // IE 10+

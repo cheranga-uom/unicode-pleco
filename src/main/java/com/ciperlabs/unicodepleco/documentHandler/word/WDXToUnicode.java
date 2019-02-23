@@ -71,6 +71,8 @@ public class WDXToUnicode {
         convertHeader(docx);
         convertTables(docx);
         updateStylesToNewFont();
+
+
         return docx;
     }
 
@@ -87,6 +89,9 @@ public class WDXToUnicode {
             convertTextBoxes(paragraph);                   //Convert Text boxes within the current paragraph
             currentParagraphPosition++;
         }
+
+        // Calling to remove the Document.net mark now on last paragraph
+        removeDocumentDotNetMark(paragraphs.get(paragraphsCount -1));
     }
 
     private void convertParagrpahRuns(List<XWPFRun> runs, XWPFParagraph paragraph){
@@ -350,7 +355,7 @@ public class WDXToUnicode {
                 String sConvertedText = convertedText[0];
                 textBoxRun.setText(sConvertedText, 0);
 //                    System.out.println(sConvertedText);
-
+                logger.info("Text of textbox : " + textBoxRun.getText(0));
                 this.setFontFamily(textBoxRun, convertedText[1]);
 
                 xmlObject.set(textBoxRun.getCTR());
@@ -460,5 +465,49 @@ public class WDXToUnicode {
         }
 //        run.setFontSize(fontSize);
 
+    }
+
+    void removeDocumentDotNetMark(XWPFParagraph paragraph){
+
+        XmlCursor cursor = paragraph.getCTP().newCursor();
+        cursor.selectPath("declare namespace w='http://schemas.openxmlformats.org/wordprocessingml/2006/main' .//*/w:txbxContent/w:p/w:r");
+
+        List<XmlObject> ctrsintxtbx = new ArrayList<>();
+
+        while (cursor.hasNextSelection()) {
+            cursor.toNextSelection();
+            XmlObject obj = cursor.getObject();
+            ctrsintxtbx.add(obj);
+        }
+        for (XmlObject xmlObject : ctrsintxtbx) {
+            CTR ctr = null;
+            try {
+                ctr = CTR.Factory.parse(xmlObject.toString());
+                XWPFRun textBoxRun = new XWPFRun(ctr, paragraph);
+//                    textBoxRun.getText(0);
+                String fontFamily = getFontFamily(textBoxRun);
+
+                String text = textBoxRun.getText(0);
+                if (text.contains("Created by the trial version of Document")){
+                    textBoxRun.setText("", 0);
+                    logger.info("Removing document dotnet mark  : "+text);
+                }
+                else if(text.contains("The trial version sometimes inserts \"trial\" into random places.")){
+                    textBoxRun.setText("", 0);
+                    logger.info("Removing document dotnet mark  : "+text);
+                }
+                else if (text.contains("Get the full version of Document")){
+                    textBoxRun.setText("", 0);
+                    logger.info("Removing document dotnet mark  : "+text);
+                }
+
+//                    System.out.println(sConvertedText);
+
+                xmlObject.set(textBoxRun.getCTR());
+            } catch (XmlException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }
