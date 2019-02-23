@@ -267,14 +267,14 @@
 
             if (header === "504b34") {
                 this.inputFileType = "officeXML";
-                console.log("Uploaded File type : "+this.inputFileType);
+                console.log("Uploaded File type : " + this.inputFileType);
                 localStorage.setItem("inputFileType", this.inputFileType);
 
             }
             else if (header === "25504446") {
                 this.inputFileType = "PDF";
-                console.log("Uploaded File type : "+ this.inputFileType);
-                localStorage.setItem("inputFileType", this. inputFileType);
+                console.log("Uploaded File type : " + this.inputFileType);
+                localStorage.setItem("inputFileType", this.inputFileType);
             }
             else {
                 console.log("Uploaded File type : Couldn't identify");
@@ -291,7 +291,7 @@
 
             // add assoc key values, this will be posts values
             formData.append("file", file);
-            console.log("inputFileType  : " +this.inputFileType);
+            console.log("inputFileType  : " + this.inputFileType);
             formData.append("inputfiletype", this.inputFileType);
 
             $.ajax({
@@ -306,7 +306,7 @@
                     localStorage.setItem("fileType", data.fileType);
 
                     document.getElementById("filename").innerText = localStorage.getItem("filename");
-                    if (data == undefined){
+                    if (data == undefined) {
                         console.log("Handled-Error While Conversion - request success")
                         $(".middleContainerProgress").hide();
                         $(".middleContainerDownload").hide();
@@ -358,7 +358,6 @@
         fileReader.readAsArrayBuffer(blob);
 
 
-
     }
 
     function goBack() {
@@ -395,7 +394,7 @@
                 var blob = req.response;
                 var fileName = localStorage.getItem("filename");
 
-                if(localStorage.getItem("fileType") == "DOCX"){
+                if (localStorage.getItem("fileType") == "DOCX") {
                     fileName += ".docx";
                 }
 
