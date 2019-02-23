@@ -36,25 +36,32 @@
                                 class="fas fa-plus"></i> Click &nbsp;</span> &nbsp; to add files.<br>
                             <div class="row justify-content-center">
                                 <div class="col-md-2">
-                                    <img src="style/img/word.png" style="width :120px; height : 120px" alt="Home">
+                                    <img src="style/img/word.png" style="width :120px; height : 120px"
+                                         alt="You can Convert Unicode Docx files using Pleco">
                                 </div>
                                 <div class="col-md-2">
-                                    <img src="style/img/excel.png" style="width :110px; height : 110px" alt="Home">
-
+                                    <img src="style/img/excel.png" style="width :110px; height : 110px"
+                                         alt="Pleco Supports excel Unicode Conversion">
+                                </div>
+                                <div class="col-md-2">
+                                    <img src="style/img/pdf.png" style="width :110px; height : 110px"
+                                         alt="Pleco Supports PDF to Unicode docx Conversion">
                                 </div>
                             </div>
                             <div class="row justify-content-center" style="font-size: x-small">
                                 <span class="badge badge-info"> Office Open Word XML Format (.Docx)</span>
                                 <span> &nbsp;</span>
                                 <span class="badge badge-info"> Office Open Spreadsheet XML Format (.xlsx)</span>
+                                <span> &nbsp;</span>
+                                <span class="badge badge-info"> PDF files</span>
                             </div>
                         </div>
 
                     </form>
                     <!--<div class="col-md-2 offset-5">-->
-                        <!--<button type="submit" id="button" onclick="fileUpload()" class="btn"><i-->
-                                <!--class="fas fa-cloud-upload-alt"></i>Upload-->
-                        <!--</button>-->
+                    <!--<button type="submit" id="button" onclick="fileUpload()" class="btn"><i-->
+                    <!--class="fas fa-cloud-upload-alt"></i>Upload-->
+                    <!--</button>-->
                     <!--</div>-->
                     <style>
                         .btn {
@@ -77,70 +84,74 @@
                     </div>
 
                     <div class="alert alert-info">
-                        <strong>Extracting Text &nbsp;<i class="fas fa-spinner fa-2x mb-3 animated rotateIn infinite"></i>
+                        <strong>Extracting Text &nbsp;<i
+                                class="fas fa-spinner fa-2x mb-3 animated rotateIn infinite"></i>
                         </strong>
                     </div>
                     <div class="alert alert-info">
-                        <strong>Converting to Unicode! &nbsp;<i class="fas fa-spinner fa-2x mb-3 animated rotateIn infinite"></i></strong>
+                        <strong>Converting to Unicode! &nbsp;<i
+                                class="fas fa-spinner fa-2x mb-3 animated rotateIn infinite"></i></strong>
                     </div>
                     <div class="alert alert-info">
-                        <strong>Refining the conversion &nbsp;<i class="fas fa-spinner fa-2x mb-3 animated rotateIn infinite"></i></strong>
+                        <strong>Refining the conversion &nbsp;<i
+                                class="fas fa-spinner fa-2x mb-3 animated rotateIn infinite"></i></strong>
                     </div>
                     <div class="alert alert-info">
-                        <strong>Setting up the styles &nbsp;<i class="fas fa-spinner fa-2x mb-3 animated rotateIn infinite"></i></strong>
+                        <strong>Setting up the styles &nbsp;<i
+                                class="fas fa-spinner fa-2x mb-3 animated rotateIn infinite"></i></strong>
                     </div>
 
                 </div>
                 <div class="col-md-12 middleContainerErrorr" id="middleContainerErrorr">
-                    <div class="row">
-                        <div class="col-md-6 offset-3" align="center">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6" align="center">
                             <span class="badge badge-danger"> Error</span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-3">
-                            <img src="style/img/Oops-404-error.png" class="img-fluid" alt=""
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <img src="style/img/Oops-404-error.png" class="img-fluid"
+                                 alt="Error While converting to unicode Pleco"
                                  style="display:block;margin:auto; width: 40%;">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <div class="alert alert-danger">
                             <strong>Error! </strong> Your File did not convert successfully due to one or more of
-                            following
-                            reasons
+                            following reasons.
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <div class="alert alert-info">
                             <strong>Unsupported File Type - </strong> This converter currently support
                             <strong>Excel</strong>
                             and <strong>Docx</strong> formats only.
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <div class="alert alert-info">
                             <strong>Too Large File - </strong> Documents larger than <strong>5mb</strong> are
                             restricted.
                             Contact us if you want some larger file to be converted.
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <div class="alert alert-info">
                             <strong>False Extension - </strong> You have changed the extension of the document.
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <div class="alert alert-info">
                             <strong>Internet Connectivity Issue - </strong> Please check if you have a stable internet
                             connection.
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-8 offset-2">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
                             <div class="row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger waves-effect" onclick="goBack()"
                                         style="font-size:large"><i class="fas fa-arrow-circle-left fa-1x"
-                                                                     style="color: red"></i>Go Back
+                                                                   style="color: red"></i>Go Back
                                 </button>
                             </div>
 
@@ -151,24 +162,25 @@
 
                 <div class="col-md-12 middleContainerDownload" id="middleContainerDownload">
                     <!--<div class="text-center">-->
-                    <div class="row">
-                        <div class="col-md-6 offset-3" align="center">
-                            <span class="badge badge-success" style="font-size: large"> Your file has successfully converted to unicode</span>
+                    <div class="row justify-content-center">
+                        <div class="col-md-6" align="center">
+                            <span class="badge badge-success"> Your file has successfully converted to unicode</span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-3">
-                            <img src="style/img/word.png" class="img-fluid" alt="" id="downloadFileImage"
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <img src="style/img/word.png" class="img-fluid" alt="Download Converted Unicode Word File"
+                                 id="downloadFileImage"
                                  style="display:block;margin:auto; width: 40%">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-3" align="center">
-                            <span class="badge badge-info" id="filename" style="font-size: large"></span>
+                    <div class="row justify-content-center">
+                        <div class="col-md-6" align="center">
+                            <span class="badge badge-info" id="filename"></span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-8 offset-2">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
                             <div class="row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger waves-effect" onclick="goBack()"
                                         style="font-size:x-large; height: 10%"><i class="fas fa-arrow-circle-left fa-1x"
@@ -204,7 +216,7 @@
     $(document).ready(function () {
 
         var dropzone = Dropzone.instances[0];
-        dropzone.on("addedfile", function(){
+        dropzone.on("addedfile", function () {
             console.log("File Added");
             fileUpload();
         });
@@ -212,10 +224,10 @@
     $(".middleContainerProgress").hide();
     $(".middleContainerDownload").hide();
     $(".middleContainerErrorr").hide();
-    if (localStorage.getItem("download") == "pending"){
+    if (localStorage.getItem("download") == "pending") {
         document.getElementById("filename").innerText = localStorage.getItem("filename");
         var fileType = localStorage.getItem("fileType");
-        if(fileType === "DOCX"){
+        if (fileType === "DOCX") {
             $("#downloadFileImage").attr("src", 'style/img/word.png')
         }
         else if (fileType === "EXCEL") {
@@ -251,7 +263,16 @@
             }
             console.log(header);
 
-            if (header !== "504b34") {
+            if (header === "504b34") {
+
+                localStorage.setItem("inputFileType", "officeXML")
+
+            }
+            else if (header === "25504446") {
+
+                localStorage.setItem("inputFileType", "PDF")
+            }
+            else {
                 $(".middleContainerProgress").hide();
                 $(".middleContainerDownload").hide();
                 $(".middleContainerErrorr").show();
@@ -265,6 +286,7 @@
 
         // add assoc key values, this will be posts values
         formData.append("file", file);
+        formData.append("inputFileType", localStorage.getItem("inputFileType"));
 
         $.ajax({
             type: "POST",
@@ -275,21 +297,28 @@
                 localStorage.setItem("conversionId", data.conversionId);
                 localStorage.setItem("download", "pending");
                 localStorage.setItem("filename", data.filename);
-                localStorage.setItem("fileType",data.fileType);
+                localStorage.setItem("fileType", data.fileType);
 
                 document.getElementById("filename").innerText = localStorage.getItem("filename");
 
                 if (data.status == "notLoggedIn" || data.status == "success") {
                     localStorage.setItem("status", data.status);
-                    if(data.fileType === "DOCX"){
-                        $("#downloadFileImage").attr("src",'style/img/word.png')
+                    if (data.fileType === "DOCX") {
+                        $("#downloadFileImage").attr("src", 'style/img/word.png')
                     }
                     else if (data.fileType === "EXCEL") {
-                        $("#downloadFileImage").attr("src",'style/img/excel.png')
+                        $("#downloadFileImage").attr("src", 'style/img/excel.png')
                     }
                     $(".middleContainerDownload").show();
                     $(".middleContainerProgress").hide();
 
+                }
+                else {
+                    $(".middleContainerProgress").hide();
+                    $(".middleContainerDownload").hide();
+                    $(".middleContainerErrorr").show();
+                    $(".middleContainer").hide();
+                    localStorage.removeItem("download");
                 }
 
             },

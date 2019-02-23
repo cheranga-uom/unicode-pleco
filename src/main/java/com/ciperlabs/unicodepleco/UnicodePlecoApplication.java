@@ -17,6 +17,7 @@
 package com.ciperlabs.unicodepleco;
 
 
+import com.ciperlabs.unicodepleco.controller.DocumentHandler;
 import com.ciperlabs.unicodepleco.service.storage.StorageProperties;
 import com.ciperlabs.unicodepleco.service.storage.StorageService;
 import org.slf4j.Logger;

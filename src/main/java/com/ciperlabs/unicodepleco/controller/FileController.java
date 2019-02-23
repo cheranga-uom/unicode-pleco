@@ -9,6 +9,7 @@ import com.ciperlabs.unicodepleco.service.storage.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +41,14 @@ public class FileController {
 
     private UserRepository userRepository;
 
+    private Environment environment;
+
     @Autowired
-    public FileController(StorageService storageService, ConversionRepository conversionRepository, UserRepository userRepository) {
+    public FileController(StorageService storageService, ConversionRepository conversionRepository, UserRepository userRepository, Environment environment) {
         this.storageService = storageService;
         this.conversionRepository = conversionRepository;
         this.userRepository = userRepository;
+        this.environment = environment;
     }
 
 
@@ -112,12 +116,12 @@ public class FileController {
     @RequestMapping("/upload")
     @ResponseBody
     public Map handleFileUpload(@RequestParam("file") MultipartFile maltipartFile,
-                                   RedirectAttributes redirectAttributes, Principal principal) throws StorageException {
+                                   RedirectAttributes redirectAttributes, Principal principal, String inputFileType) throws StorageException {
 
         StoredFile uploadedDocument = new StoredFile();
 
-        DocumentHandler documentHandler = new DocumentHandler(storageService);
-        StoredFile convertedFile = documentHandler.convertFile(maltipartFile);
+        DocumentHandler documentHandler = new DocumentHandler(storageService, environment);
+        StoredFile convertedFile = documentHandler.convertFile(maltipartFile,inputFileType);
         Map<String, String> map = new LinkedHashMap<>();
 
         if (convertedFile != null) {
@@ -136,6 +140,12 @@ public class FileController {
                 uploadedDocument = storageService.store(maltipartFile, "uploaded/excel/");
 
             }
+            else if(convertedFile.getFileType() == FileType.PDF){
+                map.put("fileType",FileType.DOCX+"");
+                conversion.setInputFileType(FileType.PDF);
+                uploadedDocument = storageService.store(maltipartFile, "uploaded/pdf/");
+
+            }
 
             conversion.setInputFileName(uploadedDocument.getFileName());
             conversion.setInputFilePath(uploadedDocument.getPath());
@@ -145,7 +155,7 @@ public class FileController {
             conversionRepository.save(conversion);
             map.put("conversionId",conversion.getConversionId()+"");
             map.put("filename","Unicode - " + uploadedDocument.getFileName());
-
+            logger.info(map.get("filename"));
 
             if (principal != null) {
                 OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;

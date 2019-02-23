@@ -5,8 +5,9 @@
 
 <body onload="loaderFunction()">
 
-<div th:replace="user/layout.html :: loader"></div>                 // only if you need the loader
-<div class="animate-bottom container-fluid" id="content" style="display: none">
+<div th:replace="user/layout.html :: loader"></div>
+// only if you need the loader
+<div class="animate-bottom container-fluid" style="text-align: center">
     <!-- chatbot -->
     <div th:replace="user/layout.html :: navbar"></div>
     <div th:replace="user/layout.html :: heading"></div>
