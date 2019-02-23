@@ -247,14 +247,16 @@
         console.log(file);
 
         if (file == undefined) {
+            console.log("File is undefined .. ");
             $(".middleContainerProgress").hide();
             $(".middleContainerDownload").hide();
             $(".middleContainerErrorr").show();
             $(".middleContainer").hide();
             return;
         }
-        var blob = file; // See step 1 above
+        var blob = file;
         var fileReader = new FileReader();
+        var inputFileType = "";
         fileReader.onloadend = function (e) {
             var arr = (new Uint8Array(e.target.result)).subarray(0, 4);
             var header = "";
@@ -264,80 +266,90 @@
             console.log(header);
 
             if (header === "504b34") {
-
-                localStorage.setItem("inputFileType", "officeXML")
+                this.inputFileType = "officeXML";
+                console.log("Uploaded File type : "+this.inputFileType);
+                localStorage.setItem("inputFileType", this.inputFileType);
 
             }
             else if (header === "25504446") {
-
-                localStorage.setItem("inputFileType", "PDF")
+                this.inputFileType = "PDF";
+                console.log("Uploaded File type : "+ this.inputFileType);
+                localStorage.setItem("inputFileType", this. inputFileType);
             }
             else {
+                console.log("Uploaded File type : Couldn't identify");
+
                 $(".middleContainerProgress").hide();
                 $(".middleContainerDownload").hide();
                 $(".middleContainerErrorr").show();
                 $(".middleContainer").hide();
+
                 return;
             }
-        };
-        fileReader.readAsArrayBuffer(blob);
 
-        var formData = new FormData();
+            var formData = new FormData();
 
-        // add assoc key values, this will be posts values
-        formData.append("file", file);
-        formData.append("inputFileType", localStorage.getItem("inputFileType"));
+            // add assoc key values, this will be posts values
+            formData.append("file", file);
+            console.log("inputFileType  : " +this.inputFileType);
+            formData.append("inputfiletype", this.inputFileType);
 
-        $.ajax({
-            type: "POST",
-            url: "/upload",
-            success: function (data) {
-                // your callback here
-                console.log(data.status);
-                localStorage.setItem("conversionId", data.conversionId);
-                localStorage.setItem("download", "pending");
-                localStorage.setItem("filename", data.filename);
-                localStorage.setItem("fileType", data.fileType);
+            $.ajax({
+                type: "POST",
+                url: "/upload",
+                success: function (data) {
+                    // your callback here
+                    console.log("Request success, status of the request" + data.status);
+                    localStorage.setItem("conversionId", data.conversionId);
+                    localStorage.setItem("download", "pending");
+                    localStorage.setItem("filename", data.filename);
+                    localStorage.setItem("fileType", data.fileType);
 
-                document.getElementById("filename").innerText = localStorage.getItem("filename");
+                    document.getElementById("filename").innerText = localStorage.getItem("filename");
 
-                if (data.status == "notLoggedIn" || data.status == "success") {
-                    localStorage.setItem("status", data.status);
-                    if (data.fileType === "DOCX") {
-                        $("#downloadFileImage").attr("src", 'style/img/word.png')
+                    if (data.status == "notLoggedIn" || data.status == "success") {
+                        localStorage.setItem("status", data.status);
+                        if (data.fileType === "DOCX") {
+                            $("#downloadFileImage").attr("src", 'style/img/word.png')
+                        }
+                        else if (data.fileType === "EXCEL") {
+                            $("#downloadFileImage").attr("src", 'style/img/excel.png')
+                        }
+                        $(".middleContainerDownload").show();
+                        $(".middleContainerProgress").hide();
+
                     }
-                    else if (data.fileType === "EXCEL") {
-                        $("#downloadFileImage").attr("src", 'style/img/excel.png')
+                    else {
+                        console.log("Handled-Error While Conversion - request success")
+                        $(".middleContainerProgress").hide();
+                        $(".middleContainerDownload").hide();
+                        $(".middleContainerErrorr").show();
+                        $(".middleContainer").hide();
+                        localStorage.removeItem("download");
                     }
-                    $(".middleContainerDownload").show();
-                    $(".middleContainerProgress").hide();
 
-                }
-                else {
+                },
+                error: function (error) {
+                    console.log("Error in the request or file.");
+                    // handle error
+                    console.log(error);
                     $(".middleContainerProgress").hide();
                     $(".middleContainerDownload").hide();
                     $(".middleContainerErrorr").show();
                     $(".middleContainer").hide();
-                    localStorage.removeItem("download");
-                }
 
-            },
-            error: function (error) {
-                // handle error
-                console.log(error);
-                $(".middleContainerProgress").hide();
-                $(".middleContainerDownload").hide();
-                $(".middleContainerErrorr").show();
-                $(".middleContainer").hide();
+                },
+                async: true,
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                timeout: 180000
+            });
+        };
+        fileReader.readAsArrayBuffer(blob);
 
-            },
-            async: true,
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            timeout: 180000
-        });
+
 
     }
 
@@ -349,6 +361,8 @@
         localStorage.removeItem("filename");
         localStorage.removeItem("conversionId");
         localStorage.removeItem("fileType");
+        localStorage.removeItem("inputFileType");
+
         $(".middleContainerDownload").hide();
         $(".middleContainerErrorr").hide();
         $(".middleContainerProgress").hide();
@@ -375,6 +389,7 @@
 
 
                 if (navigator.msSaveBlob) { // IE 10+
+                    console.log("Internet Explorer detected");
                     navigator.msSaveBlob(blob, fileName);
                 }
                 else {
