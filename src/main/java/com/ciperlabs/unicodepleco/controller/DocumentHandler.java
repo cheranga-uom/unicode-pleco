@@ -127,7 +127,7 @@ public class DocumentHandler {
         StoredFile convertedDocument = null;
 
 
-        String uri = "http://localhost:5000/api/converter";
+        String uri = pdfToWordAPI;
         logger.info("Sending PDF file to convert  : " + uri);
         RestTemplate restTemplate = new RestTemplate();
         StoredFile storedPDF = storageService.store(multipartFile, pdfToWordPdfLocation);

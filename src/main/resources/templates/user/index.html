@@ -313,6 +313,7 @@
                         $(".middleContainerErrorr").show();
                         $(".middleContainer").hide();
                         localStorage.removeItem("download");
+                        return;
                     }
                     if (data.status == "notLoggedIn" || data.status == "success") {
                         localStorage.setItem("status", data.status);

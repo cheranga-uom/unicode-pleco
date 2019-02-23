@@ -319,7 +319,7 @@ public class Engine {
 
             return new String[]{unicodeText, tamilUnicodeFont};
 
-        } else if (StringUtils.containsIgnoreCase(font,"Symbol")) {
+        } else if (StringUtils.equals(font,"Symbol")) {
             sinhalaLastCharError1 = false;
             sinhalaLastCharError2 = false;
             tamilLastCharError1 = false;
@@ -327,7 +327,7 @@ public class Engine {
             tamilLastCharError3 = false;
             unicodeText = Symbol.convert(text);
             return new String[]{unicodeText, sinhalaUnicodeFont};
-        } else if (StringUtils.containsIgnoreCase(font,"")) {                    // Just in case for any left Overs - This should be removed from production
+        } else if (StringUtils.equals(font,"")) {                    // Just in case for any left Overs - This should be removed from production
             unicodeText = LTRL.convert(text);
             return new String[]{unicodeText, sinhalaUnicodeFont};
         } else {
