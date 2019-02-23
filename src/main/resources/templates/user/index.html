@@ -306,7 +306,14 @@
                     localStorage.setItem("fileType", data.fileType);
 
                     document.getElementById("filename").innerText = localStorage.getItem("filename");
-
+                    if (data == undefined){
+                        console.log("Handled-Error While Conversion - request success")
+                        $(".middleContainerProgress").hide();
+                        $(".middleContainerDownload").hide();
+                        $(".middleContainerErrorr").show();
+                        $(".middleContainer").hide();
+                        localStorage.removeItem("download");
+                    }
                     if (data.status == "notLoggedIn" || data.status == "success") {
                         localStorage.setItem("status", data.status);
                         if (data.fileType === "DOCX") {
