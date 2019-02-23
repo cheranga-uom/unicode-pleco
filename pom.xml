@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>compile</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -123,6 +123,13 @@
             <groupId>com.j256.simplemagic</groupId>
             <artifactId>simplemagic</artifactId>
             <version>1.14</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version>
         </dependency>
 
         <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework/spring-mock &ndash;&gt;-->
