@@ -91,7 +91,10 @@ public class WDXToUnicode {
         }
 
         // Calling to remove the Document.net mark now on last paragraph
-        removeDocumentDotNetMark(paragraphs.get(paragraphsCount -1));
+        XWPFParagraph lastParagraph = paragraphs.get(paragraphsCount -1);
+        if(lastParagraph != null){
+            removeDocumentDotNetMark(lastParagraph);
+        }
     }
 
     private void convertParagrpahRuns(List<XWPFRun> runs, XWPFParagraph paragraph){
@@ -488,18 +491,21 @@ public class WDXToUnicode {
                 String fontFamily = getFontFamily(textBoxRun);
 
                 String text = textBoxRun.getText(0);
-                if (text.contains("Created by the trial version of Document")){
-                    textBoxRun.setText("", 0);
-                    logger.info("Removing document dotnet mark  : "+text);
+                if (text != null){
+                    if (text.contains("Created by the trial version of Document")){
+                        textBoxRun.setText("", 0);
+                        logger.info("Removing document dotnet mark  : "+text);
+                    }
+                    else if(text.contains("The trial version sometimes inserts \"trial\" into random places.")){
+                        textBoxRun.setText("", 0);
+                        logger.info("Removing document dotnet mark  : "+text);
+                    }
+                    else if (text.contains("Get the full version of Document")){
+                        textBoxRun.setText("", 0);
+                        logger.info("Removing document dotnet mark  : "+text);
+                    }
                 }
-                else if(text.contains("The trial version sometimes inserts \"trial\" into random places.")){
-                    textBoxRun.setText("", 0);
-                    logger.info("Removing document dotnet mark  : "+text);
-                }
-                else if (text.contains("Get the full version of Document")){
-                    textBoxRun.setText("", 0);
-                    logger.info("Removing document dotnet mark  : "+text);
-                }
+
 
 //                    System.out.println(sConvertedText);
 
