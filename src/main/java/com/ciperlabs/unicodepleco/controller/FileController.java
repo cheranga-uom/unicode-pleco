@@ -6,9 +6,12 @@ import com.ciperlabs.unicodepleco.model.User;
 import com.ciperlabs.unicodepleco.repository.ConversionRepository;
 import com.ciperlabs.unicodepleco.repository.UserRepository;
 import com.ciperlabs.unicodepleco.service.storage.*;
+import org.jodconverter.DocumentConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +23,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.websocket.server.PathParam;
 import java.io.IOException;
@@ -31,6 +33,10 @@ import java.util.stream.Collectors;
 
 
 @Controller
+@Configuration
+@ComponentScan(basePackages = {
+        "org.jodconverter",
+})
 public class FileController {
 
     private final Logger logger = LoggerFactory.getLogger(FileController.class);
@@ -43,12 +49,16 @@ public class FileController {
 
     private Environment environment;
 
+    private DocumentConverter documentConverter;
+
     @Autowired
-    public FileController(StorageService storageService, ConversionRepository conversionRepository, UserRepository userRepository, Environment environment) {
+    public FileController(StorageService storageService, ConversionRepository conversionRepository, UserRepository userRepository,
+                          Environment environment, DocumentConverter documentConverter) {
         this.storageService = storageService;
         this.conversionRepository = conversionRepository;
         this.userRepository = userRepository;
         this.environment = environment;
+        this.documentConverter = documentConverter;
     }
 
 
@@ -121,7 +131,7 @@ public class FileController {
         logger.info("Recieved File Type : "+ inputFileType);
         StoredFile uploadedDocument = new StoredFile();
 
-        DocumentHandler documentHandler = new DocumentHandler(storageService, environment);
+        DocumentHandler documentHandler = new DocumentHandler(storageService, environment,documentConverter);
         StoredFile convertedFile = documentHandler.convertFile(maltipartFile,inputFileType);
         Map<String, String> map = new LinkedHashMap<>();
 
@@ -145,6 +155,12 @@ public class FileController {
                 map.put("fileType",FileType.DOCX+"");
                 conversion.setInputFileType(FileType.PDF);
                 uploadedDocument = storageService.store(maltipartFile, "uploaded/pdf/");
+
+            }
+            else if(convertedFile.getFileType() == FileType.DOC){
+                map.put("fileType",FileType.DOCX+"");
+                conversion.setInputFileType(FileType.DOC);
+                uploadedDocument = storageService.store(maltipartFile, "uploaded/doc/");
 
             }
 

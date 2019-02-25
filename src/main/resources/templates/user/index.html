@@ -276,6 +276,11 @@
                 console.log("Uploaded File type : " + this.inputFileType);
                 localStorage.setItem("inputFileType", this.inputFileType);
             }
+            else if (header === "d0cf11e0") {
+                this.inputFileType = "officeDOC";
+                console.log("Uploaded File type : " + this.inputFileType);
+                localStorage.setItem("inputFileType", this.inputFileType);
+            }
             else {
                 console.log("Uploaded File type : Couldn't identify");
 
@@ -322,6 +327,13 @@
                         }
                         else if (data.fileType === "EXCEL") {
                             $("#downloadFileImage").attr("src", 'style/img/excel.png')
+                        }
+
+                        if(inputFileType === "PDF"){
+                            localStorage.setItem("filename", data.filename+".docx");
+                        }
+                        else if(inputFileType === "officeDOC"){
+                            localStorage.setItem("filename", data.filename+".docx");
                         }
                         $(".middleContainerDownload").show();
                         $(".middleContainerProgress").hide();
