@@ -34,32 +34,33 @@ import java.util.stream.Collectors;
 
 @Controller
 @Configuration
-@ComponentScan(basePackages = {
-        "org.jodconverter",
-})
+//@ComponentScan(basePackages = {
+//        "org.jodconverter",
+//})
 public class FileController {
 
     private final Logger logger = LoggerFactory.getLogger(FileController.class);
-
-    private final StorageService storageService;
-
+    @Autowired
+    private StorageService storageService;
+    @Autowired
     private ConversionRepository conversionRepository;
-
+    @Autowired
     private UserRepository userRepository;
-
+    @Autowired
     private Environment environment;
 
+    @Autowired
     private DocumentConverter documentConverter;
 
-    @Autowired
-    public FileController(StorageService storageService, ConversionRepository conversionRepository, UserRepository userRepository,
-                          Environment environment, DocumentConverter documentConverter) {
-        this.storageService = storageService;
-        this.conversionRepository = conversionRepository;
-        this.userRepository = userRepository;
-        this.environment = environment;
-        this.documentConverter = documentConverter;
-    }
+//    @Autowired
+//    public FileController(StorageService storageService, ConversionRepository conversionRepository, UserRepository userRepository,
+//                          Environment environment, DocumentConverter documentConverter) {
+//        this.storageService = storageService;
+//        this.conversionRepository = conversionRepository;
+//        this.userRepository = userRepository;
+//        this.environment = environment;
+//        this.documentConverter = documentConverter;
+//    }
 
 
     @GetMapping("/download")

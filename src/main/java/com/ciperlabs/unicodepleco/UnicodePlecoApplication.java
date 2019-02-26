@@ -20,6 +20,13 @@ package com.ciperlabs.unicodepleco;
 import com.ciperlabs.unicodepleco.controller.DocumentHandler;
 import com.ciperlabs.unicodepleco.service.storage.StorageProperties;
 import com.ciperlabs.unicodepleco.service.storage.StorageService;
+import org.jodconverter.DocumentConverter;
+import org.jodconverter.JodConverter;
+import org.jodconverter.LocalConverter;
+import org.jodconverter.document.DocumentFormatRegistry;
+import org.jodconverter.job.*;
+import org.jodconverter.office.LocalOfficeManager;
+import org.jodconverter.office.OfficeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +55,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.filter.CompositeFilter;
 
 import javax.servlet.Filter;
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +70,9 @@ public class UnicodePlecoApplication extends WebSecurityConfigurerAdapter {
 
     @Autowired
     OAuth2ClientContext oauth2ClientContext2;
+
+//    @Autowired
+//    OfficeManager officeManager;
 
     private final Logger logger = LoggerFactory.getLogger(UnicodePlecoApplication.class);
 
@@ -117,6 +129,25 @@ public class UnicodePlecoApplication extends WebSecurityConfigurerAdapter {
     public ClientResources facebook() {
         return new ClientResources();
     }
+
+//    @Bean
+//    public DocumentConverter documentConverter(){
+//        DocumentConverter documentConverter;
+////        final LocalOfficeManager.Builder builder = LocalOfficeManager.builder();
+////        final String officePortParam = servletContext.getInitParameter(PARAMETER_OFFICE_PORT);
+////        if (officePortParam != null) {
+////            builder.portNumbers(Integer.parseInt(officePortParam));
+////        }
+////        final String officeHomeParam = servletContext.getInitParameter(PARAMETER_OFFICE_HOME);
+////        builder.officeHome(officeHomeParam);
+////        final String officeProfileParam = servletContext.getInitParameter(PARAMETER_OFFICE_PROFILE);
+////        builder.templateProfileDir(officeProfileParam);
+////
+////        officeManager = builder.build();
+//        documentConverter = LocalConverter.make(officeManager);
+//        return documentConverter;
+//
+//    }
 
     private Filter ssoFilter() {
         CompositeFilter filter = new CompositeFilter();
