@@ -59,7 +59,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("ª¬s°", "ඤෞ");
 
         text = text.replaceAll("¨„", "ෂෝ");
-        text = text.replaceAll("¨|", "ඹෝ");
+        text = text.replaceAll("¨\\|", "ඹෝ");
         text = text.replaceAll("¨f", "ඡෝ");
         text = text.replaceAll("¨n", "ඪෝ");
         text = text.replaceAll("¨b", "ඝෝ");
@@ -94,13 +94,13 @@ public class MiDamindu2000 {
         text = text.replaceAll("¨‚", "වෝ");
         text = text.replaceAll("¨q", "තෝ");
         text = text.replaceAll("¨z", "භෝ");
-        text = text.replaceAll("¨}", "යෝ");
+        text = text.replaceAll("¨\\}", "යෝ");
         text = text.replaceAll("¨i", "ඤෝ");
         text = text.replaceAll("¨t", "ධෝ");
         text = text.replaceAll("¨r", "ථෝ");
 
         text = text.replaceAll("¨„ý", "ෂො");
-        text = text.replaceAll("¨|ý", "ඹො");
+        text = text.replaceAll("¨\\|ý", "ඹො");
         text = text.replaceAll("¨fý", "ඡො");
         text = text.replaceAll("¨bý", "ඝො");
         text = text.replaceAll("¨`ý", "ඛො");
@@ -133,13 +133,13 @@ public class MiDamindu2000 {
         text = text.replaceAll("¨‚ý", "වො");
         text = text.replaceAll("¨qý", "තො");
         text = text.replaceAll("¨zý", "භො");
-        text = text.replaceAll("¨}ý", "යො");
+        text = text.replaceAll("¨\\}ý", "යො");
         text = text.replaceAll("¨iý", "ඤො");
         text = text.replaceAll("¨tý", "ධො");
         text = text.replaceAll("¨rý", "ථො");
 
         text = text.replaceAll("¨„‹", "ෂේ"); //There are another 2 combus
-        text = text.replaceAll("¨|", "ඹේ");
+        text = text.replaceAll("¨\\|", "ඹේ");
         text = text.replaceAll("¨F", "ඡේ");
         text = text.replaceAll("¨G", "ඡේ");
         text = text.replaceAll("¨bŒ", "ඝේ");
@@ -177,7 +177,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("¨S", "වේ");
         text = text.replaceAll("¨qŒ", "තේ");
         text = text.replaceAll("¨zŒ", "භේ");
-        text = text.replaceAll("¨}Œ", "යේ");
+        text = text.replaceAll("¨\\}Œ", "යේ");
         text = text.replaceAll("¨¬sŒ", "ඤේ");
         text = text.replaceAll("¨N", "ධේ");
         text = text.replaceAll("¨rŒ", "ථේ");
@@ -190,7 +190,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("W•", "ඈ");
 //        text = text.replaceAll("à\\", "ඈ");
         text = text.replaceAll("¨„", "ෂෙ");
-        text = text.replaceAll("¨|", "ඹෙ");
+        text = text.replaceAll("¨\\|", "ඹෙ");
         text = text.replaceAll("¨Q", "ඹේ");
         text = text.replaceAll("¨\\\\", "ඓ"); //double or single?
         text = text.replaceAll("¨f", "ඡෙ");
@@ -225,7 +225,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("¨k", "ටෙ");
         text = text.replaceAll("¨‚", "වෙ");
         text = text.replaceAll("¨q", "තෙ");
-        text = text.replaceAll("¨}", "යෙ");
+        text = text.replaceAll("¨\\}", "යෙ");
         text = text.replaceAll("¨i", "ඤෙ");
         text = text.replaceAll("¨t", "ධෙ");
         text = text.replaceAll("¨r", "ථෙ");
@@ -270,7 +270,7 @@ public class MiDamindu2000 {
 
         text = text.replaceAll("\\[", "ඍ");
         text = text.replaceAll("Z°", "ඌ");
-        text = text.replaceAll("]°", "ඖ");
+        text = text.replaceAll("\\]°", "ඖ");
         text = text.replaceAll("Z", "උ");
         text = text.replaceAll("q¢", "තු");
         text = text.replaceAll("a¢", "ගු");
@@ -281,7 +281,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("ø", "ලු");
 //        text = text.replaceAll("Ï", "ලු");
         text = text.replaceAll("‚£", "වු");
-        text = text.replaceAll("\\‹", "ඒ");
+        text = text.replaceAll("‹", "ඒ");
         text = text.replaceAll("B", "ඕ");
         text = text.replaceAll("C", "ඛ්");
         text = text.replaceAll("E", "ච්");
@@ -349,7 +349,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("\\{", "ම");
         text = text.replaceAll("ƒ", "ශ");
         text = text.replaceAll("„", "ෂ");
-        text = text.replaceAll("|", "ඹ");
+        text = text.replaceAll("\\|", "ඹ");
         text = text.replaceAll("}", "ය");
         text = text.replaceAll("~", "ර");
         text = text.replaceAll("", "ල");
@@ -421,6 +421,19 @@ public class MiDamindu2000 {
 
     public static String fixLastCharError(String text) {
         return "¨" + text;
+    }
+
+    public static boolean lastCharError2(String text) {
+        if (text.endsWith("©") || text.endsWith("«") || text.endsWith("ª")) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static String fixLastCharError2(String text) {
+        return "©" + text;
     }
 
 

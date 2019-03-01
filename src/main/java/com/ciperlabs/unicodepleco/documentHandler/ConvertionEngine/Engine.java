@@ -205,7 +205,33 @@ public class Engine {
 
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
-        } else if (StringUtils.containsIgnoreCase(font,"LTRL") || StringUtils.containsIgnoreCase(font,"Arial")) {                // Checking arial is not correct but not incorrect either
+        }
+        else if (StringUtils.containsIgnoreCase(font,"Mi_Damidu2000")) {
+
+            tamilLastCharError1 = false;
+            tamilLastCharError2 = false;
+            tamilLastCharError3 = false;
+
+            if (sinhalaLastCharError1) {
+                sinhalaLastCharError1 = false;
+                text = MiDamindu2000.fixLastCharError(text);
+            } else if (sinhalaLastCharError2) {
+                sinhalaLastCharError2 = false;
+                text = MiDamindu2000.fixLastCharError2(text);
+            }
+            if (MiDamindu2000.lastCharError(text)) {
+                sinhalaLastCharError1 = true;
+                text = text.substring(0, text.length() - 1);
+            } else if (MiDamindu2000.lastCharError2(text)) {
+                sinhalaLastCharError2 = true;
+                text = text.substring(0, text.length() - 1);
+            }
+            unicodeText = MiDamindu2000.convert(text);
+            addFontLogs(font, FontState.SUPPORTED);
+            logger.info("Converted Text : "+unicodeText);
+            return new String[]{unicodeText, sinhalaUnicodeFont};
+
+        }else if (StringUtils.containsIgnoreCase(font,"LTRL") || StringUtils.containsIgnoreCase(font,"Arial")) {                // Checking arial is not correct but not incorrect either
 
             unicodeText = LTRL.convert(text);
             return new String[]{unicodeText, sinhalaUnicodeFont};
