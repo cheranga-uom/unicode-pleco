@@ -16,6 +16,7 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRPr;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by gayan on 5/7/18.
@@ -69,7 +70,7 @@ public class PDFToUnicodeiText {
 class FontDetectionStrategy implements TextExtractionStrategy {
     private String combText = "";
     private String text;
-    private Engine convertionEngine = new Engine(); //engine
+    private Engine convertionEngine = new Engine(new ArrayList<>()); //engine           //TODO Invalid use of Engine
     private CTRPr sinhalaUnicodeCTRPr;
     private CTRPr tamilUnicodeCTRPr;
     private XWPFParagraph p;

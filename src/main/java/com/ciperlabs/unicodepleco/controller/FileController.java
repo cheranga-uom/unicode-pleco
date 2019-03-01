@@ -1,16 +1,20 @@
 package com.ciperlabs.unicodepleco.controller;
 
+import com.ciperlabs.unicodepleco.documentHandler.util.FontLogAbs;
+import com.ciperlabs.unicodepleco.documentHandler.util.FontState;
 import com.ciperlabs.unicodepleco.model.Conversion;
 import com.ciperlabs.unicodepleco.model.FileType;
 import com.ciperlabs.unicodepleco.model.User;
 import com.ciperlabs.unicodepleco.repository.ConversionRepository;
 import com.ciperlabs.unicodepleco.repository.UserRepository;
-import com.ciperlabs.unicodepleco.service.storage.*;
+import com.ciperlabs.unicodepleco.service.storage.StorageException;
+import com.ciperlabs.unicodepleco.service.storage.StorageFileNotFoundException;
+import com.ciperlabs.unicodepleco.service.storage.StorageService;
+import com.ciperlabs.unicodepleco.service.storage.StoredFile;
 import org.jodconverter.DocumentConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
@@ -27,6 +31,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -129,10 +134,17 @@ public class FileController {
     public Map handleFileUpload(@RequestParam("file") MultipartFile maltipartFile,
                                     @RequestParam("inputfiletype") String inputFileType, Principal principal ) throws StorageException {
 
+        /*
+            Will return fontLog , conversionId , status , fileType (converted File)
+            Split fontLog with | and then ; to get the font status for a font
+         */
+
         logger.info("Recieved File Type : "+ inputFileType);
         StoredFile uploadedDocument = new StoredFile();
 
-        DocumentHandler documentHandler = new DocumentHandler(storageService, environment,documentConverter);
+        ArrayList<FontLogAbs> fontLogAbs = new ArrayList<>();
+
+        DocumentHandler documentHandler = new DocumentHandler(storageService, environment, documentConverter, fontLogAbs);
         StoredFile convertedFile = documentHandler.convertFile(maltipartFile,inputFileType);
         Map<String, String> map = new LinkedHashMap<>();
 
@@ -174,6 +186,7 @@ public class FileController {
             map.put("conversionId",conversion.getConversionId()+"");
             map.put("filename","Unicode - " + uploadedDocument.getFileName());
             logger.info(map.get("filename"));
+            map.put("fontLog", arrayListToString(fontLogAbs));
 
             if (principal != null) {
                 OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
@@ -223,6 +236,24 @@ public class FileController {
                 .collect(Collectors.toList()));
 
         return "history";
+    }
+
+    private String arrayListToString(ArrayList<FontLogAbs> fontLogAbs) {
+        String fontLogS = "";
+
+        for (FontLogAbs fontLog : fontLogAbs) {
+            logger.info("Font : " + fontLog.getFont());
+            fontLogS += fontLog.getFont() + ";";
+            if (fontLog.getStatus() == FontState.NO_UNICODE_SUPPORT_AVAILABLE_YET) {
+                fontLogS += "No Unicode Support Available yet" + "|";
+            } else if (fontLog.getStatus() == FontState.SUPPORTED) {
+                fontLogS += "Supported" + "|";
+            } else {
+                fontLogS += fontLog.getStatus() + "|";
+
+            }
+        }
+        return fontLogS;
     }
 
 }

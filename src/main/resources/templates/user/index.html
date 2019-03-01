@@ -194,6 +194,31 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <p><strong>Check below to see the state of fonts in the given document. We may not have
+                                unicode support for some fonts.</strong></p>
+                            <!--<a href="http://lib.sjp.ac.lk/fonts/"> You can find fonts here</a>-->
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <table id="fontStatusDataTable" class="table table-striped table-bordered table-sm"
+                               cellspacing="0"
+                               width="100%">
+                            <thead>
+                            <tr>
+                                <th class="th-sm">Font
+                                </th>
+                                <th class="th-sm">Status
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -335,8 +360,12 @@
                         else if(inputFileType === "officeDOC"){
                             localStorage.setItem("filename", data.filename+".docx");
                         }
+                        console.log(data)
+                        showFontStatus(data.fontLog);
+
                         $(".middleContainerDownload").show();
                         $(".middleContainerProgress").hide();
+
 
                     }
                     else {
@@ -432,6 +461,42 @@
             };
 
             req.send()
+        }
+    }
+
+    function showFontStatus(fontLog) {
+        if (fontLog !== "") {
+            var fontStatuses = fontLog.split("|");
+            console.log(fontStatuses);
+            var fontStateData = [];
+            for (var i = 0; i < fontStatuses.length; i++) {
+                var fontState = fontStatuses[i];
+                console.log(fontState);
+                var fontAndState = fontState.split(";");
+                console.log(fontAndState);
+                if (fontAndState[0] !== "") {
+                    fontStateData.push({"font": fontAndState[0], "status": fontAndState[1]});
+                }
+            }
+            console.log(fontStateData);
+            $("#fontStatusDataTable").dataTable().fnDestroy();
+
+            var fontStatusDataTable = $('#fontStatusDataTable').DataTable(
+                {
+                    scrollY: "30vh",
+                    scrollCollapse: true,
+                    data: fontStateData,
+                    columns: [
+                        // {data : "conversionId"},
+                        {data: "font"},
+                        {data: "status"},
+                    ],
+                }
+            );
+            $('.dataTables_length').addClass('bs-select');
+        }
+        else {
+            console.log("No font information recieved.")
         }
     }
 

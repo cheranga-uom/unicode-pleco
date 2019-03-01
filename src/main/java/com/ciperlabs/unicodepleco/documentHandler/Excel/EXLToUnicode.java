@@ -1,14 +1,15 @@
 package com.ciperlabs.unicodepleco.documentHandler.Excel;
 
 
-import java.io.*;
-
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.xssf.usermodel.*;
 import com.ciperlabs.unicodepleco.documentHandler.ConvertionEngine.Engine;
+import com.ciperlabs.unicodepleco.documentHandler.util.FontLogAbs;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.*;
+
+import java.util.ArrayList;
 
 
 public class EXLToUnicode {
@@ -17,13 +18,14 @@ public class EXLToUnicode {
     private XSSFWorkbook workbook;
     private XSSFWorkbook returnWorkbook;
     private Engine engine;
+    private ArrayList<FontLogAbs> fontLogs;
 
-    public EXLToUnicode(XSSFWorkbook workbook) {
+    public EXLToUnicode(XSSFWorkbook workbook, ArrayList<FontLogAbs> fontLogs) {
         this.workbook=workbook;
         // Create output Workbook
         this.returnWorkbook = new XSSFWorkbook();
         //Creating a new engine.
-        this.engine = new Engine();
+        this.engine = new Engine(fontLogs);
 //        startConversion();
     }
     public XSSFWorkbook startConversion() {

@@ -1,6 +1,7 @@
 package com.ciperlabs.unicodepleco.documentHandler.word;
 
 import com.ciperlabs.unicodepleco.documentHandler.ConvertionEngine.Engine;
+import com.ciperlabs.unicodepleco.documentHandler.util.FontLogAbs;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
@@ -9,12 +10,12 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTFonts;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 /**
  * Created by gayan@ciperlabs.com on 4/21/18.
  */
@@ -40,7 +41,7 @@ public class WDXToUnicode {
 
     }                            // Avoid accidental creation of Object without File
 
-    public WDXToUnicode(XWPFDocument docx) {
+    public WDXToUnicode(XWPFDocument docx, ArrayList<FontLogAbs> fontLogs) {
         this.docx = docx;
         // Initialize All types of fonts for Sinhala types
         sinhalaUnicodeFonts = CTFonts.Factory.newInstance();
@@ -60,7 +61,7 @@ public class WDXToUnicode {
         this.stylesCopy = new HashMap<>();
         this.styeleConvertedFont = new HashMap<>();
 
-        this.engine = new Engine();
+        this.engine = new Engine(fontLogs);
     }
 
     public XWPFDocument startConversion() {

@@ -52,7 +52,7 @@ public class StoredFile {
         return inputStream;
     }
 
-//    public void setInputStream(InputStream inputStream) {
+    //    public void setInputStream(InputStream inputStream) {
 //        this.inputStream = inputStream;
 //    }
 }

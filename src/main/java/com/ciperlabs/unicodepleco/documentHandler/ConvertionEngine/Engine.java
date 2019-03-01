@@ -5,9 +5,14 @@ import com.ciperlabs.unicodepleco.documentHandler.ConvertionEngine.LegacyToUnico
 import com.ciperlabs.unicodepleco.documentHandler.ConvertionEngine.LegacyToUnicodeFontMappings.Tamil.Bamini;
 import com.ciperlabs.unicodepleco.documentHandler.ConvertionEngine.LegacyToUnicodeFontMappings.Tamil.Kalaham;
 import com.ciperlabs.unicodepleco.documentHandler.ConvertionEngine.LegacyToUnicodeFontMappings.Tamil.Nallur;
+import com.ciperlabs.unicodepleco.documentHandler.util.FontLog;
+import com.ciperlabs.unicodepleco.documentHandler.util.FontLogAbs;
+import com.ciperlabs.unicodepleco.documentHandler.util.FontState;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
 
 /**
  * Created by gayan@ciperlabs.com on 4/21/18.
@@ -23,14 +28,18 @@ public class Engine {
     private static boolean tamilLastCharError2;
     private static boolean tamilLastCharError3;
 
+    private ArrayList<FontLogAbs> fontLogs;
 
-    public Engine() {
+
+    public Engine(ArrayList<FontLogAbs> fontLogs) {
         lastFont = "";
         sinhalaLastCharError1 = false;
         sinhalaLastCharError2 = false;
         tamilLastCharError1 = false;
         tamilLastCharError2 = false;
         tamilLastCharError3 = false;
+
+        this.fontLogs = fontLogs;
 
     }
 
@@ -90,6 +99,7 @@ public class Engine {
             }
 
             unicodeText = Thibus.convert(text);
+            addFontLogs(font, FontState.SUPPORTED);
 
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
@@ -114,11 +124,11 @@ public class Engine {
             }
 
             unicodeText = FMAbhaya_UCSC.convert(text);
+            addFontLogs(font, FontState.SUPPORTED);
 
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
-        } else if (StringUtils.containsIgnoreCase(font,"DL-Manel-bold") || StringUtils.containsIgnoreCase(font,"DL-Manel") || StringUtils.containsIgnoreCase(font,"DL-Manel-bold.")
-                || StringUtils.containsIgnoreCase(font,"DL-Manel-bold.-x") || StringUtils.containsIgnoreCase(font,"DL-Manel..")) {
+        } else if (StringUtils.containsIgnoreCase(font, "DL-Manel-bold") || StringUtils.containsIgnoreCase(font, "DL-Manel") || StringUtils.containsIgnoreCase(font, "DL-Manel-bold.")) {
 
             tamilLastCharError1 = false;
             tamilLastCharError2 = false;
@@ -141,6 +151,7 @@ public class Engine {
 
 
             unicodeText = DLManel.convert(text);
+            addFontLogs(font, FontState.SUPPORTED);
 
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
@@ -165,6 +176,7 @@ public class Engine {
                 text = text.substring(0, text.length() - 1);
             }
             unicodeText = MutuKata.convert(text);
+            addFontLogs(font, FontState.SUPPORTED);
 
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
@@ -189,6 +201,7 @@ public class Engine {
                 text = text.substring(0, text.length() - 1);
             }
             unicodeText = SinhalaINet.convert(text);
+            addFontLogs(font, FontState.SUPPORTED);
 
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
@@ -224,6 +237,7 @@ public class Engine {
             }
 
             unicodeText = com.ciperlabs.unicodepleco.documentHandler.ConvertionEngine.LegacyToUnicodeFontMappings.Tamil.Thibus.convert(text);
+            addFontLogs(font, FontState.SUPPORTED);
 
             return new String[]{unicodeText, tamilUnicodeFont};
 
@@ -255,6 +269,7 @@ public class Engine {
 
 
             unicodeText = Kalaham.convert(text);
+            addFontLogs(font, FontState.SUPPORTED);
 
             return new String[]{unicodeText, tamilUnicodeFont};
 
@@ -285,6 +300,7 @@ public class Engine {
             }
 
             unicodeText = Nallur.convert(text);
+            addFontLogs(font, FontState.SUPPORTED);
 
             return new String[]{unicodeText, tamilUnicodeFont};
 
@@ -314,8 +330,9 @@ public class Engine {
                 tamilLastCharError3 = true;
             }
 
-
             unicodeText = Bamini.convert(text);
+
+            addFontLogs(font, FontState.SUPPORTED);
 
             return new String[]{unicodeText, tamilUnicodeFont};
 
@@ -331,7 +348,26 @@ public class Engine {
             unicodeText = LTRL.convert(text);
             return new String[]{unicodeText, sinhalaUnicodeFont};
         } else {
+
+            addFontLogs(font, FontState.NO_UNICODE_SUPPORT_AVAILABLE_YET);
             return new String[]{text, font};
         }
     }
+
+    private void addFontLogs(String font, FontState fontState) {
+
+        FontLog fontLog = new FontLog();
+        fontLog.setFont(font);
+        fontLog.setStatus(fontState);
+
+        for (FontLogAbs fontLogi : fontLogs) {
+
+            if (fontLogi.getFont().equals(fontLog.getFont())) {
+                return;
+            }
+        }
+        this.fontLogs.add(fontLog);
+
+    }
+
 }
