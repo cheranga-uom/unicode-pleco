@@ -80,3 +80,12 @@ storage:
 pdftoword:
     API:  "http://localhost:5000/api/converter"
 
+jodconverter:
+  local:
+    enabled: true
+    format-options:
+      html:
+        store:
+          TEXT:
+            FilterOptions: EmbedImages
+

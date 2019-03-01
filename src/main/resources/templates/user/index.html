@@ -194,6 +194,31 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <p><strong>Check below to see the state of fonts in the given document. We may not have
+                                unicode support for some fonts.</strong></p>
+                            <!--<a href="http://lib.sjp.ac.lk/fonts/"> You can find fonts here</a>-->
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <table id="fontStatusDataTable" class="table table-striped table-bordered table-sm"
+                               cellspacing="0"
+                               width="100%">
+                            <thead>
+                            <tr>
+                                <th class="th-sm">Font
+                                </th>
+                                <th class="th-sm">Status
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -267,14 +292,19 @@
 
             if (header === "504b34") {
                 this.inputFileType = "officeXML";
-                console.log("Uploaded File type : "+this.inputFileType);
+                console.log("Uploaded File type : " + this.inputFileType);
                 localStorage.setItem("inputFileType", this.inputFileType);
 
             }
             else if (header === "25504446") {
                 this.inputFileType = "PDF";
-                console.log("Uploaded File type : "+ this.inputFileType);
-                localStorage.setItem("inputFileType", this. inputFileType);
+                console.log("Uploaded File type : " + this.inputFileType);
+                localStorage.setItem("inputFileType", this.inputFileType);
+            }
+            else if (header === "d0cf11e0") {
+                this.inputFileType = "officeDOC";
+                console.log("Uploaded File type : " + this.inputFileType);
+                localStorage.setItem("inputFileType", this.inputFileType);
             }
             else {
                 console.log("Uploaded File type : Couldn't identify");
@@ -291,7 +321,7 @@
 
             // add assoc key values, this will be posts values
             formData.append("file", file);
-            console.log("inputFileType  : " +this.inputFileType);
+            console.log("inputFileType  : " + this.inputFileType);
             formData.append("inputfiletype", this.inputFileType);
 
             $.ajax({
@@ -306,7 +336,7 @@
                     localStorage.setItem("fileType", data.fileType);
 
                     document.getElementById("filename").innerText = localStorage.getItem("filename");
-                    if (data == undefined){
+                    if (data == undefined) {
                         console.log("Handled-Error While Conversion - request success")
                         $(".middleContainerProgress").hide();
                         $(".middleContainerDownload").hide();
@@ -323,8 +353,19 @@
                         else if (data.fileType === "EXCEL") {
                             $("#downloadFileImage").attr("src", 'style/img/excel.png')
                         }
+
+                        if(inputFileType === "PDF"){
+                            localStorage.setItem("filename", data.filename+".docx");
+                        }
+                        else if(inputFileType === "officeDOC"){
+                            localStorage.setItem("filename", data.filename+".docx");
+                        }
+                        console.log(data)
+                        showFontStatus(data.fontLog);
+
                         $(".middleContainerDownload").show();
                         $(".middleContainerProgress").hide();
+
 
                     }
                     else {
@@ -356,7 +397,6 @@
             });
         };
         fileReader.readAsArrayBuffer(blob);
-
 
 
     }
@@ -395,7 +435,7 @@
                 var blob = req.response;
                 var fileName = localStorage.getItem("filename");
 
-                if(localStorage.getItem("fileType") == "DOCX"){
+                if (localStorage.getItem("fileType") == "DOCX") {
                     fileName += ".docx";
                 }
 
@@ -421,6 +461,42 @@
             };
 
             req.send()
+        }
+    }
+
+    function showFontStatus(fontLog) {
+        if (fontLog !== "") {
+            var fontStatuses = fontLog.split("|");
+            console.log(fontStatuses);
+            var fontStateData = [];
+            for (var i = 0; i < fontStatuses.length; i++) {
+                var fontState = fontStatuses[i];
+                console.log(fontState);
+                var fontAndState = fontState.split(";");
+                console.log(fontAndState);
+                if (fontAndState[0] !== "") {
+                    fontStateData.push({"font": fontAndState[0], "status": fontAndState[1]});
+                }
+            }
+            console.log(fontStateData);
+            $("#fontStatusDataTable").dataTable().fnDestroy();
+
+            var fontStatusDataTable = $('#fontStatusDataTable').DataTable(
+                {
+                    scrollY: "30vh",
+                    scrollCollapse: true,
+                    data: fontStateData,
+                    columns: [
+                        // {data : "conversionId"},
+                        {data: "font"},
+                        {data: "status"},
+                    ],
+                }
+            );
+            $('.dataTables_length').addClass('bs-select');
+        }
+        else {
+            console.log("No font information recieved.")
         }
     }
 

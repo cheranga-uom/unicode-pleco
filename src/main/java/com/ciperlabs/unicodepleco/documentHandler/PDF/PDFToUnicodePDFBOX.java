@@ -10,6 +10,7 @@ import org.apache.pdfbox.text.TextPosition;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class PDFToUnicodePDFBOX {
 
             PDFTextStripper pdfStripper = new PDFTextStripper() {
                 String prevBaseFont = "";
-                Engine convertionEngine = new Engine();
+                Engine convertionEngine = new Engine(new ArrayList<>());                //TODO Invalid Use of fontLog and Engine
 
                 protected void writeString(String text, List<TextPosition> textPositions) throws IOException {
                     StringBuilder builder = new StringBuilder();
