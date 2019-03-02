@@ -552,12 +552,7 @@ public class DLManel {
     }
 
     public static boolean lastCharError2(String text) {
-//        if(text.endsWith("ú")){
-//            return true;
-//        }
-//        else{
-//            return false;
-//        }
+
         return false;
     }
 

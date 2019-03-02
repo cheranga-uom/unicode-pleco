@@ -281,7 +281,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("ø", "ලු");
 //        text = text.replaceAll("Ï", "ලු");
         text = text.replaceAll("‚£", "වු");
-        text = text.replaceAll("‹", "ඒ");
+        text = text.replaceAll("‹", "්\u200D");
         text = text.replaceAll("B", "ඕ");
         text = text.replaceAll("C", "ඛ්");
         text = text.replaceAll("E", "ච්");
@@ -314,7 +314,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("Ä", "ජී");
 
 
-
+        //TODO this section may need to add other symbols
         text = text.replaceAll("«Ð", "ඬී");
         text = text.replaceAll("æ", "ධී");
         text = text.replaceAll("ì", "බී");
@@ -323,12 +323,14 @@ public class MiDamindu2000 {
         text = text.replaceAll("Þ", "දී");
         text = text.replaceAll("Y", "ඊ");
         text = text.replaceAll("û", "වී");
+        text = text.replaceAll("Ö", "තී");
         text = text.replaceAll("X", "ඉ");
-
+        text = text.replaceAll("»", "කි");
         text = text.replaceAll("½", "ඛි");
         text = text.replaceAll("¿", "චි");
         text = text.replaceAll("Á", "ඡි");
 
+        //TODO this section may need to add other symbols
         text = text.replaceAll("Ã", "ජි");
         text = text.replaceAll("Ë", "ටි");
         text = text.replaceAll("Ï", "ඩි");
@@ -338,6 +340,13 @@ public class MiDamindu2000 {
         text = text.replaceAll("ï", "ඹි");
         text = text.replaceAll("õ", "රි");
         text = text.replaceAll("ú", "වි");
+        text = text.replaceAll("Õ", "ති");
+        text = text.replaceAll("Ý", "දි");
+        text = text.replaceAll("ç", "නි");
+        text = text.replaceAll("Ù", "ථී");
+        text = text.replaceAll("¼", "කී");
+
+
         text = text.replaceAll("Wý", "ආ");
         text = text.replaceAll("…", "ස");                //@Gayan     &Ú‘{Ù
         text = text.replaceAll("‚", "ව");
@@ -380,6 +389,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("\\{", "ම");
         text = text.replaceAll("s", "ද");
         text = text.replaceAll("v", "ඳ");
+        text = text.replaceAll("µ","්\u200Dය");
         text = text.replaceAll("j", "ඥ");
         text = text.replaceAll("â", "ද්‍ර");
 
@@ -390,18 +400,18 @@ public class MiDamindu2000 {
         text = text.replaceAll("þ", "ූ");
         text = text.replaceAll("¡¡", "ූ");
         text = text.replaceAll("¤", "ූ");
+        text = text.replaceAll("±","්\u200Dර");
+        text = text.replaceAll("š","ි");
+        text = text.replaceAll("˜","ි");
+        text = text.replaceAll("™","ි");
 
-        text = text.replaceAll(" š","ි");
-        text = text.replaceAll(" ˜","ි");
-        text = text.replaceAll(" ™","ි");
-
-        text = text.replaceAll(" œ", "ී");
-        text = text.replaceAll(" ›", "ී");
+        text = text.replaceAll("œ", "ී");
+        text = text.replaceAll("›", "ී");
         text = text.replaceAll("§", "ෘ");
         text = text.replaceAll("°", "ෟ");
         text = text.replaceAll("ý", "ා");
 
-        text = text.replaceAll(" ‹", "්");
+        text = text.replaceAll("‹", "්");
         text = text.replaceAll(" Œ", "්");
         text = text.replaceAll("Š", "ං");
         text = text.replaceAll("¨", "ෙ");    // this should be avoided, but no choice due to the font mixing      @Gayan

@@ -3,7 +3,7 @@ package com.ciperlabs.unicodepleco.documentHandler.ConvertionEngine.LegacyToUnic
 /**
  * Created by gayan@ciperlabs.com on 4/21/18.
  */
-public class Thibus {
+public class ThibusT {
 
     public static String convert(String text) {
         //   text = text.replaceAll("îÛó", "க்ஷௌ");
