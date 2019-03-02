@@ -26,7 +26,7 @@ public class WDXToUnicode {
     private static String tamilUnicodeFont = "Latha";
     private static String sinhalaExtraFont = "Nirmala UI";
     private static String[] nonStartables = {"ා", "ැ", "ෑ", "ි", "ී", "ු", "ූ", "ෘ", "ෙ",
-            "ේ", "ෛ", "ො", "ෝ", "ෞ", "ෟ", "ෲ", "ෳ", "්", "்", "ா", "ி", "ீ", "ே", "ெ"};
+            "ේ", "ෛ", "ො", "ෝ", "ෞ", "ෟ", "ෲ", "ෳ", "්", "்", "ா", "ி", "ீ", "ே", "ெ","ය"};
     private CTFonts sinhalaUnicodeFonts = null;
     private CTFonts tamilUnicodeFonts = null;
     private Engine engine;
@@ -65,7 +65,11 @@ public class WDXToUnicode {
     }
 
     public XWPFDocument startConversion() {
-
+        /*
+        Attempt to read and write paragrpahs, footers , Headers Tables directly in a docx file back to unicode
+            Text box conversion is handled at convert paragraph method. Remove the document dotnet mark from the PDF files is
+            also handled at the convert paragraph method
+         */
 
         convertParagraphs(docx);
         convertFooter(docx);
@@ -172,16 +176,6 @@ public class WDXToUnicode {
                     for (XWPFParagraph celssParagraph : cellParagraphs) {
 
                         List<XWPFRun> cellRuns = celssParagraph.getRuns();
-
-//                        for (XWPFRun footerTableCellRun : cellRuns) {
-//                            String fontFamily = getFontFamily(footerTableCellRun);
-//                            String[] convertedText = engine.toUnicode(footerTableCellRun.getText(0), fontFamily);
-//                            String sConvertedText = convertedText[0];
-//                            footerTableCellRun.setText(sConvertedText, 0);
-//
-//                            this.setFontFamily(footerTableCellRun, convertedText[1]);
-//
-//                        }
                         convertRuns(cellRuns);
 
                     }
@@ -226,16 +220,6 @@ public class WDXToUnicode {
                 for (XWPFParagraph footerParagraph : footerParagraphs) {
                     System.out.println("Have Footer Paragraphs");
                     List<XWPFRun> footerRuns = footerParagraph.getRuns();
-//                    for (XWPFRun footerRun : footerRuns) {
-//                        String fontFamily = getFontFamily(footerRun);
-//                        String[] convertedText = engine.toUnicode(footerRun.getText(0), fontFamily);
-//                        String sConvertedText = convertedText[0];
-//
-//                        footerRun.setText(sConvertedText, 0);
-//
-//                        this.setFontFamily(footerRun, convertedText[1]);
-//
-//                    }
                     convertRuns(footerRuns);
 
                 }
@@ -254,14 +238,7 @@ public class WDXToUnicode {
 
                                 List<XWPFRun> footerTableCellRuns = footerTableCellParagraph.getRuns();
 
-//                                for (XWPFRun footerTableCellRun : footerTableCellRuns) {
-//                                    String fontFamily = getFontFamily(footerTableCellRun);
-//                                    String[] convertedText = engine.toUnicode(footerTableCellRun.getText(0), fontFamily);
-//                                    String sConvertedText = convertedText[0];
-//                                    footerTableCellRun.setText(sConvertedText, 0);
-//                                    this.setFontFamily(footerTableCellRun, convertedText[1]);
-//                                }
-                                convertRuns(footerTableCellRuns);
+                                    convertRuns(footerTableCellRuns);
 
                             }
 
@@ -285,15 +262,6 @@ public class WDXToUnicode {
                 for (XWPFParagraph headerParagraph : headerParagraphs) {
 //                    System.out.println("Have Footer Paragraphs");
                     List<XWPFRun> headerRuns = headerParagraph.getRuns();
-//                    for (XWPFRun headerRun : headerRuns) {
-////                        System.out.println("Have Footer Runs...");
-//                        String fontFamily = getFontFamily(headerRun);
-//                        String[] convertedText = engine.toUnicode(headerRun.getText(0), fontFamily);
-//                        String sConvertedText = convertedText[0];
-//                        headerRun.setText(sConvertedText, 0);
-////                        System.out.println(sConvertedText);
-//                        this.setFontFamily(headerRun, convertedText[1]);
-//                    }
                     convertRuns(headerRuns);
 
                 }
@@ -312,15 +280,6 @@ public class WDXToUnicode {
 
                                 List<XWPFRun> headerTableCellRuns = headerTableCellParagraph.getRuns();
 
-//                                for (XWPFRun headerTableCellRun : headerTableCellRuns) {
-//                                    String fontFamily = getFontFamily(headerTableCellRun);
-//                                    String[] convertedText = engine.toUnicode(headerTableCellRun.getText(0), fontFamily);
-//                                    String sConvertedText = convertedText[0];
-//                                    headerTableCellRun.setText(sConvertedText, 0);
-////                                    System.out.println(sConvertedText);
-//                                    this.setFontFamily(headerTableCellRun, convertedText[1]);
-//
-//                                }
                                 convertRuns(headerTableCellRuns);
 
                             }
@@ -471,7 +430,7 @@ public class WDXToUnicode {
 
     }
 
-    void removeDocumentDotNetMark(XWPFParagraph paragraph){
+    private void removeDocumentDotNetMark(XWPFParagraph paragraph){
 
         XmlCursor cursor = paragraph.getCTP().newCursor();
         cursor.selectPath("declare namespace w='http://schemas.openxmlformats.org/wordprocessingml/2006/main' .//*/w:txbxContent/w:p/w:r");
@@ -482,9 +441,13 @@ public class WDXToUnicode {
             cursor.toNextSelection();
             XmlObject obj = cursor.getObject();
             ctrsintxtbx.add(obj);
+
+            logger.info("cursor textbox objs : "+obj);
+            logger.info("DOM Node of obj : " + obj.getDomNode());
         }
         for (XmlObject xmlObject : ctrsintxtbx) {
             CTR ctr = null;
+
             try {
                 ctr = CTR.Factory.parse(xmlObject.toString());
                 XWPFRun textBoxRun = new XWPFRun(ctr, paragraph);
@@ -494,7 +457,7 @@ public class WDXToUnicode {
                 String text = textBoxRun.getText(0);
                 if (text != null){
                     if (text.contains("Created by the trial version of Document")){
-                        textBoxRun.setText("", 0);
+                        textBoxRun.setText("Converted to unicode docx by https://pleco.uom.lk", 0);
                         logger.info("Removing document dotnet mark  : "+text);
                     }
                     else if(text.contains("The trial version sometimes inserts \"trial\" into random places.")){
@@ -516,5 +479,6 @@ public class WDXToUnicode {
             }
 
         }
+
     }
 }
