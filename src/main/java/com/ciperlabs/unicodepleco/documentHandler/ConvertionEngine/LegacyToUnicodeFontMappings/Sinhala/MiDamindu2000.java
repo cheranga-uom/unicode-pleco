@@ -145,6 +145,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("¨bŒ", "ඝේ");
         text = text.replaceAll("¨C", "ඛේ");
         text = text.replaceAll("¨Œ", "ලේ");
+        text = text.replaceAll("¨‹", "ලේ");
         text = text.replaceAll("¨‡Œ", "ළේ");
         text = text.replaceAll("¨ª†Œ", "ඟේ");
         text = text.replaceAll("¨oŒ", "ණේ");
@@ -299,6 +300,8 @@ public class MiDamindu2000 {
         text = text.replaceAll("Q", "ඹ්");
         text = text.replaceAll("R", "ර්");
 //        text = text.replaceAll("ªJ", "ඬ්");
+        text = text.replaceAll("uŒŒ", " න්");
+        text = text.replaceAll("u‹	Œ", " න්");
         text = text.replaceAll("_Œ", "ක්");
         text = text.replaceAll("_‹", "ක්");
         text = text.replaceAll("S", "ව්");
@@ -343,6 +346,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("Õ", "ති");
         text = text.replaceAll("Ý", "දි");
         text = text.replaceAll("ç", "නි");
+        text = text.replaceAll("è", "නී");
         text = text.replaceAll("Ù", "ථී");
         text = text.replaceAll("¼", "කී");
 
@@ -364,7 +368,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("", "ල");
         text = text.replaceAll("W", "අ");
         text = text.replaceAll("\\\\", "එ");
-                text = text.replaceAll("]", "ඔ");
+        text = text.replaceAll("]", "ඔ");
         text = text.replaceAll("_", "ක");
         text = text.replaceAll("`", "ඛ");
         text = text.replaceAll("a", "ග");
@@ -384,7 +388,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("u", "න");
         text = text.replaceAll("w", "ප");
         text = text.replaceAll("\\\\", "එ");
-                text = text.replaceAll("y", "බ");
+        text = text.replaceAll("y", "බ");
         text = text.replaceAll("z", "භ");
         text = text.replaceAll("\\{", "ම");
         text = text.replaceAll("s", "ද");
@@ -412,7 +416,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("ý", "ා");
 
         text = text.replaceAll("‹", "්");
-        text = text.replaceAll(" Œ", "්");
+        text = text.replaceAll("Œ", "්");
         text = text.replaceAll("Š", "ං");
         text = text.replaceAll("¨", "ෙ");    // this should be avoided, but no choice due to the font mixing      @Gayan
         text = text.replaceAll("s", "දැ");    // This is a common error   @Gayan
