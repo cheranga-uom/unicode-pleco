@@ -268,7 +268,8 @@ public class Engine {
             logger.info("Converted Text : "+unicodeText);
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
-        }else if (font.equalsIgnoreCase("DL-Araliya")) {
+        }else if (font.equalsIgnoreCase("DL-Araliya") || font.equalsIgnoreCase("Dimuthu")
+                 || font.equalsIgnoreCase("Dimuthu-bld") || font.equalsIgnoreCase("DL-Biso")) {
 
             tamilLastCharError1 = false;
             tamilLastCharError2 = false;
@@ -289,6 +290,31 @@ public class Engine {
                 text = text.substring(0, text.length() - 1);
             }
             unicodeText = DL_Araliya.convert(text);
+            addFontLogs(font, FontState.SUPPORTED);
+            logger.info("Converted Text : "+unicodeText);
+            return new String[]{unicodeText, sinhalaUnicodeFont};
+
+        }else if (font.equalsIgnoreCase("Kandy")) {
+
+            tamilLastCharError1 = false;
+            tamilLastCharError2 = false;
+            tamilLastCharError3 = false;
+
+            if (sinhalaLastCharError1) {
+                sinhalaLastCharError1 = false;
+                text = Kandy.fixLastCharError(text);
+            } else if (sinhalaLastCharError2) {
+                sinhalaLastCharError2 = false;
+                text = Kandy.fixLastCharError2(text);
+            }
+            if (Kandy.lastCharError(text)) {
+                sinhalaLastCharError1 = true;
+                text = text.substring(0, text.length() - 1);
+            } else if (Kandy.lastCharError2(text)) {
+                sinhalaLastCharError2 = true;
+                text = text.substring(0, text.length() - 1);
+            }
+            unicodeText = Kandy.convert(text);
             addFontLogs(font, FontState.SUPPORTED);
             logger.info("Converted Text : "+unicodeText);
             return new String[]{unicodeText, sinhalaUnicodeFont};
