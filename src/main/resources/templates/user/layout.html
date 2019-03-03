@@ -270,6 +270,13 @@
         </div>
 
         <div class="col-md-2" th:fragment="rightBar">
+            <div class="col">
+                <div class="counter">
+                    <i class="fa fa-lightbulb-o fa-2x"></i>
+                    <h2 class="timer count-title count-number" id="visitorCount" data-to="" data-speed="1500"></h2>
+                    <p class="count-text ">Number Of Visitors</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -376,61 +383,7 @@
     <!-- MDBootstrap Datatables  -->
     <script type="text/javascript" src="/style/js/addons/datatables.min.js"></script>
     <!-- <link rel="stylesheet" href="style.css"> -->
-    <style type="text/css">
 
-        #dropzone {
-            margin-bottom: 3rem;
-        }
-
-        .dropzone {
-            border: 2px dashed #b71c1c;
-            outline: 2px solid #b71c1c;
-            outline-offset: -8px;
-            border-radius: 5px;
-            background: white;
-        }
-
-        .dropzone .dz-message {
-            font-weight: 400;
-        }
-
-        .dropzone .dz-message .note {
-            font-size: 0.8em;
-            font-weight: 200;
-            display: block;
-            margin-top: 1.4rem;
-        }
-
-        .dropzone.dz-clickable {
-            cursor: pointer;
-        }
-
-        .files input {
-            outline: 2px dashed #92b0b3;
-            outline-offset: -10px;
-            -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
-            transition: outline-offset .15s ease-in-out, background-color .15s linear;
-            padding: 120px 0px 85px 35%;
-            text-align: center !important;
-            margin: 0;
-            width: 100% !important;
-        }
-
-        .files input:focus {
-            outline: 2px dashed #92b0b3;
-            outline-offset: -10px;
-            -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
-            transition: outline-offset .15s ease-in-out, background-color .15s linear;
-            border: 1px solid #92b0b3;
-        }
-
-        .half-rule {
-            margin: auto;
-            text-align: left;
-            width: 60%;
-        }
-
-    </style>
     <script type="text/javascript">
         $(document).ready(function () {
             function animateloop() {
@@ -485,6 +438,93 @@
             return true;
         };
     </script>
+    <script type="text/javascript">
+
+        var visitorCountElm = document.getElementById("visitorCount");
+
+        var visitRecord = localStorage.getItem("visitRecord");
+        var old = false;
+
+        var head = document.getElementsByTagName('head')[0];
+        var js = document.createElement("script");
+
+        js.type = "text/javascript";
+        js.src = "/style/js/visitorCount.js";
+
+
+        console.log("VisitorCountObj : " + visitRecord);
+
+        if (visitRecord === undefined || visitRecord === "" || visitRecord == null) {
+            var object = {visited: "true", timestamp: new Date().getTime()};
+            localStorage.setItem("visitRecord", JSON.stringify(object));
+            console.log("Adding visitor log");
+            var old = true;
+        }
+        else {
+            console.log("Previouly visited");
+            var object = JSON.parse(visitRecord);
+            var date = object.timestamp;
+
+            console.log(date);
+
+            var day = 1000 * 60 * 60 * 24;
+            var dayOld = Date.now() - day;
+
+            if (date > dayOld) {
+                // Still not 1 day old
+                old = false;
+                console.log("Previouly visited");
+
+            }
+            else {
+                // older than one day
+                console.log("Previouly visited not");
+
+                old = true;
+                var object = {visited: "true", timestamp: new Date().getTime()};
+                localStorage.setItem("visitRecord", JSON.stringify(object));
+            }
+
+        }
+        var formData = new FormData();
+        formData.append("newVisitor", old);
+        $.ajax({
+            type: "POST",
+            url: "/visitor",
+            success: function (data) {
+                // your callback here
+                console.log("Visitor Count : " + data.visitorCount.toString());
+                visitorCountElm.setAttribute("data-to", data.visitorCount.toString());
+                // visitorCountElm.innerText = data.visitorCount.toString();
+                console.log(visitorCountElm);
+
+                // Add Javascript after setting value
+                head.appendChild(js);
+            },
+            error: function (error) {
+                console.log("Error in the request or file.");
+                // handle error
+                console.log(error);
+
+                visitorCountElm.setAttribute("data-to", "0");
+                visitorCountElm.innerText = data.visitorCount.toString();
+
+                // Add Javascript after setting value
+                head.appendChild(js);
+
+            },
+            async: true,
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            timeout: 180000
+        });
+
+    </script>
+    <!--<script type="text/javascript" src="/style/js/visitorCount.js"></script>-->
+
+
 </div>
 </body>
 
