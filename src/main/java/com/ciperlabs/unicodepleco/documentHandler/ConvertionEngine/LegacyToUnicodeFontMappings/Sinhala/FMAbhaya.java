@@ -379,9 +379,10 @@ public class FMAbhaya {
         text = text.replaceAll("a", "්");
         text = text.replaceAll("x", "ං");
         text = text.replaceAll("#", "ඃ");
-        text = text.replaceAll(" ’", "ී");
-        text = text.replaceAll(" ‘", "ි");
+        text = text.replaceAll("’", "ී");
+        text = text.replaceAll("‘", "ි");
         text = text.replaceAll("f", "ෙ");                // Added By @Gayan conflict with other fonts
+        text = text.replaceAll("`", "ු");
 
 
         // ----------- ascii chars

@@ -527,8 +527,8 @@ public class FMAbhaya_UCSC {
         text = text.replaceAll("a", "්");
         text = text.replaceAll("x", "ං");
         text = text.replaceAll("½", "ඃ");
-        text = text.replaceAll(" ’", "ී");
-        text = text.replaceAll(" ‘", "ි");
+        text = text.replaceAll("’", "ී");
+        text = text.replaceAll("‘", "ි");
         text = text.replaceAll("#", "ඃ");
         text = text.replaceAll("œ", " ර්‍්‍ය");
         text = text.replaceAll("˜", "”");
@@ -602,9 +602,10 @@ public class FMAbhaya_UCSC {
         text = text.replaceAll("a", "්");
         text = text.replaceAll("x", "ං");
         text = text.replaceAll("#", "ඃ");
-        text = text.replaceAll(" ’", "ී");
-        text = text.replaceAll(" ‘", "ි");
+        text = text.replaceAll("’", "ී");
+        text = text.replaceAll("‘", "ි");
         text = text.replaceAll("f", "ෙ");                // Added By @Gayan conflict with other fonts
+        text = text.replaceAll("`", "ු");
 
         // ----------- ascii chars
         text = text.replaceAll("\\'", "\\.");
@@ -658,14 +659,14 @@ public class FMAbhaya_UCSC {
 
 
     public static boolean lastCharError2(String text) {
-        if (text.endsWith("`")) {
-            return true;
-        } else {
+//        if (text.endsWith("`")) {
+//            return true;
+//        } else {
             return false;
-        }
+//        }
     }
 
     public static String fixLastCharError2(String text) {
-        return "`" + text;
+        return text; //"`" + text;
     }
 }

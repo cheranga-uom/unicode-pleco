@@ -270,7 +270,8 @@ public class Engine {
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
         }else if (font.equalsIgnoreCase("DL-Araliya") || font.equalsIgnoreCase("Dimuthu")
-                 || font.equalsIgnoreCase("Dimuthu-bld") || font.equalsIgnoreCase("DL-Biso")) {
+                 || font.equalsIgnoreCase("Dimuthu-bld") || font.equalsIgnoreCase("DL-Biso")
+                 || font.equalsIgnoreCase("DL-Paras")) {
 
             tamilLastCharError1 = false;
             tamilLastCharError2 = false;
