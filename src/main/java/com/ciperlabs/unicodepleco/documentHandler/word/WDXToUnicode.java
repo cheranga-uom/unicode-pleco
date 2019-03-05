@@ -25,7 +25,7 @@ public class WDXToUnicode {
     private static String sinhalaUnicodeFont = "Iskoola Pota";
     private static String tamilUnicodeFont = "Latha";
     private static String sinhalaExtraFont = "Nirmala UI";
-    private static String[] nonStartables = {"ා", "ැ", "ෑ", "ි", "ී", "ු", "ූ", "ෘ", "ෙ",
+    private static String[] nonStartables = {"ා", "ැ", "ෑ", "ි", "ී", "ු", "ූ", "ෘ", "ෙ","ං",
             "ේ", "ෛ", "ො", "ෝ", "ෞ", "ෟ", "ෲ", "ෳ", "්", "்", "ா", "ி", "ீ", "ே", "ெ","ය"};
     private CTFonts sinhalaUnicodeFonts = null;
     private CTFonts tamilUnicodeFonts = null;

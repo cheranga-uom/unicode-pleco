@@ -17,10 +17,11 @@ spring:
                 format_sql: true
 
 #File Uploading
+#5MB = 5120KB but with request header this varies few KB so adding a safe margin
     servlet:
         multipart:
-            max-file-size:  5000KB
-            max-request-size: 5000KB
+            max-file-size:  6000KB
+            max-request-size: 6000KB
             enabled: true
 
 

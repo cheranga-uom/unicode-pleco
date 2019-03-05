@@ -374,6 +374,8 @@ public class MiDamindu2000 {
         text = text.replaceAll("a", "ග");
         text = text.replaceAll("b", "ඝ");
         text = text.replaceAll("ª†", "ඟ");
+        text = text.replaceAll("d", "ඟ");
+
         text = text.replaceAll("e", "ච");
         text = text.replaceAll("f", "ඡ");
         text = text.replaceAll("g", "ජ");
@@ -393,13 +395,18 @@ public class MiDamindu2000 {
         text = text.replaceAll("\\{", "ම");
         text = text.replaceAll("s", "ද");
         text = text.replaceAll("v", "ඳ");
+        text = text.replaceAll("Ú", "දා");
+        text = text.replaceAll("ñ","යි");
         text = text.replaceAll("µ","්\u200Dය");
+
         text = text.replaceAll("j", "ඥ");
         text = text.replaceAll("â", "ද්‍ර");
 
         text = text.replaceAll("", "ැ");
         text = text.replaceAll("•", "ෑ");
         text = text.replaceAll("Ÿ", "ු");
+        text = text.replaceAll("¢", "ු");
+
         text = text.replaceAll("£", "ූ");
         text = text.replaceAll("þ", "ූ");
         text = text.replaceAll("¡¡", "ූ");
@@ -408,7 +415,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("š","ි");
         text = text.replaceAll("˜","ි");
         text = text.replaceAll("™","ි");
-
+        text = text.replaceAll("²", "්\u200Dර");
         text = text.replaceAll("œ", "ී");
         text = text.replaceAll("›", "ී");
         text = text.replaceAll("§", "ෘ");

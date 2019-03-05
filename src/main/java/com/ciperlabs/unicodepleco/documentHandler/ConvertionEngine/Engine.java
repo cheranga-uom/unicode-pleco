@@ -114,7 +114,8 @@ public class Engine {
                 || font.equalsIgnoreCase("FMBindu") ||  font.equalsIgnoreCase("FMArjunn")
                 || font.equalsIgnoreCase("FMGemunu") ||  font.equalsIgnoreCase("FMSaman")
                 || font.equalsIgnoreCase("FMGangani") ||  font.equalsIgnoreCase("FMRajantha")
-                || font.equalsIgnoreCase("FMSamantha") ||  font.equalsIgnoreCase("FMGanganee")){
+                || font.equalsIgnoreCase("FMSamantha") ||  font.equalsIgnoreCase("FMGanganee")
+                || font.equalsIgnoreCase("Hemawathy") || font.equalsIgnoreCase("SandayaBOI")){
 
             tamilLastCharError1 = false;
             tamilLastCharError2 = false;

@@ -32,6 +32,7 @@ import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -239,19 +240,32 @@ public class FileController {
     }
 
     private String arrayListToString(ArrayList<FontLogAbs> fontLogAbs) {
+
+        String[] knownFonts = {"Iskoola Pota", "Times New Roman", "Calibri", "Liberation Serif", "Latha"};
+
         String fontLogS = "";
 
         for (FontLogAbs fontLog : fontLogAbs) {
             logger.info("Font : " + fontLog.getFont());
             fontLogS += fontLog.getFont() + ";";
-            if (fontLog.getStatus() == FontState.NO_UNICODE_SUPPORT_AVAILABLE_YET) {
-                fontLogS += "No Unicode Support Available yet" + "|";
-            } else if (fontLog.getStatus() == FontState.SUPPORTED) {
-                fontLogS += "Supported" + "|";
-            } else {
-                fontLogS += fontLog.getStatus() + "|";
+
+            boolean knwonFont = Arrays.stream(knownFonts).anyMatch(fontLog.getFont()::equals);
+
+            if(knwonFont){
+                fontLogS += "No Unicode Conversion Applied" + "|";
 
             }
+            else {
+                if (fontLog.getStatus() == FontState.NO_UNICODE_SUPPORT_AVAILABLE_YET) {
+                    fontLogS += "No Unicode Support Available yet" + "|";
+                } else if (fontLog.getStatus() == FontState.SUPPORTED) {
+                    fontLogS += "Supported" + "|";
+                } else {
+                    fontLogS += fontLog.getStatus() + "|";
+
+                }
+            }
+
         }
         return fontLogS;
     }
