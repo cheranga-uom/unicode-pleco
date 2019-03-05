@@ -108,6 +108,8 @@ public class Engine {
         } else if (font.equalsIgnoreCase("FMAbhaya") || font.equalsIgnoreCase("FMAbabld")
                 || font.equalsIgnoreCase("FMAbabldBold") || font.equalsIgnoreCase("FMAbhayax")
                 || font.equalsIgnoreCase("FMEmaneex") || font.equalsIgnoreCase("FMDeranax")
+                || font.equalsIgnoreCase("FMDerana")
+
                 //TODO Following font mappings Need to be tested
                 || font.equalsIgnoreCase("FMEmanee") ||  font.equalsIgnoreCase("FMBindumathi")
                 || font.equalsIgnoreCase("FMMalithi") ||  font.equalsIgnoreCase("FMBasuru")
@@ -219,7 +221,7 @@ public class Engine {
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
         }
-        else if (font.equalsIgnoreCase("Mi_Damidu2000")) {
+        else if (font.equalsIgnoreCase("Mi_Damidu2000") || font.equalsIgnoreCase("Mi_Nelum2000")) {
 
             tamilLastCharError1 = false;
             tamilLastCharError2 = false;

@@ -1,0 +1,3 @@
+Rename .TTF to ttf
+sudo su
+for f in *.TTF;do mv "$f" "$(basename "$f" .TTF)".ttf; done
