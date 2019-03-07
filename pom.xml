@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.ciperlabs</groupId>
     <artifactId>unicode-pleco</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>unicode-pleco</name>
     <description>Non unicode files to unicode converter</description>

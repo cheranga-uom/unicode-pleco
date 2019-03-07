@@ -20,10 +20,13 @@ spring:
 #5MB = 5120KB but with request header this varies few KB so adding a safe margin
     servlet:
         multipart:
-            max-file-size:  6000KB
-            max-request-size: 6000KB
+            max-file-size:  10000KB
+            max-request-size: 10000KB
             enabled: true
-
+#server:
+#    tomcat:
+#      max-http-post-size: 10MB
+#      max-swallow-size: 10MB
 
 security:
   oauth2:
