@@ -17,11 +17,11 @@ spring:
                 format_sql: true
 
 #File Uploading
-#5MB = 5120KB but with request header this varies few KB so adding a safe margin
+#5MB = 5120KB but with request header this varies few KB so adding a safe margin , need to change at nginx server as well
     servlet:
         multipart:
-            max-file-size:  10000KB
-            max-request-size: 10000KB
+            max-file-size:  8000KB
+            max-request-size: 8000KB
             enabled: true
 #server:
 #    tomcat:
