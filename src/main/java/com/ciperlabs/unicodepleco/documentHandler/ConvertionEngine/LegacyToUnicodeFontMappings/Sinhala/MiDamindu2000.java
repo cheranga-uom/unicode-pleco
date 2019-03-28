@@ -423,6 +423,7 @@ public class MiDamindu2000 {
         text = text.replaceAll("ý", "ා");
 
         text = text.replaceAll("‹", "්");
+	text = text.replaceAll("", "්");
         text = text.replaceAll("Œ", "්");
         text = text.replaceAll("Š", "ං");
         text = text.replaceAll("¨", "ෙ");    // this should be avoided, but no choice due to the font mixing      @Gayan
