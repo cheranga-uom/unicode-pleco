@@ -141,54 +141,13 @@ public class FileController {
          */
 
         logger.info("Recieved File Type : "+ inputFileType);
-        StoredFile uploadedDocument = new StoredFile();
 
-        ArrayList<FontLogAbs> fontLogAbs = new ArrayList<>();
-
-        DocumentHandler documentHandler = new DocumentHandler(storageService, environment, documentConverter, fontLogAbs);
-        StoredFile convertedFile = documentHandler.convertFile(maltipartFile,inputFileType);
         Map<String, String> map = new LinkedHashMap<>();
+        Conversion conversion = new Conversion();
 
-        if (convertedFile != null) {
+        boolean conversionSuccess = handleConversion(maltipartFile,inputFileType,map,conversion);
 
-            Conversion conversion = new Conversion();
-
-            if(convertedFile.getFileType() == FileType.DOCX){
-                map.put("fileType",FileType.DOCX+"");
-                conversion.setInputFileType(FileType.DOCX);
-                uploadedDocument = storageService.store(maltipartFile, "uploaded/docx/");
-
-            }
-            else if(convertedFile.getFileType() == FileType.EXCEL){
-                map.put("fileType",FileType.EXCEL+"");
-                conversion.setInputFileType(FileType.EXCEL);
-                uploadedDocument = storageService.store(maltipartFile, "uploaded/excel/");
-
-            }
-            else if(convertedFile.getFileType() == FileType.PDF){
-                map.put("fileType",FileType.DOCX+"");
-                conversion.setInputFileType(FileType.PDF);
-                uploadedDocument = storageService.store(maltipartFile, "uploaded/pdf/");
-
-            }
-            else if(convertedFile.getFileType() == FileType.DOC){
-                map.put("fileType",FileType.DOCX+"");
-                conversion.setInputFileType(FileType.DOC);
-                uploadedDocument = storageService.store(maltipartFile, "uploaded/doc/");
-
-            }
-
-            conversion.setInputFileName(uploadedDocument.getFileName());
-            conversion.setInputFilePath(uploadedDocument.getPath());
-            conversion.setInputFileType(uploadedDocument.getFileType());
-            conversion.setOutputFileName(convertedFile.getFileName());
-            conversion.setOutputFilePath(convertedFile.getPath());
-            conversionRepository.save(conversion);
-            map.put("conversionId",conversion.getConversionId()+"");
-            map.put("filename","Unicode - " + uploadedDocument.getFileName());
-            logger.info(map.get("filename"));
-            map.put("fontLog", arrayListToString(fontLogAbs));
-
+        if (conversionSuccess){
             if (principal != null) {
                 OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
                 Authentication authentication = oAuth2Authentication.getUserAuthentication();
@@ -208,9 +167,6 @@ public class FileController {
                 map.put("status","notLoggedIn");
 
             }
-
-        } else {
-            map.put("status","Error Converting File");
         }
 
         return map;
@@ -268,6 +224,112 @@ public class FileController {
 
         }
         return fontLogS;
+    }
+
+    private boolean handleConversion(MultipartFile maltipartFile, String inputFileType,Map<String, String> map, Conversion conversion){
+
+        StoredFile uploadedDocument = new StoredFile();
+
+        ArrayList<FontLogAbs> fontLogAbs = new ArrayList<>();
+        DocumentHandler documentHandler = new DocumentHandler(storageService, environment, documentConverter, fontLogAbs);
+        StoredFile convertedFile = documentHandler.convertFile(maltipartFile,inputFileType);
+
+        if (convertedFile != null) {
+
+
+            if(convertedFile.getFileType() == FileType.DOCX){
+                map.put("fileType",FileType.DOCX+"");
+                conversion.setInputFileType(FileType.DOCX);
+                uploadedDocument = storageService.store(maltipartFile, "uploaded/docx/");
+
+            }
+            else if(convertedFile.getFileType() == FileType.EXCEL){
+                map.put("fileType",FileType.EXCEL+"");
+                conversion.setInputFileType(FileType.EXCEL);
+                uploadedDocument = storageService.store(maltipartFile, "uploaded/excel/");
+
+            }
+            else if(convertedFile.getFileType() == FileType.PDF){
+                map.put("fileType",FileType.DOCX+"");
+                conversion.setInputFileType(FileType.PDF);
+                uploadedDocument = storageService.store(maltipartFile, "uploaded/pdf/");
+
+            }
+            else if(convertedFile.getFileType() == FileType.DOC){
+                map.put("fileType",FileType.DOCX+"");
+                conversion.setInputFileType(FileType.DOC);
+                uploadedDocument = storageService.store(maltipartFile, "uploaded/doc/");
+
+            }
+
+            conversion.setInputFileName(uploadedDocument.getFileName());
+            conversion.setInputFilePath(uploadedDocument.getPath());
+            conversion.setInputFileType(uploadedDocument.getFileType());
+            conversion.setOutputFileName(convertedFile.getFileName());
+            conversion.setOutputFilePath(convertedFile.getPath());
+            conversionRepository.save(conversion);
+            map.put("conversionId",conversion.getConversionId()+"");
+            map.put("filename","Unicode - " + uploadedDocument.getFileName());
+            logger.info(map.get("filename"));
+            map.put("fontLog", arrayListToString(fontLogAbs));
+
+            return true;
+
+        } else {
+            map.put("status","Error Converting File");
+            return false;
+        }
+    }
+
+    @RequestMapping("/api/upload")
+    @ResponseBody
+    public Map handleApiUpload(@RequestParam("file") MultipartFile maltipartFile,
+                               @RequestParam("inputfiletype") String inputFileType, String apiKey ) throws StorageException{
+
+        /*
+            Will return fontLog , conversionId , status , fileType (converted File)
+            Split fontLog with | and then ; to get the font status for a font
+         */
+
+        logger.info("Recieved File Type : "+ inputFileType);
+
+        Map<String, String> map = new LinkedHashMap<>();
+        Conversion conversion = new Conversion();
+
+        boolean conversionSuccess = handleConversion(maltipartFile,inputFileType,map,conversion);
+
+//        if (conversionSuccess){
+//            if (apiKey != null) {
+//                OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
+//                Authentication authentication = oAuth2Authentication.getUserAuthentication();
+//                Map<String, String> details = new LinkedHashMap<>();
+//                details = (Map<String, String>) authentication.getDetails();
+//                logger.info("details = " + details);  // id, email, name, link etc.
+//
+//                Long userId = Long.valueOf(details.get("id")+"");
+//                User user = userRepository.getOne(userId);
+//                conversion.setUser(user);
+//                conversionRepository.save(conversion);
+//
+//                map.put("status","success");
+//            }
+//
+//            else {
+//                map.put("status","notLoggedIn");
+//
+//            }
+//        }
+
+        return map;
+
+    }
+
+    @RequestMapping("/api/test")
+    @ResponseBody
+    public String testAPI(@RequestParam("key") String key, Principal principal){
+
+        logger.info("principal " + principal.getName());
+        return key+" success";
     }
 
 }
