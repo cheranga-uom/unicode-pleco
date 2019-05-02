@@ -5,6 +5,7 @@ import com.ciperlabs.unicodepleco.documentHandler.util.FontState;
 import com.ciperlabs.unicodepleco.model.Conversion;
 import com.ciperlabs.unicodepleco.model.FileType;
 import com.ciperlabs.unicodepleco.model.User;
+import com.ciperlabs.unicodepleco.repository.APIUserRepository;
 import com.ciperlabs.unicodepleco.repository.ConversionRepository;
 import com.ciperlabs.unicodepleco.repository.UserRepository;
 import com.ciperlabs.unicodepleco.service.storage.StorageException;
@@ -57,6 +58,9 @@ public class FileController {
 
     @Autowired
     private DocumentConverter documentConverter;
+
+    @Autowired
+    private APIUserRepository apiUserRepository;
 
 //    @Autowired
 //    public FileController(StorageService storageService, ConversionRepository conversionRepository, UserRepository userRepository,
@@ -276,7 +280,7 @@ public class FileController {
             return true;
 
         } else {
-            map.put("status","Error Converting File");
+            map.put("status","Error Converting File, Valid File Formats are officeXML, PDF, officeDOC");
             return false;
         }
     }
@@ -284,7 +288,7 @@ public class FileController {
     @RequestMapping("/api/upload")
     @ResponseBody
     public Map handleApiUpload(@RequestParam("file") MultipartFile maltipartFile,
-                               @RequestParam("inputfiletype") String inputFileType, String apiKey ) throws StorageException{
+                               @RequestParam("inputfiletype") String inputFileType, Principal principal) throws StorageException{
 
         /*
             Will return fontLog , conversionId , status , fileType (converted File)
@@ -298,38 +302,68 @@ public class FileController {
 
         boolean conversionSuccess = handleConversion(maltipartFile,inputFileType,map,conversion);
 
-//        if (conversionSuccess){
-//            if (apiKey != null) {
-//                OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
-//                Authentication authentication = oAuth2Authentication.getUserAuthentication();
-//                Map<String, String> details = new LinkedHashMap<>();
-//                details = (Map<String, String>) authentication.getDetails();
-//                logger.info("details = " + details);  // id, email, name, link etc.
-//
-//                Long userId = Long.valueOf(details.get("id")+"");
+        if (conversionSuccess){
+            if (principal != null) {
+
+                User user = apiUserRepository.findAPIUserByApikey(principal.getName()).getUser();
+//                Long userId = Long.valueOf(user.getId()+"");
 //                User user = userRepository.getOne(userId);
-//                conversion.setUser(user);
-//                conversionRepository.save(conversion);
-//
-//                map.put("status","success");
-//            }
-//
-//            else {
-//                map.put("status","notLoggedIn");
-//
-//            }
-//        }
+                conversion.setUser(user);
+                conversionRepository.save(conversion);
+
+                map.put("status","success");
+            }
+
+            else {
+                map.put("status","notLoggedIn");
+
+            }
+        }
 
         return map;
 
     }
 
-    @RequestMapping("/api/test")
+    @RequestMapping("/api/download")
     @ResponseBody
-    public String testAPI(@RequestParam("key") String key, Principal principal){
+    public ResponseEntity serveAPIFile(@PathParam("conversionId") int conversionId,Principal principal) {
+        //TODO fix this concurrent downloads might effect
+        System.out.println("ConversionId : "+conversionId);
+        if (!conversionRepository.findById(conversionId).isPresent()) {
 
-        logger.info("principal " + principal.getName());
-        return key+" success";
+            Map<String, String> response = new LinkedHashMap<>();
+            response.put("status","notAvailable");
+            return ResponseEntity.badRequest().body(response);
+        }
+        Conversion conversion = conversionRepository.findById(conversionId).get();
+
+        String filePath = conversion.getOutputFilePath();
+        logger.debug("Download FileName : "+ filePath );
+
+        if (principal != null) {
+            User ownerOfFile = apiUserRepository.findAPIUserByApikey(principal.getName()).getUser();
+            if (conversion.getUser().getId().equals(Long.valueOf(ownerOfFile.getId()+""))){
+
+                Resource resource = storageService.loadAsResource(conversion.getOutputFilePath());
+                logger.debug("Attaching file to download : "+ conversion.getInputFileName());
+                logger.debug("File Name : " + conversion.getInputFileName());
+                return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + resource.getFilename() + "\"").body(resource);
+
+            }
+            else {
+                Map<String, String> response = new LinkedHashMap<>();
+                response.put("status","You don't own this file, please attach the correct API key");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+        }
+        else {
+            Map<String, String> response = new LinkedHashMap<>();
+            response.put("status","Invalid API Key");
+            return ResponseEntity.badRequest().body(response);
+        }
+        
     }
 
 }

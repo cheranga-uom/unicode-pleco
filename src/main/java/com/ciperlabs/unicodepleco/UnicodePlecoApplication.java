@@ -59,7 +59,7 @@ import java.util.List;
 //@RestController
 @EnableOAuth2Client
 @EnableAuthorizationServer
-@Order(6)
+@Order(2)
 public class UnicodePlecoApplication extends WebSecurityConfigurerAdapter {
 
     @Autowired

@@ -20,4 +20,15 @@ public class APIUser {
     @JsonBackReference
     private User user;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getApikey() {
+        return apikey;
+    }
+
+    public User getUser() {
+        return user;
+    }
 }

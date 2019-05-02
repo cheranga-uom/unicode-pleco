@@ -21,7 +21,7 @@ import org.springframework.security.core.AuthenticationException;
 public class APISecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    @Value("${yourapp.http.auth-token-header-name}")
-    private String principalRequestHeader = "testauth";
+    private String principalRequestHeader = "apikey";
 
 //    @Value("${yourapp.http.auth-token}")
     private String principalRequestValue="abcd1234";
