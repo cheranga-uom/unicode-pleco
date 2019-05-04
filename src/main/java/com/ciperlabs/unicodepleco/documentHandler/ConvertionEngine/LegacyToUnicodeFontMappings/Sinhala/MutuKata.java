@@ -288,6 +288,7 @@ public class MutuKata {
         text = text.replaceAll("ý", "ඡි"); //added
         text = text.replaceAll("ð", "ජි");
         text = text.replaceAll("ô", "ජී");
+	text = text.replaceAll("Ô", "ජී");
         text = text.replaceAll("ú", "වි");
         text = text.replaceAll("Cä", "ඣි");
         text = text.replaceAll("‚", "ණි");
