@@ -49,7 +49,7 @@ public class Engine {
         Accepts the @param text and @param font
         return  an array of strings containing the @convertedText and @UnicodeFont
          */
-        logger.debug("Text  :" + text + " font   : " +font);
+        logger.debug("Text   text + " font   : " +font);
         String unicodeText = text;
         String newFont = null;
         if (font == null) {
@@ -221,7 +221,7 @@ public class Engine {
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
         }
-        else if (font.equalsIgnoreCase("Mi_Damidu2000") || font.equalsIgnoreCase("Mi_Nelum2000")) {
+        else if (font.equalsIgnoreCase("Mi_Damidu2000") || font.equalsIgnoreCase("Mi_Nelum2000") || font.equalsIgnoreCase("Mi_Amila2000") font.equalsIgnoreCase("Mi_Supun2000")) {
 
             tamilLastCharError1 = false;
             tamilLastCharError2 = false;
