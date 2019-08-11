@@ -102,6 +102,7 @@ public class WDXToUnicode {
         }
     }
 
+    /* A paragraph is the basic building box of a text element. this method takes all the runs in a generic paragrpah and apply conversion, additionally fixes broken word issue */
     private void convertParagrpahRuns(List<XWPFRun> runs, XWPFParagraph paragraph){
 
         int currentParagraphPosition = paragraph.getDocument().getPosOfParagraph(paragraph);
@@ -128,6 +129,8 @@ public class WDXToUnicode {
 
                 run.setText(sConvertedText, 0);
 
+                //Case where there are multiple wt tags inside the same wr tag
+                // In this case broken word errors does not rise, text inside the same wr tag render fine. So not applying that fix here
                 for (int runnerTextPosition = 1; runnerTextPosition < sizeOfCtr; runnerTextPosition++) {
                     String[] nonZeroPostionedConverted = engine.toUnicode(run.getText(runnerTextPosition), fontFamily);
                     String nonZeroPostionedConvertedText = nonZeroPostionedConverted[0];
@@ -147,6 +150,7 @@ public class WDXToUnicode {
 
             if (sConvertedText != null && sConvertedText.startsWith(nonStartable)) {
 //                            run.setText(text.substring(1),0);
+
                 sConvertedText = sConvertedText.substring(1);
                 if (runnerPosition > 0) {
                     XWPFRun preRun = runs.get(runnerPosition - 1);
@@ -164,6 +168,8 @@ public class WDXToUnicode {
         }
         return sConvertedText;
     }
+
+    /* Process the table objects in the XWPFDocument*/
     private void convertTables(XWPFDocument docx) {
 
         List<XWPFTable> tables = docx.getTables();
@@ -176,7 +182,8 @@ public class WDXToUnicode {
                     for (XWPFParagraph celssParagraph : cellParagraphs) {
 
                         List<XWPFRun> cellRuns = celssParagraph.getRuns();
-                        convertRuns(cellRuns);
+//                        convertRuns(cellRuns);
+                        convertParagrpahRuns(cellRuns,celssParagraph);
 
                     }
 
