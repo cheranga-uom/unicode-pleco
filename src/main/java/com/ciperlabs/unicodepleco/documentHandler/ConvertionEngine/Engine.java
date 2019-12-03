@@ -105,8 +105,8 @@ public class Engine {
 
             return new String[]{unicodeText, sinhalaUnicodeFont};
 
-        } else if (font.equalsIgnoreCase("FMAbhaya") || font.equalsIgnoreCase("FMAbabld")
-                || font.equalsIgnoreCase("FMAbabldBold") || font.equalsIgnoreCase("FMAbabld,Bold")
+        } else if (font.equalsIgnoreCase("FMAbhaya") || font.contains("FMAbabld")
+//                || font.equalsIgnoreCase("FMAbabldBold") || font.equalsIgnoreCase("FMAbabld,Bold")
                 || font.equalsIgnoreCase("FMAbhayax")
                 || font.equalsIgnoreCase("FMEmaneex") || font.equalsIgnoreCase("FMDeranax")
                 || font.equalsIgnoreCase("FMDerana")
