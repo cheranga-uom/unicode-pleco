@@ -5,6 +5,7 @@ import com.ciperlabs.unicodepleco.documentHandler.util.FontLogAbs;
 import com.ciperlabs.unicodepleco.documentHandler.word.HWPFtoXWPF;
 import com.ciperlabs.unicodepleco.documentHandler.word.WDXToUnicode;
 import com.ciperlabs.unicodepleco.model.FileType;
+import com.ciperlabs.unicodepleco.service.storage.StorageProperties;
 import com.ciperlabs.unicodepleco.service.storage.StorageService;
 import com.ciperlabs.unicodepleco.service.storage.StoredFile;
 import org.apache.commons.fileupload.FileItem;
@@ -18,6 +19,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.jodconverter.DocumentConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -40,16 +42,19 @@ This class will handle the received stored file objects to identify the file typ
  */
 public class DocumentHandler {
 
+//    @Autowired
+    private StorageProperties storageProperties;// = new StorageProperties();
+
     private final Logger logger = LoggerFactory.getLogger(DocumentHandler.class);
-    private String rootDocumentDirectory = "Documents/";
-    private String docxConvertedLocation = "converted/docx/";         //TODO read from properties
-    private String excelConvertedLocation = "converted/excel/";
-    private String pdfToWordPdfLocation = "pdfToWord/pdf/";
-    private String pdfToWordDocxLocation = "pdfToWord/docx/";
+    private String rootDocumentDirectory;// = storageProperties.getRootDocumentDirectory();
+    private String docxConvertedLocation;// = storageProperties.getConvertedDocx();    //"converted/docx/";
+    private String excelConvertedLocation;// = storageProperties.getConvertedExcel();  // "converted/excel/";
+    private String pdfToWordPdfLocation;// = storageProperties.getPdfToWordPDF();      //"pdfToWord/pdf/";
+    private String pdfToWordDocxLocation;// = storageProperties.getPdfToWordDocx();    //"pdfToWord/docx/";
 
+    private String docxLocation;// = rootDocumentDirectory + docxConvertedLocation;
+    private String excelLocation;// = rootDocumentDirectory + excelConvertedLocation;
 
-    private String docxLocation = rootDocumentDirectory + docxConvertedLocation;
-    private String excelLocation = rootDocumentDirectory + excelConvertedLocation;
     private StorageService storageService;
     private Environment environment;
     private DocumentConverter documentConverter;
@@ -60,12 +65,23 @@ public class DocumentHandler {
     private String pdfToWordAPI;// = "localhost:5000/api/converter";
 
 
-    public DocumentHandler(StorageService storageService, Environment environment, DocumentConverter documentConverter, ArrayList<FontLogAbs> fontLogAbs) {
+    public DocumentHandler(StorageService storageService, Environment environment, DocumentConverter documentConverter, ArrayList<FontLogAbs> fontLogAbs, StorageProperties storageProperties) {
+        this.storageProperties = storageProperties;
         this.storageService = storageService;
         this.environment = environment;
         this.documentConverter = documentConverter;
-        pdfToWordAPI = environment.getProperty("pdftoword.API");
+        this.pdfToWordAPI = environment.getProperty("pdftoword.API");
         this.fontLogAbs = fontLogAbs;
+
+        rootDocumentDirectory = storageProperties.getRootDocumentDirectory();
+        docxConvertedLocation = storageProperties.getConvertedDocx();    //"converted/docx/";
+        excelConvertedLocation = storageProperties.getConvertedExcel();  // "converted/excel/";
+        pdfToWordPdfLocation = storageProperties.getPdfToWordPDF();      //"pdfToWord/pdf/";
+        pdfToWordDocxLocation = storageProperties.getPdfToWordDocx();    //"pdfToWord/docx/";
+
+        docxLocation = rootDocumentDirectory + docxConvertedLocation;
+        excelLocation = rootDocumentDirectory + excelConvertedLocation;
+
     }
 
     public StoredFile convertFile(MultipartFile multipartFile, String fileType) {

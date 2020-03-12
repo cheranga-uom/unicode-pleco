@@ -19,8 +19,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.stream.Stream;
 
 @Service
@@ -35,7 +33,8 @@ public class FileSystemStorageService implements StorageService {
 
     @Autowired
     public FileSystemStorageService(StorageProperties properties) {
-        this.rootLocation = Paths.get(properties.getLocation());
+        this.rootLocation = Paths.get(properties.getRootDocumentDirectory());
+        System.out.println("This is read from the yml : "+ this.rootLocation.toAbsolutePath());
     }
 
     @Override

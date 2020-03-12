@@ -8,10 +8,7 @@ import com.ciperlabs.unicodepleco.model.User;
 import com.ciperlabs.unicodepleco.repository.APIUserRepository;
 import com.ciperlabs.unicodepleco.repository.ConversionRepository;
 import com.ciperlabs.unicodepleco.repository.UserRepository;
-import com.ciperlabs.unicodepleco.service.storage.StorageException;
-import com.ciperlabs.unicodepleco.service.storage.StorageFileNotFoundException;
-import com.ciperlabs.unicodepleco.service.storage.StorageService;
-import com.ciperlabs.unicodepleco.service.storage.StoredFile;
+import com.ciperlabs.unicodepleco.service.storage.*;
 import org.jodconverter.DocumentConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +58,9 @@ public class FileController {
 
     @Autowired
     private APIUserRepository apiUserRepository;
+
+    @Autowired
+    private StorageProperties storageProperties;
 
 //    @Autowired
 //    public FileController(StorageService storageService, ConversionRepository conversionRepository, UserRepository userRepository,
@@ -235,7 +235,7 @@ public class FileController {
         StoredFile uploadedDocument = new StoredFile();
 
         ArrayList<FontLogAbs> fontLogAbs = new ArrayList<>();
-        DocumentHandler documentHandler = new DocumentHandler(storageService, environment, documentConverter, fontLogAbs);
+        DocumentHandler documentHandler = new DocumentHandler(storageService, environment, documentConverter, fontLogAbs,storageProperties);
         StoredFile convertedFile = documentHandler.convertFile(maltipartFile,inputFileType);
 
         if (convertedFile != null) {
@@ -244,25 +244,25 @@ public class FileController {
             if(convertedFile.getFileType() == FileType.DOCX){
                 map.put("fileType",FileType.DOCX+"");
                 conversion.setInputFileType(FileType.DOCX);
-                uploadedDocument = storageService.store(maltipartFile, "uploaded/docx/");
+                uploadedDocument = storageService.store(maltipartFile, storageProperties.getUploadDocx());
 
             }
             else if(convertedFile.getFileType() == FileType.EXCEL){
                 map.put("fileType",FileType.EXCEL+"");
                 conversion.setInputFileType(FileType.EXCEL);
-                uploadedDocument = storageService.store(maltipartFile, "uploaded/excel/");
+                uploadedDocument = storageService.store(maltipartFile, storageProperties.getUploadExcel());
 
             }
             else if(convertedFile.getFileType() == FileType.PDF){
                 map.put("fileType",FileType.DOCX+"");
                 conversion.setInputFileType(FileType.PDF);
-                uploadedDocument = storageService.store(maltipartFile, "uploaded/pdf/");
+                uploadedDocument = storageService.store(maltipartFile, storageProperties.getUploadPDF());
 
             }
             else if(convertedFile.getFileType() == FileType.DOC){
                 map.put("fileType",FileType.DOCX+"");
                 conversion.setInputFileType(FileType.DOC);
-                uploadedDocument = storageService.store(maltipartFile, "uploaded/doc/");
+                uploadedDocument = storageService.store(maltipartFile, storageProperties.getUploadDoc());
 
             }
 

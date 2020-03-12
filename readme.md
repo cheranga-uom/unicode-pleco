@@ -23,7 +23,10 @@ WantedBy=multi-user.target
 #>sudo systemctl daemon-reload
 
 # Enable at start up of server
-#>systemctl enable pleco
-#>systemctl start pleco
+#>sudo systemctl enable pleco
+#>sudo systemctl start pleco
+#>sudo journalctl -f -n 1000 -u pleco
 
+set the absolute paths for the documents directory
+and logs
 
