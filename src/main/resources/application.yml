@@ -79,12 +79,12 @@ logging:
 #Path to excel files stored folder
 storage:
     Document:
-        root: /home/gayan/Desktop/CiperLabs/unicode-pleco/Documents
+        root: /home/gayan/Desktop/CiperLabs/unicode-pleco/Documents/
         uploadExcel: uploaded/excel/
         uploadDocx: uploaded/docx/
         uploadPDF: uploaded/pdf/
-        uploadDoc: uploaded/pdf/
-        convertedExcel: converted/excel/"
+        uploadDoc: uploaded/doc/
+        convertedExcel: converted/excel/
         convertedDocx: converted/docx/
         pdfToWordPDF: pdfToWord/pdf/
         pdfToWordDocx: pdfToWord/docx/
