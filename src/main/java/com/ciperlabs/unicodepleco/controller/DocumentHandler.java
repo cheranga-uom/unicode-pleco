@@ -5,6 +5,7 @@ import com.ciperlabs.unicodepleco.documentHandler.util.FontLogAbs;
 import com.ciperlabs.unicodepleco.documentHandler.word.HWPFtoXWPF;
 import com.ciperlabs.unicodepleco.documentHandler.word.WDXToUnicode;
 import com.ciperlabs.unicodepleco.model.FileType;
+import com.ciperlabs.unicodepleco.service.storage.StorageProperties;
 import com.ciperlabs.unicodepleco.service.storage.StorageService;
 import com.ciperlabs.unicodepleco.service.storage.StoredFile;
 import org.apache.commons.fileupload.FileItem;
@@ -18,6 +19,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.jodconverter.DocumentConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -40,13 +42,14 @@ This class will handle the received stored file objects to identify the file typ
  */
 public class DocumentHandler {
 
+    @Autowired
+    private StorageProperties storageProperties;
     private final Logger logger = LoggerFactory.getLogger(DocumentHandler.class);
-    private String rootDocumentDirectory = "Documents/";
-    private String docxConvertedLocation = "converted/docx/";         //TODO read from properties
-    private String excelConvertedLocation = "converted/excel/";
-    private String pdfToWordPdfLocation = "pdfToWord/pdf/";
-    private String pdfToWordDocxLocation = "pdfToWord/docx/";
-
+    private String rootDocumentDirectory = storageProperties.getRootDocumentDirectory();
+    private String docxConvertedLocation = storageProperties.getConvertedDocx();    //"converted/docx/";         //TODO read from properties
+    private String excelConvertedLocation = storageProperties.getConvertedExcel();  // "converted/excel/";
+    private String pdfToWordPdfLocation = storageProperties.getPdfToWordPDF();      //"pdfToWord/pdf/";
+    private String pdfToWordDocxLocation = storageProperties.getPdfToWordDocx();    //"pdfToWord/docx/";
 
     private String docxLocation = rootDocumentDirectory + docxConvertedLocation;
     private String excelLocation = rootDocumentDirectory + excelConvertedLocation;
