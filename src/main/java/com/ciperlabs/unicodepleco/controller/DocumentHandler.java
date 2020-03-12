@@ -122,7 +122,7 @@ public class DocumentHandler {
             WDXToUnicode docxConverter = new WDXToUnicode(docx, fontLogAbs);                        // Docx Converter
             POIXMLDocument convertedFile = docxConverter.startConversion();             // Converting the document
 
-            System.out.println(multipartFile.getOriginalFilename());
+            System.out.println("Originl file name"+multipartFile.getOriginalFilename());
             convertedDocument = saveFile(docxConvertedLocation, multipartFile.getOriginalFilename(), convertedFile);
             convertedDocument.setFileType(FileType.DOCX);
 
@@ -243,7 +243,7 @@ public class DocumentHandler {
         String rootConvertedFileLocation = rootDocumentDirectory + convertedFileLocation;
         try {
             File directory = new File(convertedFileLocation);
-            logger.info("Creating Uplo  ad directory if not exist : " + convertedFileLocation + " : " + directory.mkdirs());
+            logger.info("Creating Upload directory if not exist : " + convertedFileLocation + " : " + directory.mkdirs());
             String localTime = LocalDateTime.now().toString() + " ";
             String outPutFileName = localTime + originalFileNameWithModifedExt;
             String outputFileDriectoryAndName = rootConvertedFileLocation + outPutFileName;
