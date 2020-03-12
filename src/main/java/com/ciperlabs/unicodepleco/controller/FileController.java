@@ -235,7 +235,7 @@ public class FileController {
         StoredFile uploadedDocument = new StoredFile();
 
         ArrayList<FontLogAbs> fontLogAbs = new ArrayList<>();
-        DocumentHandler documentHandler = new DocumentHandler(storageService, environment, documentConverter, fontLogAbs);
+        DocumentHandler documentHandler = new DocumentHandler(storageService, environment, documentConverter, fontLogAbs,storageProperties);
         StoredFile convertedFile = documentHandler.convertFile(maltipartFile,inputFileType);
 
         if (convertedFile != null) {

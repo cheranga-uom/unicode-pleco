@@ -79,7 +79,16 @@ logging:
 #Path to excel files stored folder
 storage:
     Document:
-        path: Documents
+        root: /home/gayan/Desktop/CiperLabs/unicode-pleco/Documents
+        uploadExcel: uploaded/excel/
+        uploadDocx: uploaded/docx/
+        uploadPDF: uploaded/pdf/
+        uploadDoc: uploaded/pdf/
+        convertedExcel: converted/excel/"
+        convertedDocx: converted/docx/
+        pdfToWordPDF: pdfToWord/pdf/
+        pdfToWordDocx: pdfToWord/docx/
+
 
 pdftoword:
     API:  "http://localhost:5000/api/converter"

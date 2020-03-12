@@ -36,11 +36,11 @@ public class testDOCX {
 //            i++;
 //        }
 //        outPutFileName += "-converted." + fnameSplitted[fnameSplitted.length-1];
-        String outPutFileName = "Sankshiptah Singhala Shabdakoshaya.docx";
+        String outPutFileName = "Sankshiptah Singhala Shabdakoshayax.docx";
         FileInputStream fileInputStream = null;
         try {
 //            fileInputStream = new FileInputStream(file.getAbsolutePath());
-                fileInputStream = new FileInputStream("/home/gayan/Desktop/CiperLabs/pdfToWord/Sankshiptah Singhala Shabdakoshaya.docx");
+                fileInputStream = new FileInputStream("/home/gayan/Desktop/CiperLabs/unicode-pleco/test Samples/docx/dictionary parts/doc 01.docx");
             try {
                 XWPFDocument docx = new XWPFDocument(fileInputStream);
                 WDXToUnicode docxConverter = new WDXToUnicode(docx, fontLogAbs );

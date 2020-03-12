@@ -42,17 +42,19 @@ This class will handle the received stored file objects to identify the file typ
  */
 public class DocumentHandler {
 
-    @Autowired
-    private StorageProperties storageProperties;
-    private final Logger logger = LoggerFactory.getLogger(DocumentHandler.class);
-    private String rootDocumentDirectory = storageProperties.getRootDocumentDirectory();
-    private String docxConvertedLocation = storageProperties.getConvertedDocx();    //"converted/docx/";         //TODO read from properties
-    private String excelConvertedLocation = storageProperties.getConvertedExcel();  // "converted/excel/";
-    private String pdfToWordPdfLocation = storageProperties.getPdfToWordPDF();      //"pdfToWord/pdf/";
-    private String pdfToWordDocxLocation = storageProperties.getPdfToWordDocx();    //"pdfToWord/docx/";
+//    @Autowired
+    private StorageProperties storageProperties;// = new StorageProperties();
 
-    private String docxLocation = rootDocumentDirectory + docxConvertedLocation;
-    private String excelLocation = rootDocumentDirectory + excelConvertedLocation;
+    private final Logger logger = LoggerFactory.getLogger(DocumentHandler.class);
+    private String rootDocumentDirectory;// = storageProperties.getRootDocumentDirectory();
+    private String docxConvertedLocation;// = storageProperties.getConvertedDocx();    //"converted/docx/";
+    private String excelConvertedLocation;// = storageProperties.getConvertedExcel();  // "converted/excel/";
+    private String pdfToWordPdfLocation;// = storageProperties.getPdfToWordPDF();      //"pdfToWord/pdf/";
+    private String pdfToWordDocxLocation;// = storageProperties.getPdfToWordDocx();    //"pdfToWord/docx/";
+
+    private String docxLocation;// = rootDocumentDirectory + docxConvertedLocation;
+    private String excelLocation;// = rootDocumentDirectory + excelConvertedLocation;
+
     private StorageService storageService;
     private Environment environment;
     private DocumentConverter documentConverter;
@@ -63,12 +65,23 @@ public class DocumentHandler {
     private String pdfToWordAPI;// = "localhost:5000/api/converter";
 
 
-    public DocumentHandler(StorageService storageService, Environment environment, DocumentConverter documentConverter, ArrayList<FontLogAbs> fontLogAbs) {
+    public DocumentHandler(StorageService storageService, Environment environment, DocumentConverter documentConverter, ArrayList<FontLogAbs> fontLogAbs, StorageProperties storageProperties) {
+        this.storageProperties = storageProperties;
         this.storageService = storageService;
         this.environment = environment;
         this.documentConverter = documentConverter;
-        pdfToWordAPI = environment.getProperty("pdftoword.API");
+        this.pdfToWordAPI = environment.getProperty("pdftoword.API");
         this.fontLogAbs = fontLogAbs;
+
+        rootDocumentDirectory = storageProperties.getRootDocumentDirectory();
+        docxConvertedLocation = storageProperties.getConvertedDocx();    //"converted/docx/";
+        excelConvertedLocation = storageProperties.getConvertedExcel();  // "converted/excel/";
+        pdfToWordPdfLocation = storageProperties.getPdfToWordPDF();      //"pdfToWord/pdf/";
+        pdfToWordDocxLocation = storageProperties.getPdfToWordDocx();    //"pdfToWord/docx/";
+
+        docxLocation = rootDocumentDirectory + docxConvertedLocation;
+        excelLocation = rootDocumentDirectory + excelConvertedLocation;
+
     }
 
     public StoredFile convertFile(MultipartFile multipartFile, String fileType) {
