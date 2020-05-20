@@ -30,3 +30,6 @@ WantedBy=multi-user.target
 set the absolute paths for the documents directory
 and logs
 
+
+# You need following project installed as dotnetcore project for pdf conversion
+https://github.com/Sudeepa14/ASPWebServer
