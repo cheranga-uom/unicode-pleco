@@ -32,4 +32,4 @@ and logs
 
 
 # You need following project installed as dotnetcore project for pdf conversion
-https://github.com/Sudeepa14/ASPWebServer
+https://github.com/GayanSandaruwan/PDFConverter
