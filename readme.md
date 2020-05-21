@@ -12,8 +12,7 @@ http{
     client_body_timeout 600;
  } 
  ```
- k
- To extend the replying server time
+ *To extend the replying server time*
  ```
  http{
   #Time to wait for the replying server
