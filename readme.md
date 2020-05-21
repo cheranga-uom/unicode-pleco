@@ -3,7 +3,7 @@
 1. Install Nginx -  https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04
 2. Install Certbot (for ssl) - https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx
 3. Add the following special nginx configs to /etc/nginx/nginx.conf . You need to create another conf file for the pleco in sites-available and create a symlink to sites-enabled.
-### special nginx configs
+*special nginx configs*
 
 ``http{
      #in seconds
@@ -19,9 +19,9 @@
 
 }``
 
-4.Download and install oracle jdk - https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
+4. Download and install oracle jdk - https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
 ``sudo update-alternatives --config java``
-5.Install maven
+5. Install maven
 6. install mysql-server, create a database and a user. Then configure credentials in the ``unicode-pleco/srs/main/resources/application.yml``file. 
 ``spring:
     datasource:
@@ -33,7 +33,7 @@
     Document:
         root: /home/gayan/Desktop/CiperLabs/unicode-pleco/Documents/``
 8. Go to facebook developer and create a client credentials, and update the credes in yml file. You can use the existing ones for the pleco.uom.lk domain.
-9. install libreoffice ( dependency for jodconverter - used for doc to docx conversion) - ``sudo apt install libreoffice-common``
+9. Install libreoffice ( dependency for jodconverter - used for doc to docx conversion) - ``sudo apt install libreoffice-common``
 10. Following script is for auto starting after a system shutdown using a service.
 
 # 
