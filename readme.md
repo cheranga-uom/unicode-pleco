@@ -2,7 +2,7 @@
 
 1. Install Nginx -  https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04
 2. Install Certbot (for ssl) - https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx
-3. Add the following special nginx configs to /etc/nginx/nginx.conf . You need to create another conf file for the pleco in sites-available and create a symlink to sites-enabled.
+3. Add the following special nginx configs to /etc/nginx/nginx.conf . You need to create another conf file for the pleco in sites-available and create a symlink to sites-enabled. samplenginx.conf will be a good starting point. ( you can basically replace the cerbot created configuration file with this-  as of 21/05/2020)
 *special nginx configs*
 ```
 http{
