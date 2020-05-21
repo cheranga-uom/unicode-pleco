@@ -31,8 +31,11 @@ public class FileSystemStorageService implements StorageService {
 
     private Logger logger = LoggerFactory.logger(FileSystemStorageService.class);
 
+    private StorageProperties properties;
+
     @Autowired
     public FileSystemStorageService(StorageProperties properties) {
+        this.properties = properties;
         this.rootLocation = Paths.get(properties.getRootDocumentDirectory());
         System.out.println("This is read from the yml : "+ this.rootLocation.toAbsolutePath());
     }
@@ -121,6 +124,15 @@ public class FileSystemStorageService implements StorageService {
     public void init() {
         try {
             Files.createDirectories(rootLocation);
+            Files.createDirectories(Paths.get(properties.getConvertedDocx()));
+            Files.createDirectories(Paths.get(properties.getConvertedExcel()));
+            Files.createDirectories(Paths.get(properties.getPdfToWordDocx()));
+            Files.createDirectories(Paths.get(properties.getPdfToWordPDF()));
+            Files.createDirectories(Paths.get(properties.getUploadDoc()));
+            Files.createDirectories(Paths.get(properties.getUploadDocx()));
+            Files.createDirectories(Paths.get(properties.getUploadExcel()));
+            Files.createDirectories(Paths.get(properties.getUploadPDF()));
+
         } catch (IOException e) {
             throw new StorageException("Could not initialize storage", e);
         }
