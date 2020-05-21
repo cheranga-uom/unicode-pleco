@@ -172,6 +172,10 @@ public class FileController {
 
             }
         }
+	else{
+		map.put("status","failed");	
+	
+	}
 
         return map;
     }

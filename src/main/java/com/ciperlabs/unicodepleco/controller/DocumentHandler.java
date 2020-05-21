@@ -242,8 +242,8 @@ public class DocumentHandler {
         StoredFile convertedDocument = new StoredFile();
         String rootConvertedFileLocation = rootDocumentDirectory + convertedFileLocation;
         try {
-            File directory = new File(convertedFileLocation);
-            logger.info("Creating Upload directory if not exist : " + convertedFileLocation + " : " + directory.mkdirs());
+            File directory = new File(rootConvertedFileLocation);
+            logger.info("Creating Upload directory if not exist : " + rootConvertedFileLocation + " : " + directory.mkdirs());
             String localTime = LocalDateTime.now().toString() + " ";
             String outPutFileName = localTime + originalFileNameWithModifedExt;
             String outputFileDriectoryAndName = rootConvertedFileLocation + outPutFileName;
