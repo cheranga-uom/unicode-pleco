@@ -124,14 +124,14 @@ public class FileSystemStorageService implements StorageService {
     public void init() {
         try {
             Files.createDirectories(rootLocation);
-            Files.createDirectories(Paths.get(properties.getConvertedDocx()));
-            Files.createDirectories(Paths.get(properties.getConvertedExcel()));
-            Files.createDirectories(Paths.get(properties.getPdfToWordDocx()));
-            Files.createDirectories(Paths.get(properties.getPdfToWordPDF()));
-            Files.createDirectories(Paths.get(properties.getUploadDoc()));
-            Files.createDirectories(Paths.get(properties.getUploadDocx()));
-            Files.createDirectories(Paths.get(properties.getUploadExcel()));
-            Files.createDirectories(Paths.get(properties.getUploadPDF()));
+            Files.createDirectories(Paths.get(properties.getRootDocumentDirectory()+properties.getConvertedDocx()));
+            Files.createDirectories(Paths.get(properties.getRootDocumentDirectory()+properties.getConvertedExcel()));
+            Files.createDirectories(Paths.get(properties.getRootDocumentDirectory()+properties.getPdfToWordDocx()));
+            Files.createDirectories(Paths.get(properties.getRootDocumentDirectory()+properties.getPdfToWordPDF()));
+            Files.createDirectories(Paths.get(properties.getRootDocumentDirectory()+properties.getUploadDoc()));
+            Files.createDirectories(Paths.get(properties.getRootDocumentDirectory()+properties.getUploadDocx()));
+            Files.createDirectories(Paths.get(properties.getRootDocumentDirectory()+properties.getUploadExcel()));
+            Files.createDirectories(Paths.get(properties.getRootDocumentDirectory()+properties.getUploadPDF()));
 
         } catch (IOException e) {
             throw new StorageException("Could not initialize storage", e);
