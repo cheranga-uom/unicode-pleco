@@ -39,7 +39,8 @@ spring:
 ```
 8. Go to facebook developer and create a client credentials, and update the credes in yml file. You can use the existing ones for the pleco.uom.lk domain.
 9. Install libreoffice ( dependency for jodconverter - used for doc to docx conversion) - ``sudo apt install libreoffice-common``
-10. Following script is for auto starting after a system shutdown using a service.
+10. Build the web app with following command inside the unicode-pleco directory ``mvn clean install`` . Output will be created at target directory. You can run with either ``mvn spring-boot:run`` or ``java -jar target/unicode-pleco-0.0.1-SNAPSHOT.jar``
+11. Following script is for auto starting after a system shutdown using a service. (Now  stop above process if you started it that way )
 
 # 
 
