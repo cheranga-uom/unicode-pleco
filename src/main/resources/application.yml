@@ -70,13 +70,14 @@ github:
     userInfoUri: https://api.github.com/user
 
 logging:
+  path: logs/
+  file:
+     max-size: 10
   level:
-    org.springframework.security: DEBUG
+    org.springframework.security: WARN
     org.hibernate:
-          type: DEBUG
-    com.ciperlabs: DEBUG
-
-
+          type: WARN
+    com.ciperlabs: WARN
 #Path to excel files stored folder
 storage:
     Document:
