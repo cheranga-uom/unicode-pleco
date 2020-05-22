@@ -62,8 +62,13 @@ WantedBy=multi-user.target
 ```
 ### Create a user to run the systemd service and grant privilleges to execute the jar
 ```
-sudo useradd plecoweb -s /sbin/nologin -M
-chmod +x target/unicode-pleco-0.0.1-SNAPSHOT.jar
+sudo useradd plecoweb -s /sbin/nologin -Mgrou
+sudo usermod -a -G plecoweb $(whoami)
+cd ../
+sudo chown $(whoami):plecoweb -R unicode-pleco
+cd unicode-pleco
+sudo chmod -R g+w Documents
+sudo chmod g+x target/unicode-pleco-0.0.1-SNAPSHOT.jar
 ```
 ``sudo systemctl daemon-reload``
 
