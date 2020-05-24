@@ -2,7 +2,7 @@
 
 1. Install Nginx -  https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04
 2. Install Certbot (for ssl) - https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx
-3. Add the following special nginx configs to /etc/nginx/nginx.conf . You need to create another conf file for the pleco in sites-available and create a symlink to sites-enabled.
+3. Add the following special nginx configs to /etc/nginx/nginx.conf . You need to create another conf file for the pleco in sites-available and create a symlink to sites-enabled. samplenginx.conf will be a good starting point. ( you can basically replace the cerbot created configuration file with this-  as of 21/05/2020)
 *special nginx configs*
 ```
 http{
@@ -39,7 +39,8 @@ spring:
 ```
 8. Go to facebook developer and create a client credentials, and update the credes in yml file. You can use the existing ones for the pleco.uom.lk domain.
 9. Install libreoffice ( dependency for jodconverter - used for doc to docx conversion) - ``sudo apt install libreoffice-common``
-10. Following script is for auto starting after a system shutdown using a service.
+10. Build the web app with following command inside the unicode-pleco directory ``mvn clean install`` . Output will be created at target directory. You can run with either ``mvn spring-boot:run`` or ``java -jar target/unicode-pleco-0.0.1-SNAPSHOT.jar``
+11. Following script is for auto starting after a system shutdown using a service. (Now  stop above process if you started it that way )
 
 # 
 
@@ -62,8 +63,13 @@ WantedBy=multi-user.target
 ```
 ### Create a user to run the systemd service and grant privilleges to execute the jar
 ```
-sudo useradd plecoweb -s /sbin/nologin -M
-chmod +x target/unicode-pleco-0.0.1-SNAPSHOT.jar
+sudo useradd plecoweb -s /sbin/nologin -Mgrou
+sudo usermod -a -G plecoweb $(whoami)
+cd ../
+sudo chown $(whoami):plecoweb -R unicode-pleco
+cd unicode-pleco
+sudo chmod -R g+w Documents
+sudo chmod g+x target/unicode-pleco-0.0.1-SNAPSHOT.jar
 ```
 ``sudo systemctl daemon-reload``
 
