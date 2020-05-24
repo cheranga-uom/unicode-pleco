@@ -463,15 +463,15 @@ public class WDXToUnicode {
 
                 String text = textBoxRun.getText(0);
                 if (text != null){
-                    if (text.contains("Created by the trial version of Document")){
+                    if (text.contains("Created by unlicensed version of Document")){
                         textBoxRun.setText("Converted to unicode docx by https://pleco.uom.lk", 0);
                         logger.info("Removing document dotnet mark  : "+text);
                     }
-                    else if(text.contains("The trial version sometimes inserts \"trial\" into random places.")){
+                    else if(text.contains("The unlicensed version inserts \"trial\" into random places.")){
                         textBoxRun.setText("", 0);
                         logger.info("Removing document dotnet mark  : "+text);
                     }
-                    else if (text.contains("Get the full version of Document")){
+                    else if (text.contains("This text will disappear after purchasing the license")){
                         textBoxRun.setText("", 0);
                         logger.info("Removing document dotnet mark  : "+text);
                     }
