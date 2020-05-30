@@ -527,6 +527,8 @@ public class FMAbhaya_UCSC {
         text = text.replaceAll("a", "්");
         text = text.replaceAll("x", "ං");
         text = text.replaceAll("½", "ඃ");
+//        text = text.replaceAll("’", "ී");
+//        text = text.replaceAll("‘", "ි");
         text = text.replaceAll("’", "ී");
         text = text.replaceAll("‘", "ි");
         text = text.replaceAll("#", "ඃ");
@@ -555,7 +557,6 @@ public class FMAbhaya_UCSC {
         text = text.replaceAll("\\]", "%");
         text = text.replaceAll("\\^", "(");
         text = text.replaceAll("\\&", ")");
-        text = text.replaceAll("Z", "’");
         text = text.replaceAll("¡", ".");                    // Changed from •
         text = text.replaceAll("¤", ".");
         text = text.replaceAll("\\¦", ";");
@@ -602,8 +603,6 @@ public class FMAbhaya_UCSC {
         text = text.replaceAll("a", "්");
         text = text.replaceAll("x", "ං");
         text = text.replaceAll("#", "ඃ");
-        text = text.replaceAll("’", "ී");
-        text = text.replaceAll("‘", "ි");
         text = text.replaceAll("f", "ෙ");                // Added By @Gayan conflict with other fonts
         text = text.replaceAll("`", "ු");
 
