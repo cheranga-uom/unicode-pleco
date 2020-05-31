@@ -605,7 +605,7 @@ public class FMAbhaya_UCSC {
         text = text.replaceAll("#", "ඃ");
         text = text.replaceAll("f", "ෙ");                // Added By @Gayan conflict with other fonts
         text = text.replaceAll("`", "ු");
-
+        text = text.replaceAll("_","ර්\u200D");
         // ----------- ascii chars
         text = text.replaceAll("\\'", "\\.");
         text = text.replaceAll("\"", "\\,");
